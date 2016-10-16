@@ -8,6 +8,19 @@
 
 
     <!--    -->
+    <!-- Login activity  -->
+    <!--    -->
+    <string name="login_et_username">Korisničko ime</string>
+    <string name="login_et_password">Password</string>
+    <string name="login_btnlogin">Login</string>
+    <string name="login_error_username">Unesite koriničko ime</string>
+    <string name="login_error_username_desc">Polje ne smije biti prazno!</string>
+    <string name="login_error_password">Unesite šifru</string>
+    <string name="login_error_password_desc">Polje ne smije biti prazno!</string>
+
+
+
+    <!--    -->
     <!-- Navigation drawer  -->
     <!--    -->
     <string name="nav_item_faults">Otvorene intervencije</string>
