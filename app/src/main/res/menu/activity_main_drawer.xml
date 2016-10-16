@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/nav_item_faults"
+        android:icon="@drawable/ic_build_black"
+        android:title="@string/nav_item_faults" />
+
+
+    <item android:title="@string/nav_title_forms">
+        <menu>
+            <item
+                android:id="@+id/nav_item_servicesheet"
+                android:icon="@drawable/ic_servicesheet_black"
+                android:title="@string/nav_item_servicesheet" />
+        </menu>
+    </item>
+
+    <item android:title="@string/nav_title_search">
+        <menu>
+            <item
+                android:id="@+id/nav_item_checkproduct"
+                android:icon="@drawable/ic_search_black"
+                android:title="@string/nav_item_checkproduct" />
+
+            <item
+                android:id="@+id/nav_item_searcharchive"
+                android:icon="@drawable/ic_search_black"
+                android:title="@string/nav_item_searcharchive" />
+        </menu>
+    </item>
+
+
+
+</menu>

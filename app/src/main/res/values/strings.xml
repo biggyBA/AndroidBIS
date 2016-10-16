@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">AndroidBIS</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <!--    -->
+    <!-- Navigation drawer  -->
+    <!--    -->
+    <string name="nav_item_faults">Otvorene intervencije</string>
+    <string name="nav_title_forms">Formulari</string>
+    <string name="nav_item_servicesheet">Servisni list</string>
+    <string name="nav_title_search">Pretraga</string>
+    <string name="nav_item_checkproduct">Provjeri proizvod</string>
+    <string name="nav_item_searcharchive">Pretraži arhivu</string>
+
+    <!--    -->
+    <!-- Fragment titles used for appbar  -->
+    <!--    -->
+    <string name="fragment_title_faults">Otvorene intervencije</string>
+    <string name="fragment_title_servicesheet">Servini list</string>
+    <string name="fragment_title_checkproduct">Provjeri proizvod</string>
+    <string name="fragment_title_searcharchive">Pretraži arhivu</string>
+
+</resources>
