@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -24,6 +25,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -131,9 +135,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
 
+
+
                 if(response.trim().equals("success")){
 
-                    Toast.makeText(LoginActivity.this,response,Toast.LENGTH_LONG).show();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String test = jsonObject.getString("3");
+                        Toast.makeText(LoginActivity.this,test,Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
 
                 }else{
 

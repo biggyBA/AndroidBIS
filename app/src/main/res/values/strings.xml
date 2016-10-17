@@ -17,6 +17,8 @@
     <string name="login_error_username_desc">Polje ne smije biti prazno!</string>
     <string name="login_error_password">Unesite šifru</string>
     <string name="login_error_password_desc">Polje ne smije biti prazno!</string>
+    <string name="login_nointernet">Provjerite internet vezu</string>
+
 
 
 
