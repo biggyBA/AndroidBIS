@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 public interface RequestInterface {
 
-    @POST("test/index.php")
+    @POST("test/login.php")
     Call<ServerResponse> operation(@Body ServerRequest request);
 
 }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.os.Vibrator;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -36,6 +37,8 @@ import java.util.Map;
 import ba.biggy.androidbis.POJO.ServerRequest;
 import ba.biggy.androidbis.POJO.ServerResponse;
 import ba.biggy.androidbis.POJO.User;
+import ba.biggy.androidbis.SQLite.DataBaseAdapter;
+import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.retrofitInterface.RequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        DataBaseAdapter.init(this);
+
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         etUsername = (EditText) findViewById(R.id.etUsername);
@@ -73,9 +80,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateForm()){
-                    String email = etUsername.getText().toString().trim();
+                    String username = etUsername.getText().toString().trim();
                     String password = etPassword.getText().toString().trim();
-                    loginProcess(email, password);
+                    loginProcess(username, password);
                 }
             }
         });
@@ -182,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void loginProcess(String email,String password){
+    private void loginProcess(String username,String password){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -192,10 +199,9 @@ public class LoginActivity extends AppCompatActivity {
         RequestInterface requestInterface = retrofit.create(RequestInterface.class);
 
         User user = new User();
-        user.setEmail(email);
+        user.setUsername(username);
         user.setPassword(password);
         ServerRequest request = new ServerRequest();
-        request.setOperation(Constants.LOGIN_OPERATION);
         request.setUser(user);
         Call<ServerResponse> response = requestInterface.operation(request);
 
@@ -204,9 +210,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
 
                 ServerResponse resp = response.body();
-                Snackbar.make(coordinatorLayout, resp.getMessage(), Snackbar.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, resp.getMessage(), Toast.LENGTH_LONG).show();
+                //Snackbar.make(coordinatorLayout, resp.getMessage(), Snackbar.LENGTH_LONG).show();
 
                 if(resp.getResult().equals(Constants.SUCCESS)){
+
+                    //UsersTableController usersTableController = new UsersTableController();
+                    //usersTableController.insertUser(resp.getUser());
+
+
+
+
+
+
+
+
                     /*SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean(Constants.IS_LOGGED_IN,true);
                     editor.putString(Constants.EMAIL,resp.getUser().getEmail());
