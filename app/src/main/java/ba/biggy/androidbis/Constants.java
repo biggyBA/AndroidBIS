@@ -19,5 +19,12 @@ public class Constants {
 
 
 
+    //Shared preferences
+    public static final String PREF = "MyPref";
+    public static final String SP_IS_LOGGED_IN = "isLoggedIn";
+    public static final String SP_USERNAME = "username";
+
+
+
 
 }

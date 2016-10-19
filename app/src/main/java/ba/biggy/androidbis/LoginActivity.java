@@ -1,6 +1,5 @@
 package ba.biggy.androidbis;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,11 +33,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import ba.biggy.androidbis.POJO.ServerRequest;
-import ba.biggy.androidbis.POJO.ServerResponse;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerRequest;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerResponse;
 import ba.biggy.androidbis.POJO.User;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
-import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.retrofitInterface.RequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout layoutUsername, layoutPassword;
     private Button btnLogin;
     private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         DataBaseAdapter.init(this);
+
+        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
@@ -144,52 +145,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void onlineUserLogin() {
-
-        final String username = etUsername.getText().toString().trim();
-        final String password = etPassword.getText().toString().trim();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGIN_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                if(response.trim().equals("success")){
-
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        String test = jsonObject.getString("3");
-                        Toast.makeText(LoginActivity.this,test,Toast.LENGTH_LONG).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }else{
-
-                    Toast.makeText(LoginActivity.this,response,Toast.LENGTH_LONG).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG ).show();
-                    }
-                }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map = new HashMap<String,String>();
-                map.put(Constants.KEY_USERNAME,username);
-                map.put(Constants.KEY_PASSWORD,password);
-                return map;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
 
 
-    private void loginProcess(String username,String password){
+    private void loginProcess(final String username, String password){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -201,44 +159,33 @@ public class LoginActivity extends AppCompatActivity {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        ServerRequest request = new ServerRequest();
+        LoginServerRequest request = new LoginServerRequest();
         request.setUser(user);
-        Call<ServerResponse> response = requestInterface.operation(request);
+        Call<LoginServerResponse> response = requestInterface.operation(request);
 
-        response.enqueue(new Callback<ServerResponse>() {
+        response.enqueue(new Callback<LoginServerResponse>() {
             @Override
-            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
+            public void onResponse(Call<LoginServerResponse> call, retrofit2.Response<LoginServerResponse> response) {
 
-                ServerResponse resp = response.body();
-                Toast.makeText(LoginActivity.this, resp.getUser().getUsername(), Toast.LENGTH_LONG).show();
-                //Snackbar.make(coordinatorLayout, resp.getResult(), Snackbar.LENGTH_LONG).show();
+                LoginServerResponse resp = response.body();
 
                 if(resp.getResult().equals(Constants.SUCCESS)){
+                    Snackbar.make(coordinatorLayout, "Ispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
 
-                    //UsersTableController usersTableController = new UsersTableController();
-                    //usersTableController.insertUser(resp.getUser());
-
-
-
-
-
-
-
-
-                    /*SharedPreferences.Editor editor = pref.edit();
-                    editor.putBoolean(Constants.IS_LOGGED_IN,true);
-                    editor.putString(Constants.EMAIL,resp.getUser().getEmail());
-                    editor.putString(Constants.NAME,resp.getUser().getName());
-                    editor.putString(Constants.UNIQUE_ID,resp.getUser().getUnique_id());
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
+                    editor.putString(Constants.SP_USERNAME,username);
                     editor.apply();
-                    goToProfile();*/
 
+
+                }else if (resp.getResult().equals(Constants.FAILURE)){
+                    Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
                 }
                 //progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
+            public void onFailure(Call<LoginServerResponse> call, Throwable t) {
 
                 //progress.setVisibility(View.INVISIBLE);
                 Log.d(Constants.TAG,"failed");
