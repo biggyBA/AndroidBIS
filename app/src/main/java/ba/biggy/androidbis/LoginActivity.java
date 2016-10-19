@@ -210,8 +210,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
 
                 ServerResponse resp = response.body();
-                Toast.makeText(LoginActivity.this, resp.getMessage(), Toast.LENGTH_LONG).show();
-                //Snackbar.make(coordinatorLayout, resp.getMessage(), Snackbar.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, resp.getUser().getUsername(), Toast.LENGTH_LONG).show();
+                //Snackbar.make(coordinatorLayout, resp.getResult(), Snackbar.LENGTH_LONG).show();
 
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
