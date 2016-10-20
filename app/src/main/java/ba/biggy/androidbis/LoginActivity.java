@@ -19,27 +19,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerResponse;
 import ba.biggy.androidbis.POJO.User;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
+import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
-import ba.biggy.androidbis.retrofitInterface.RequestInterface;
+import ba.biggy.androidbis.SQLite.UsersTableController;
+import ba.biggy.androidbis.retrofitInterface.LoginRequestInterface;
+import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -61,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         DataBaseAdapter.init(this);
+
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
@@ -88,6 +82,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnLogin.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                goToDatabaseManager();
+
+                return false;
+            }
+        });
+
+    }
+
+    private void goToDatabaseManager(){
+        Intent intent = new Intent(this, AndroidDatabaseManager.class);
+        startActivity(intent);
     }
 
 
@@ -154,14 +163,14 @@ public class LoginActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+        LoginRequestInterface loginRequestInterface = retrofit.create(LoginRequestInterface.class);
 
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         LoginServerRequest request = new LoginServerRequest();
         request.setUser(user);
-        Call<LoginServerResponse> response = requestInterface.operation(request);
+        Call<LoginServerResponse> response = loginRequestInterface.operation(request);
 
         response.enqueue(new Callback<LoginServerResponse>() {
             @Override
@@ -194,6 +203,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 

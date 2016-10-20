@@ -18,6 +18,11 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".SQLite.AndroidDatabaseManager"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
 
         <activity android:name=".LoginActivity">
             <intent-filter>
