@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,6 +29,7 @@ import ba.biggy.androidbis.POJO.User;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
+import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.retrofitInterface.LoginRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
@@ -225,9 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                 UserServerResponse jsonResponse = response.body();
                 userData = new ArrayList<>(Arrays.asList(jsonResponse.getUser()));
 
-                String user1 = userData.get(1).getUsername();
 
-                Toast.makeText(LoginActivity.this, user1, Toast.LENGTH_LONG).show();
 
             }
 
