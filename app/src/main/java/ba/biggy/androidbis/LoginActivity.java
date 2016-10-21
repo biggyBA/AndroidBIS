@@ -17,22 +17,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.List;
 
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerResponse;
 import ba.biggy.androidbis.POJO.User;
-import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
-import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.retrofitInterface.LoginRequestInterface;
-import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
