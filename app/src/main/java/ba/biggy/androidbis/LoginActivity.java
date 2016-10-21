@@ -17,15 +17,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerResponse;
 import ba.biggy.androidbis.POJO.User;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
 import ba.biggy.androidbis.retrofitInterface.LoginRequestInterface;
+import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -38,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences pref;
+    private ArrayList<User> userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +75,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateForm()){
+                /*if(validateForm()){
                     String username = etUsername.getText().toString().trim();
                     String password = etPassword.getText().toString().trim();
                     loginProcess(username, password);
-                }
+                }*/
+
+                loadJSON();
             }
         });
 
@@ -198,7 +208,35 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    private void loadJSON(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        UserRequestInterface request = retrofit.create(UserRequestInterface.class);
+
+        Call<UserServerResponse> call = request.getUser();
+        call.enqueue(new Callback<UserServerResponse>() {
+
+            @Override
+            public void onResponse(Call<UserServerResponse> call, Response<UserServerResponse> response) {
+
+                UserServerResponse jsonResponse = response.body();
+                userData = new ArrayList<>(Arrays.asList(jsonResponse.getUser()));
+
+                String user1 = userData.get(1).getUsername();
+
+                Toast.makeText(LoginActivity.this, user1, Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<UserServerResponse> call, Throwable t) {
+                Log.d("Error",t.getMessage());
+            }
+        });
+    }
 
 
 
