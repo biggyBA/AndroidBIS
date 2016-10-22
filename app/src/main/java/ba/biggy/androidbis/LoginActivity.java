@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginProcess(username, password);
                 }*/
 
-                loadJSON();
+                getAllUsers();
             }
         });
 
@@ -162,75 +162,61 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginProcess(final String username, String password){
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         LoginRequestInterface loginRequestInterface = retrofit.create(LoginRequestInterface.class);
-
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         LoginServerRequest request = new LoginServerRequest();
         request.setUser(user);
         Call<LoginServerResponse> response = loginRequestInterface.operation(request);
-
         response.enqueue(new Callback<LoginServerResponse>() {
             @Override
             public void onResponse(Call<LoginServerResponse> call, retrofit2.Response<LoginServerResponse> response) {
-
                 LoginServerResponse resp = response.body();
-
                 if(resp.getResult().equals(Constants.SUCCESS)){
                     Snackbar.make(coordinatorLayout, "Ispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
-
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
                     editor.putString(Constants.SP_USERNAME,username);
                     editor.apply();
-
-
                 }else if (resp.getResult().equals(Constants.FAILURE)){
                     Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
                 }
                 //progress.setVisibility(View.INVISIBLE);
             }
-
             @Override
             public void onFailure(Call<LoginServerResponse> call, Throwable t) {
-
                 //progress.setVisibility(View.INVISIBLE);
                 Log.d(Constants.TAG,"failed");
                 Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
-
             }
         });
     }
 
 
-    private void loadJSON(){
+
+    private void getAllUsers(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         UserRequestInterface request = retrofit.create(UserRequestInterface.class);
-
         Call<UserServerResponse> call = request.getUser();
         call.enqueue(new Callback<UserServerResponse>() {
-
             @Override
             public void onResponse(Call<UserServerResponse> call, Response<UserServerResponse> response) {
-
                 UserServerResponse jsonResponse = response.body();
                 userData = new ArrayList<>(Arrays.asList(jsonResponse.getUser()));
-
-
-
+                UsersTableController usersTableController = new UsersTableController();
+                    for (int i = 0; i < userData.size(); i++) {
+                        usersTableController.insertUser(userData.get(i));
+                    }
+                Toast.makeText(LoginActivity.this, "done", Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onFailure(Call<UserServerResponse> call, Throwable t) {
                 Log.d("Error",t.getMessage());

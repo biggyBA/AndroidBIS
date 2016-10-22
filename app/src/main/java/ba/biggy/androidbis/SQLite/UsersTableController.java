@@ -46,7 +46,12 @@ public class UsersTableController {
 
         ContentValues values = new ContentValues();
         values.put(nameColumn, user.getUsername());
-        values.put(pwColumn, user.getPassword());
+        values.put(protectionlevel1Column, user.getProtectionLevel1());
+        values.put(protectionlevel2Column, user.getProtectionLevel2());
+        values.put(priceperworkColumn, user.getPriceHourWork());
+        values.put(pricepertravelColumn, user.getPriceHourTravel());
+        values.put(authorizedserviceColumn, user.getAuthorizedService());
+        values.put(countryColumn, user.getCountry());
 
         data.insert(tableName, null, values);
         data.close();
