@@ -23,14 +23,18 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import ba.biggy.androidbis.POJO.Sparepart;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerResponse;
 import ba.biggy.androidbis.POJO.User;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.SparepartServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
+import ba.biggy.androidbis.SQLite.SparepartListTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.retrofitInterface.LoginRequestInterface;
+import ba.biggy.androidbis.retrofitInterface.SparepartRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences pref;
     private ArrayList<User> userData;
+    private ArrayList<Sparepart> sparepartData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,10 +220,36 @@ public class LoginActivity extends AppCompatActivity {
                     for (int i = 0; i < userData.size(); i++) {
                         usersTableController.insertUser(userData.get(i));
                     }
-                Toast.makeText(LoginActivity.this, "done", Toast.LENGTH_LONG).show();
+                getAllSpareparts();
             }
             @Override
             public void onFailure(Call<UserServerResponse> call, Throwable t) {
+                Log.d("Error",t.getMessage());
+            }
+        });
+    }
+
+
+    private void getAllSpareparts(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        SparepartRequestInterface request = retrofit.create(SparepartRequestInterface.class);
+        Call<SparepartServerResponse> call = request.getSparepart();
+        call.enqueue(new Callback<SparepartServerResponse>() {
+            @Override
+            public void onResponse(Call<SparepartServerResponse> call, Response<SparepartServerResponse> response) {
+                SparepartServerResponse jsonResponse = response.body();
+                sparepartData = new ArrayList<>(Arrays.asList(jsonResponse.getSparepart()));
+                SparepartListTableController sparepartListTableController = new SparepartListTableController();
+                for (int i = 0; i < sparepartData.size(); i++) {
+                    sparepartListTableController.insertSparepart(sparepartData.get(i));
+                }
+                Toast.makeText(LoginActivity.this, "done", Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onFailure(Call<SparepartServerResponse> call, Throwable t) {
                 Log.d("Error",t.getMessage());
             }
         });
