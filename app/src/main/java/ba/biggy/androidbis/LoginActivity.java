@@ -116,6 +116,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        if (pref.getBoolean(Constants.SP_IS_LOGGED_IN, true)){
+            goToMainActivity();
+        }
+
     }
 
     private void goToDatabaseManager(){
