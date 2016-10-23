@@ -5,32 +5,19 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import ba.biggy.androidbis.POJO.Sparepart;
+import ba.biggy.androidbis.POJO.User;
 
-public class SparepartListTableController {
+public class CurrentUserTableController {
 
-    /*
-     *This table is used to store all available spareparts"
-     */
-
-    //Table name
-    public static final String tableName = "sparepartsList";
-
-
-    /*
-     *
-     *
-     */
+    //Table current user
+    public static final String tableName = "currentUser";
 
     //Table columns
-    public static final String idColumn = "id"; //1
-    private static final String descriptionColumn = "description";    //2
-
+    private static final String nameColumn = "Username";
 
     public static String getSQLiteCreateTableStatement(){
         String createTable = "CREATE TABLE " + tableName + "("
-                + idColumn + " TEXT,"
-                + descriptionColumn + " TEXT" + ")";
+                + nameColumn + " TEXT" + ")";
         return createTable;
     }
 
@@ -38,13 +25,12 @@ public class SparepartListTableController {
         return String.format("DROP TABLE IF EXISTS %s", tableName);
     }
 
-
-    public void insertSparepart(Sparepart sparepart){
+    public void insertCurrentUser(String username){
 
         SQLiteDatabase data = DataBaseAdapter.getDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(descriptionColumn, sparepart.getDescription());
+        values.put(nameColumn, username);
 
         data.insert(tableName, null, values);
         data.close();
@@ -67,6 +53,21 @@ public class SparepartListTableController {
         return count;
     }
 
+    public Cursor getCurrentUserDetails() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String buildSQL = "SELECT * FROM " + tableName;
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor;
+        }
+        return cursor;
+    }
+
+
+    public String getUsername(){
+        String user = this.getCurrentUserDetails().getString(0).trim();
+        return user;
+    }
 
 
 }

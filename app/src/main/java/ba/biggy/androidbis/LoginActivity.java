@@ -1,6 +1,9 @@
 package ba.biggy.androidbis;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
@@ -11,12 +14,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
@@ -30,6 +36,7 @@ import ba.biggy.androidbis.POJO.User;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.SparepartServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
+import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
 import ba.biggy.androidbis.SQLite.SparepartListTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
@@ -53,6 +60,10 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private ArrayList<User> userData;
     private ArrayList<Sparepart> sparepartData;
+    private CurrentUserTableController currentUserTableController;
+    private UsersTableController usersTableController;
+    private SparepartListTableController sparepartListTableController;
+    ProgressDialog prgDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +73,10 @@ public class LoginActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         DataBaseAdapter.init(this);
+
+        currentUserTableController = new CurrentUserTableController();
+        usersTableController = new UsersTableController();
+        sparepartListTableController = new SparepartListTableController();
 
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
@@ -82,16 +97,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(validateForm()){
+                if(validateForm()){
                     String username = etUsername.getText().toString().trim();
                     String password = etPassword.getText().toString().trim();
                     loginProcess(username, password);
-                }*/
-
-                String username = etUsername.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
-                loginProcess(username, password);
-
+                }
 
             }
         });
@@ -171,6 +181,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginProcess(final String username, String password){
+        prgDialog = new ProgressDialog(this);
+        prgDialog.setMessage("Logujem se...");
+        prgDialog.setCancelable(false);
+        prgDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -188,17 +202,12 @@ public class LoginActivity extends AppCompatActivity {
                 LoginServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
-                    /*
-                    *
-                    *   need to insert current user
-                    *
-                     */
-
+                    //insert the current user into current user table
+                    currentUserTableController.insertCurrentUser(username);
 
 
                     //get array of users properties and insert into users table
                     userData = new ArrayList<>(Arrays.asList(resp.getUser()));
-                    UsersTableController usersTableController = new UsersTableController();
                     for (int i = 0; i < userData.size(); i++) {
                         usersTableController.insertUser(userData.get(i));
                     }
@@ -206,28 +215,28 @@ public class LoginActivity extends AppCompatActivity {
 
                     //get array of spareparts and insert into sparepart table
                     sparepartData = new ArrayList<>(Arrays.asList(resp.getSparepart()));
-                    SparepartListTableController sparepartListTableController = new SparepartListTableController();
                     for (int i = 0; i < sparepartData.size(); i++) {
                         sparepartListTableController.insertSparepart(sparepartData.get(i));
                     }
 
 
-                    Snackbar.make(coordinatorLayout, "Ispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
-                    /*SharedPreferences.Editor editor = pref.edit();
+                    //set logged in
+                    SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
-                    editor.putString(Constants.SP_USERNAME,username);
-                    editor.apply();*/
+                    editor.apply();
+
+
+                    goToMainActivity();
 
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
                     Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
                 }
-                //progress.setVisibility(View.INVISIBLE);
+                prgDialog.hide();
             }
             @Override
             public void onFailure(Call<LoginServerResponse> call, Throwable t) {
-                //progress.setVisibility(View.INVISIBLE);
-                Log.d(Constants.TAG,"failed");
+                prgDialog.hide();
                 Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
             }
         });
@@ -247,7 +256,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserServerResponse> call, Response<UserServerResponse> response) {
                 UserServerResponse jsonResponse = response.body();
                 userData = new ArrayList<>(Arrays.asList(jsonResponse.getUser()));
-                UsersTableController usersTableController = new UsersTableController();
                     for (int i = 0; i < userData.size(); i++) {
                         usersTableController.insertUser(userData.get(i));
                     }
@@ -272,7 +280,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<SparepartServerResponse> call, Response<SparepartServerResponse> response) {
                 SparepartServerResponse jsonResponse = response.body();
                 sparepartData = new ArrayList<>(Arrays.asList(jsonResponse.getSparepart()));
-                SparepartListTableController sparepartListTableController = new SparepartListTableController();
                 for (int i = 0; i < sparepartData.size(); i++) {
                     sparepartListTableController.insertSparepart(sparepartData.get(i));
                 }
@@ -284,7 +291,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 }

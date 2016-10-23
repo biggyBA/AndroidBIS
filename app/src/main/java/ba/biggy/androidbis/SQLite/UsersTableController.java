@@ -2,6 +2,7 @@ package ba.biggy.androidbis.SQLite;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import ba.biggy.androidbis.POJO.User;
@@ -57,4 +58,28 @@ public class UsersTableController {
         data.close();
 
     }
+
+    public void deleteAll(){
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        db.delete(tableName, null, null);
+        db.close();
+    }
+
+
+
+    public boolean currentUserExists(){
+        CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+        String currentUser = currentUserTableController.getUsername();
+        String selectQuery = "SELECT * FROM " + tableName + " WHERE " + nameColumn + "  = '"+currentUser+"'";
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        int count = cursor.getCount();
+        database.close();
+        if (count > 0){
+            return true;
+        }
+        return false;
+    }
+
+
 }

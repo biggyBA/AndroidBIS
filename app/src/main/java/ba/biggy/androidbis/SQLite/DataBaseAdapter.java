@@ -48,6 +48,7 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
             db.execSQL(SparepartTableController.getSQLiteCreateTableStatement());
             db.execSQL(UsersTableController.getSQLiteCreateTableStatement());
             db.execSQL(SparepartListTableController.getSQLiteCreateTableStatement());
+            db.execSQL(CurrentUserTableController.getSQLiteCreateTableStatement());
 
             //Commit
             db.setTransactionSuccessful();
@@ -62,12 +63,14 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.beginTransaction();
 
+
         try {
             db.execSQL(FaultsTableController.getSQLiteUpgradeTableStatement());
             db.execSQL(ServicesheetTableController.getSQLiteUpgradeTableStatement());
             db.execSQL(SparepartTableController.getSQLiteUpgradeTableStatement());
             db.execSQL(UsersTableController.getSQLiteUpgradeTableStatement());
             db.execSQL(SparepartListTableController.getSQLiteUpgradeTableStatement());
+            db.execSQL(CurrentUserTableController.getSQLiteUpgradeTableStatement());
 
             //Commit
             db.setTransactionSuccessful();
@@ -77,7 +80,7 @@ public class DataBaseAdapter extends SQLiteOpenHelper {
             db.endTransaction();
         }
 
-        //
+
         this.onCreate(database);
     }
 

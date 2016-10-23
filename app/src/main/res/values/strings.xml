@@ -18,6 +18,9 @@
     <string name="login_error_password">Unesite šifru</string>
     <string name="login_error_password_desc">Polje ne smije biti prazno!</string>
     <string name="login_nointernet">Provjerite internet vezu</string>
+    <string name="dialog_currentuser">Došlo je do greške. Provjerite internet vezu.</string>
+    <string name="dialog_currentuser_positive_button">POKUŠAJ PONOVO</string>
+    <string name="dialog_currentuser_negative_button">ODUSTANI</string>
 
 
 
