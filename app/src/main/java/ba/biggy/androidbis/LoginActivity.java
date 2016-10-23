@@ -88,7 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                     loginProcess(username, password);
                 }*/
 
-                getAllUsers();
+                String username = etUsername.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
+                loginProcess(username, password);
+
+
             }
         });
 
@@ -183,11 +187,38 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginServerResponse> call, retrofit2.Response<LoginServerResponse> response) {
                 LoginServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
+
+                    /*
+                    *
+                    *   need to insert current user
+                    *
+                     */
+
+
+
+                    //get array of users properties and insert into users table
+                    userData = new ArrayList<>(Arrays.asList(resp.getUser()));
+                    UsersTableController usersTableController = new UsersTableController();
+                    for (int i = 0; i < userData.size(); i++) {
+                        usersTableController.insertUser(userData.get(i));
+                    }
+
+
+                    //get array of spareparts and insert into sparepart table
+                    sparepartData = new ArrayList<>(Arrays.asList(resp.getSparepart()));
+                    SparepartListTableController sparepartListTableController = new SparepartListTableController();
+                    for (int i = 0; i < sparepartData.size(); i++) {
+                        sparepartListTableController.insertSparepart(sparepartData.get(i));
+                    }
+
+
                     Snackbar.make(coordinatorLayout, "Ispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
-                    SharedPreferences.Editor editor = pref.edit();
+                    /*SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
                     editor.putString(Constants.SP_USERNAME,username);
-                    editor.apply();
+                    editor.apply();*/
+
+
                 }else if (resp.getResult().equals(Constants.FAILURE)){
                     Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
                 }
@@ -220,7 +251,6 @@ public class LoginActivity extends AppCompatActivity {
                     for (int i = 0; i < userData.size(); i++) {
                         usersTableController.insertUser(userData.get(i));
                     }
-                getAllSpareparts();
             }
             @Override
             public void onFailure(Call<UserServerResponse> call, Throwable t) {
