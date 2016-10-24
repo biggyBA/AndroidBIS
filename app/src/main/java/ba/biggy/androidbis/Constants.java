@@ -21,6 +21,16 @@ public class Constants {
     public static final String SP_USERNAME = "username";
 
 
+    //Protection levels
+    public static final String PROTECTION_LEVEL_ADMIN = "Admin";
+    public static final String PROTECTION_LEVEL_VIEWER = "Viewer";
+    public static final String PROTECTION_LEVEL_USER = "User";
+
+
+    //MySQL status info
+    public static final String STATUS_FAULT = "INTERVENCIJA";
+
+
 
 
 }

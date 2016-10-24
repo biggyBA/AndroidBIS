@@ -6,6 +6,11 @@
 
     <string name="action_settings">Settings</string>
 
+    <!--    -->
+    <!-- Global  -->
+    <!--    -->
+    <string name="error_nointernet">Došlo je do greške. Provjerite internet vezu.</string>
+
 
     <!--    -->
     <!-- Login activity  -->
@@ -42,5 +47,11 @@
     <string name="fragment_title_servicesheet">Servini list</string>
     <string name="fragment_title_checkproduct">Provjeri proizvod</string>
     <string name="fragment_title_searcharchive">Pretraži arhivu</string>
+
+
+    <!--    -->
+    <!-- Fragment faults listview  -->
+    <!--    -->
+    <string name="fragment_faults_listview_faultcount">Otvorenih intervencija:</string>
 
 </resources>

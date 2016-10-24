@@ -2,8 +2,10 @@ package ba.biggy.androidbis.SQLite;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Fault;
 
 public class FaultsTableController {
@@ -150,7 +152,52 @@ public class FaultsTableController {
         data.close();
     }
 
+    public void deleteAll(){
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        db.delete(tableName, null, null);
+        db.close();
+    }
 
+
+    public String getTotalFaultCount(){
+        int count = 0;
+        String status = Constants.STATUS_FAULT;
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + statusColumn + " = '"+status+"'";
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(buildSQL, null);
+        count = cursor.getCount();
+        database.close();
+        String faultsCount = Integer.toString(count);
+        return faultsCount;
+    }
+
+    public Cursor getAllFaults() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String status = Constants.STATUS_FAULT;
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + statusColumn + " = '"+status+"'";
+        return db.rawQuery(buildSQL, null);
+    }
+
+    public String getFaultCountByServiceman(){
+        int count = 0;
+        CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+        String currentuser = currentUserTableController.getUsername().toUpperCase();
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + responsibleforfailureColumn + " = '"+currentuser+"'";
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(buildSQL, null);
+        count = cursor.getCount();
+        database.close();
+        String faultsCount = Integer.toString(count);
+        return faultsCount;
+    }
+
+    public Cursor getFaultByServiceman() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+        String currentUser = currentUserTableController.getUsername().toUpperCase();
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + responsibleforfailureColumn + " = '"+currentUser+"'";
+        return db.rawQuery(buildSQL, null);
+    }
 
 
 

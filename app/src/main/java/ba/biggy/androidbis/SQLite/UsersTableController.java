@@ -81,5 +81,48 @@ public class UsersTableController {
         return false;
     }
 
+    //get cursor with all details for current user
+    public Cursor getCurrentUserDetails() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+        String currentUser = currentUserTableController.getUsername();
+        String buildSQL = "SELECT * FROM " + tableName + " WHERE " + nameColumn + " = '"+currentUser+"'";
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor;
+        }
+        return cursor;
+    }
+
+    public String getUserProtectionLevel1(){
+        String protectionLevel1 = this.getCurrentUserDetails().getString(3).trim();
+        return protectionLevel1;
+    }
+
+    public String getUserProtectionLevel2(){
+        String protectionLevel2 = this.getCurrentUserDetails().getString(4).trim();
+        return protectionLevel2;
+    }
+
+    public double getPriceHourWork(){
+        double priceHourWork = this.getCurrentUserDetails().getDouble(5);
+        return priceHourWork;
+    }
+
+    public double getPriceHourTravel(){
+        double priceHourTravel = this.getCurrentUserDetails().getDouble(5);
+        return priceHourTravel;
+    }
+
+    public String getAuthorizedService(){
+        String authorizedService = this.getCurrentUserDetails().getString(7).trim();
+        return authorizedService;
+    }
+
+    public String getCountry(){
+        String country = this.getCurrentUserDetails().getString(8).trim();
+        return country;
+    }
+
 
 }
