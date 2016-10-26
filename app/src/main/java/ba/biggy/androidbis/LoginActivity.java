@@ -237,11 +237,11 @@ public class LoginActivity extends AppCompatActivity {
                 }else if (resp.getResult().equals(Constants.FAILURE)){
                     Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
                 }
-                prgDialog.hide();
+                prgDialog.dismiss();
             }
             @Override
             public void onFailure(Call<LoginServerResponse> call, Throwable t) {
-                prgDialog.hide();
+                prgDialog.dismiss();
                 Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
             }
         });

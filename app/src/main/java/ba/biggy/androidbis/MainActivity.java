@@ -18,6 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
+import ba.biggy.androidbis.SQLite.CurrentUserTableController;
+import ba.biggy.androidbis.SQLite.SparepartListTableController;
+import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.fragments.FragmentCheckProduct;
 import ba.biggy.androidbis.fragments.FragmentFaultsListview;
 import ba.biggy.androidbis.fragments.FragmentSearchArchive;
@@ -27,6 +31,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences pref;
+    private FloatingActionButton fab;
+    CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+    UsersTableController usersTableController = new UsersTableController();
+    SparepartListTableController sparepartListTableController = new SparepartListTableController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +47,22 @@ public class MainActivity extends AppCompatActivity
 
         displayView(1);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        //if protection level is admin show the fab
+        if (usersTableController.getUserProtectionLevel1().equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
+            fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -82,9 +98,20 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            Intent intent = new Intent(this, AndroidDatabaseManager.class);
+            startActivity(intent);
+
+        }else if (id == R.id.action_logout){
+            //clear tables
+            currentUserTableController.deleteAll();
+            usersTableController.deleteAll();
+            sparepartListTableController.deleteAll();
+            //set the logged in status to false
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean(Constants.SP_IS_LOGGED_IN, false);
             editor.apply();
+            //start login activity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             return true;
