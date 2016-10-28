@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -79,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
         sparepartListTableController = new SparepartListTableController();
 
 
-        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
@@ -225,9 +228,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
-                    //set logged in
+
                     SharedPreferences.Editor editor = pref.edit();
+                    //set logged in
                     editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
+                    //set default faultsview
+                    editor.putString(Constants.SP_FAULTSVIEW, Constants.SP_LISTVIEW);
                     editor.apply();
 
 

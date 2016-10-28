@@ -20,6 +20,7 @@ public class Constants {
     public static final String SP_IS_LOGGED_IN = "isLoggedIn";
     public static final String SP_USERNAME = "username";
     public static final String SP_FAULTSVIEW = "prefFaultsview";
+    public static final String SP_LISTVIEW = "1";
 
 
     //Protection levels

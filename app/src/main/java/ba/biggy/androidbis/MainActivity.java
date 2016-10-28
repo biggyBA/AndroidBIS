@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import ba.biggy.androidbis.SQLite.DataBaseAdapter;
 import ba.biggy.androidbis.SQLite.SparepartListTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.fragments.FragmentCheckProduct;
+import ba.biggy.androidbis.fragments.FragmentFaultsCardview;
+import ba.biggy.androidbis.fragments.FragmentFaultsExpandableListview;
 import ba.biggy.androidbis.fragments.FragmentFaultsListview;
 import ba.biggy.androidbis.fragments.FragmentSearchArchive;
 import ba.biggy.androidbis.fragments.FragmentServicesheet;
@@ -51,12 +54,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         displayView(1);
 
 
-        //if protection level is admin show the fab
+        /*//if protection level is admin show the fab
         if (usersTableController.getUserProtectionLevel1().equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
             fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setVisibility(View.VISIBLE);
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity
                             .setAction("Action", null).show();
                 }
             });
-        }
+        }*/
 
 
 
@@ -161,9 +165,27 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         String title = getString(R.string.app_name);
         switch (position) {
+
             case 1:
-                fragment = new FragmentFaultsListview();
-                title = getString(R.string.fragment_title_faults);
+                //get the set value from settings
+                String view = pref.getString(Constants.SP_FAULTSVIEW, "");
+                int currentValue = Integer.parseInt(view);
+                //depending on value create the propper fragment
+                if (currentValue == 1){
+                    //show simple listview
+                    fragment = new FragmentFaultsListview();
+                    title = getString(R.string.fragment_title_faults);
+                }else if (currentValue == 2){
+                    //show expandable listview
+                    fragment = new FragmentFaultsExpandableListview();
+                    title = getString(R.string.fragment_title_faults);
+                }else{
+                    //show cardview
+                    fragment = new FragmentFaultsCardview();
+                    title = getString(R.string.fragment_title_faults);
+                }
+
+
                 break;
             case 2:
                 fragment = new FragmentServicesheet();
