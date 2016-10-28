@@ -2,7 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_test"
+        android:orderInCategory="100"
+        android:title="Test activity"
+        app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_db"
+        android:orderInCategory="100"
+        android:title="DBManager"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_settings"

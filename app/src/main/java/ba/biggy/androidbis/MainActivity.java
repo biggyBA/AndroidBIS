@@ -3,6 +3,7 @@ package ba.biggy.androidbis;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.CurrentUserTableController;
+import ba.biggy.androidbis.SQLite.DataBaseAdapter;
 import ba.biggy.androidbis.SQLite.SparepartListTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.fragments.FragmentCheckProduct;
@@ -40,6 +42,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        DataBaseAdapter.init(this);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -99,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            Intent intent = new Intent(this, AndroidDatabaseManager.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
 
         }else if (id == R.id.action_logout){
@@ -115,6 +123,14 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             return true;
+
+        }else if (id == R.id.action_db){
+            Intent intent = new Intent(this, AndroidDatabaseManager.class);
+            startActivity(intent);
+
+        }else if (id == R.id.action_test){
+            Intent intent = new Intent(this, TestActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

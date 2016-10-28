@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_general" >
+        <ListPreference
+            android:key="prefFaultsview"
+            android:entries="@array/settings_viewfaults_titles"
+            android:entryValues="@array/settings_viewfaults_values"
+            android:title="@string/settings_faultsview" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

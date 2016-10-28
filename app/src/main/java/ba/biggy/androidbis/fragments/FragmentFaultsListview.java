@@ -63,29 +63,11 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         faultCount = (TextView) getActivity().findViewById(R.id.tvCount);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
 
-        //get the protection level for the current user
-        protectionLevel = usersTableController.getUserProtectionLevel1();
-        //depending on protection level show different views
-        if (protectionLevel.equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
-            //set the total fault count
-            totalFaultCount = faultsTableController.getTotalFaultCount();
-            faultCount.setText(totalFaultCount);
 
-            //set the adapter
-            faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
-            listView.setAdapter(faultListviewExpandedAdapter);
+        //display view depending on users protection level
+        displayView(protectionLevel = usersTableController.getUserProtectionLevel1());
 
-        }else if (protectionLevel.equalsIgnoreCase(Constants.PROTECTION_LEVEL_USER)){
-            //set the fault count for normal user
-            totalFaultCount = faultsTableController.getFaultCountByServiceman();
-            faultCount.setText(totalFaultCount);
-            //set the adapter
-            //faultListviewSimpleAdapter = new FaultListviewSimpleAdapter(getActivity(), faultsTableController.getFaultByServiceman());
-            //listView.setAdapter(faultListviewSimpleAdapter);
 
-        }else {
-
-        }
 
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -195,7 +177,47 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
             }
 
         });
+    }
 
 
+
+
+
+    private void displayView (String protectionLevel){
+        switch (protectionLevel){
+
+            case Constants.PROTECTION_LEVEL_ADMIN:
+
+                //set the total fault count
+                totalFaultCount = faultsTableController.getTotalFaultCount();
+                faultCount.setText(totalFaultCount);
+
+                //set the adapter
+                faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
+                listView.setAdapter(faultListviewExpandedAdapter);
+
+                break;
+
+
+            case Constants.PROTECTION_LEVEL_USER:
+
+                //set the fault count for normal user
+                totalFaultCount = faultsTableController.getFaultCountByServiceman();
+                faultCount.setText(totalFaultCount);
+
+                //set the adapter
+                //faultListviewSimpleAdapter = new FaultListviewSimpleAdapter(getActivity(), faultsTableController.getFaultByServiceman());
+                //listView.setAdapter(faultListviewSimpleAdapter);
+                break;
+
+
+            case Constants.PROTECTION_LEVEL_VIEWER:
+
+                break;
+
+
+            default:
+                break;
+        }
     }
 }

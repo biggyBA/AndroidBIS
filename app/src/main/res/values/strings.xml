@@ -13,7 +13,6 @@
     <string name="action_logout">Log out</string>
 
 
-
     <!--    -->
     <!-- Global  -->
     <!--    -->
@@ -34,8 +33,6 @@
     <string name="dialog_currentuser">Došlo je do greške. Provjerite internet vezu.</string>
     <string name="dialog_currentuser_positive_button">POKUŠAJ PONOVO</string>
     <string name="dialog_currentuser_negative_button">ODUSTANI</string>
-
-
 
 
     <!--    -->
@@ -61,5 +58,28 @@
     <!-- Fragment faults listview  -->
     <!--    -->
     <string name="fragment_faults_listview_faultcount">Otvorenih intervencija:</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <!--    -->
+    <!-- Settings activity  -->
+    <!--    -->
+    <string name="settings_activity_title">Postavke</string>
+    <string name="settings_faultsview">Prikaži intervencije kao</string>
+    <string name="settings_general">Opšte postavke</string>
+    <string name="settings_database">Postavke baze podataka</string>
+
+    <!-- Titles and values for faults overview -->
+    <string-array name="settings_viewfaults_titles">
+        <item>Obična lista</item>
+        <item>Proširena lista</item>
+        <item>Kartice</item>
+    </string-array>
+    <string-array name="settings_viewfaults_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 
 </resources>
