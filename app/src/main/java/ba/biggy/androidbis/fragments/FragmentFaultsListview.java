@@ -2,6 +2,8 @@ package ba.biggy.androidbis.fragments;
 
 
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuLayout;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -198,13 +206,13 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 });*/
 
 
-                listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                         Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_SHORT).show();
                         return true;
                     }
-                });
+                });*/
 
 
 
@@ -254,7 +262,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 });*/
 
 
-                listView.setOnTouchListener(new View.OnTouchListener() {
+                /*listView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
 
@@ -282,13 +290,57 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                         }
                         return false;
                     }
+                });*/
+
+
+
+                SwipeMenuCreator swipeCreator = new SwipeMenuCreator() {
+                    @Override
+                    public void create(SwipeMenu menu) {
+                        // create "open" item
+                        SwipeMenuItem opItem = new SwipeMenuItem(
+                                getActivity());
+                        // set item background
+                        opItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                                0xCE)));
+                        opItem.setWidth((250));
+                        opItem.setTitle("Open");
+                        opItem.setTitleSize(20);
+                        opItem.setTitleColor(Color.WHITE);
+                        menu.addMenuItem(opItem);
+                        SwipeMenuItem delItem = new SwipeMenuItem(
+                                getActivity());
+                        delItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                                0xCE)));
+                        delItem.setTitleSize(20);
+                        delItem.setBackground(R.color.colorAccent);
+                        delItem.setWidth((250));
+                        delItem.setTitleColor(Color.WHITE);
+                        delItem.setTitle("Delete");
+                        menu.addMenuItem(delItem);
+                    }
+                };
+
+                SwipeMenuListView listView1 = (SwipeMenuListView) getActivity().findViewById(R.id.listView);
+                listView1.setMenuCreator(swipeCreator);
+                listView1.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+                listView1.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                        switch (index) {
+                            case 0:
+                                // open
+                                Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(CustomerListActivity.this,"Position: "+index,Toast.LENGTH_LONG).show();
+                                break;
+                            case 1:
+                                // delete
+                                Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                        return false;
+                    }
                 });
-
-
-
-
-
-
 
 
 

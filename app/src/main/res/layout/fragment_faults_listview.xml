@@ -43,13 +43,20 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+<!--
             <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/listView"
                 android:dividerHeight="1sp"
-                android:divider="@color/colorAccent"/>
+                android:divider="@color/colorAccent"/>-->
+
+            <com.baoyz.swipemenulistview.SwipeMenuListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
 

@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
+
         displayView(1);
 
 
@@ -169,7 +170,9 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 //get the set value from settings
                 String view = pref.getString(Constants.SP_FAULTSVIEW, "");
-                int currentValue = Integer.parseInt(view);
+                int currentValue = 1;
+                if (view!=""){
+                currentValue = Integer.parseInt(view);}
                 //depending on value create the propper fragment
                 if (currentValue == 1){
                     //show simple listview

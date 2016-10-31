@@ -1,11 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ba.biggy.androidbis.TestActivity">
 
-    <TextView
-        android:id="@+id/textUserSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:context=".TestActivity" />
-</LinearLayout>
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/jobsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
