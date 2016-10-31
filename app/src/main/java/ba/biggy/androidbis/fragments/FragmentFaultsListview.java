@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ba.biggy.androidbis.Constants;
+import ba.biggy.androidbis.OnSwipeTouchListener;
 import ba.biggy.androidbis.POJO.Fault;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.FaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
@@ -48,6 +50,9 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     FaultListviewSimpleAdapter faultListviewSimpleAdapter;
     UsersTableController usersTableController = new UsersTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
+    float historicX = Float.NaN, historicY = Float.NaN;
+    static final int DELTA = 50;
+    enum Direction {LEFT, RIGHT;}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,54 +84,10 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         });
 
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
 
 
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                /*//get cursor from selected item
-                Cursor c = (Cursor) listView.getItemAtPosition(position);
-                //get strings from cursor
-                String datefault = c.getString(2);
-                String timefault = c.getString(3);
-                String client = c.getString(7);
-                String address = c.getString(8);
-                String place = c.getString(9);
-                String phone1 = c.getString(10);
-                String phone2 = c.getString(11);
-                String descfault = c.getString(12);
-                String note = c.getString(13);
-                c.close();
-
-                Fragment newFragment = new FragmentSupportTodoDetail();
-                Bundle bundle = new Bundle();
-                bundle.putString("datefault", datefault);
-                bundle.putString("timefault", timefault);
-                bundle.putString("client", client);
-                bundle.putString("address", address);
-                bundle.putString("place", place);
-                bundle.putString("phone1", phone1);
-                bundle.putString("phone2", phone2);
-                bundle.putString("descfault", descfault);
-                bundle.putString("note", note);
-                newFragment.setArguments(bundle);
-
-                FragmentTransaction tr = getFragmentManager().beginTransaction();
-                tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                tr.replace(R.id.frame, newFragment);
-                tr.addToBackStack(null);
-                tr.commit();*/
-            }
-        });
 
 
 
@@ -186,6 +147,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     private void displayView (String protectionLevel){
         switch (protectionLevel){
 
+            //if the protection level is admin show this view and options
             case Constants.PROTECTION_LEVEL_ADMIN:
 
                 //set the total fault count
@@ -195,6 +157,144 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 //set the adapter
                 faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
                 listView.setAdapter(faultListviewExpandedAdapter);
+
+
+                /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                //get cursor from selected item
+                Cursor c = (Cursor) listView.getItemAtPosition(position);
+                //get strings from cursor
+                String datefault = c.getString(2);
+                String timefault = c.getString(3);
+                String client = c.getString(7);
+                String address = c.getString(8);
+                String place = c.getString(9);
+                String phone1 = c.getString(10);
+                String phone2 = c.getString(11);
+                String descfault = c.getString(12);
+                String note = c.getString(13);
+                c.close();
+
+                Fragment newFragment = new FragmentFaultsListviewDetail();
+                Bundle bundle = new Bundle();
+                bundle.putString("datefault", datefault);
+                bundle.putString("timefault", timefault);
+                bundle.putString("client", client);
+                bundle.putString("address", address);
+                bundle.putString("place", place);
+                bundle.putString("phone1", phone1);
+                bundle.putString("phone2", phone2);
+                bundle.putString("descfault", descfault);
+                bundle.putString("note", note);
+                newFragment.setArguments(bundle);
+
+                FragmentTransaction tr = getFragmentManager().beginTransaction();
+                tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                tr.replace(R.id.content_main, newFragment);
+                tr.addToBackStack(null);
+                tr.commit();
+                    }
+                });*/
+
+
+                listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+
+
+
+                /*listView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+
+                    @Override
+                    public void onClick() {
+                        super.onClick();
+                        Toast.makeText(getActivity(), "On click listener", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onDoubleClick() {
+                        super.onDoubleClick();
+                        Toast.makeText(getActivity(), "On double click listener", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongClick() {
+                        super.onLongClick();
+                        Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_SHORT).show();
+                    }
+
+                    *//*@Override
+                    public void onSwipeUp() {
+                        super.onSwipeUp();
+                        Toast.makeText(getActivity(), "On swipe up", Toast.LENGTH_SHORT).show();
+                    }*//*
+
+                    *//*@Override
+                    public void onSwipeDown() {
+                        super.onSwipeDown();
+                        Toast.makeText(getActivity(), "On swipe d", Toast.LENGTH_SHORT).show();
+                    }*//*
+
+                    @Override
+                    public void onSwipeLeft() {
+                        super.onSwipeLeft();
+                        Toast.makeText(getActivity(), "On swipe l", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSwipeRight() {
+                        super.onSwipeRight();
+                        Toast.makeText(getActivity(), "On swipe r", Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+
+
+                listView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                historicX = event.getX();
+                                historicY = event.getY();
+                                break;
+
+                            case MotionEvent.ACTION_UP:
+                                if (event.getX() - historicX < -DELTA) {
+                                    //FunctionDeleteRowWhenSlidingLeft();
+                                    Toast.makeText(getActivity(), "FunctionDeleteRowWhenSlidingLeft", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                                else if (event.getX() - historicX > DELTA) {
+                                    //FunctionDeleteRowWhenSlidingRight();
+                                    Toast.makeText(getActivity(), "FunctionDeleteRowWhenSlidingRight", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                                break;
+
+                            default:
+                                return false;
+                        }
+                        return false;
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
 
                 break;
 
@@ -220,4 +320,21 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 break;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         displayView(1);
 
 
-        /*//if protection level is admin show the fab
+        //if protection level is admin show the fab
         if (usersTableController.getUserProtectionLevel1().equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
             fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setVisibility(View.VISIBLE);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
                             .setAction("Action", null).show();
                 }
             });
-        }*/
+        }
 
 
 

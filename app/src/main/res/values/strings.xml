@@ -60,6 +60,18 @@
     <string name="fragment_faults_listview_faultcount">Otvorenih intervencija:</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!--    -->
+    <!-- Fragment faults listview detail -->
+    <!--    -->
+    <string name="fragment_faults_listview_details_date">Datum prijave:</string>
+    <string name="fragment_faults_listview_details_time">Vrijeme prijave:</string>
+    <string name="fragment_faults_listview_details_client">Klijent:</string>
+    <string name="fragment_faults_listview_details_address">Adresa:</string>
+    <string name="fragment_faults_listview_details_place">Mjesto:</string>
+    <string name="fragment_faults_listview_details_phone1">Kontakt broj 1:</string>
+    <string name="fragment_faults_listview_details_phone2">Kontakt broj 2:</string>
+    <string name="fragment_faults_listview_details_description">Opis kvara:</string>
+    <string name="fragment_faults_listview_details_note">Napomena:</string>
 
     <!--    -->
     <!-- Settings activity  -->
