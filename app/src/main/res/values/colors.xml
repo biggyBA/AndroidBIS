@@ -3,4 +3,11 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#33691E</color>
     <color name="colorAccent">#CDDC39</color>
+
+
+    <color name="colorDelete">#F44336</color>
+    <color name="colorUpdate">#FFEB3B</color>
+    <color name="colorArchive">#4CAF50</color>
+
+
 </resources>

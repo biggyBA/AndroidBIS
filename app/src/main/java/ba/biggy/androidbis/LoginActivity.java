@@ -210,10 +210,14 @@ public class LoginActivity extends AppCompatActivity {
                 LoginServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
+                    //delete the previous user
+                    currentUserTableController.deleteAll();
                     //insert the current user into current user table
                     currentUserTableController.insertCurrentUser(username);
 
 
+                    //delete previous user data
+                    usersTableController.deleteAll();
                     //get array of users properties and insert into users table
                     userData = new ArrayList<>(Arrays.asList(resp.getUser()));
                     for (int i = 0; i < userData.size(); i++) {
@@ -221,6 +225,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
+                    //delete previous list of spareparts
+                    sparepartListTableController.deleteAll();
                     //get array of spareparts and insert into sparepart table
                     sparepartData = new ArrayList<>(Arrays.asList(resp.getSparepart()));
                     for (int i = 0; i < sparepartData.size(); i++) {
@@ -302,5 +308,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 }

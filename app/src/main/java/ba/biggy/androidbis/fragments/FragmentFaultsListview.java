@@ -1,10 +1,14 @@
 package ba.biggy.androidbis.fragments;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +40,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ba.biggy.androidbis.Constants;
+import ba.biggy.androidbis.LoginActivity;
 import ba.biggy.androidbis.OnSwipeTouchListener;
 import ba.biggy.androidbis.POJO.Fault;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerRequest;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.FaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.R;
+import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
+import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
+import ba.biggy.androidbis.SettingsActivity;
+import ba.biggy.androidbis.TestActivity;
 import ba.biggy.androidbis.adapter.FaultListviewExpandedAdapter;
 import ba.biggy.androidbis.adapter.FaultListviewSimpleAdapter;
+import ba.biggy.androidbis.retrofitInterface.DeleteFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
@@ -56,10 +69,12 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     private ListView listView;
+    private SwipeMenuListView swipeMenuListView;
     private TextView faultCount;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String protectionLevel, totalFaultCount;
     private ArrayList<Fault> faultData;
+    private CoordinatorLayout coordinatorLayout;
     FaultListviewExpandedAdapter faultListviewExpandedAdapter;
     FaultListviewSimpleAdapter faultListviewSimpleAdapter;
     UsersTableController usersTableController = new UsersTableController();
@@ -71,7 +86,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_faults_listview, container, false);
-        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -82,12 +96,23 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_getfaults) {
+            getFaults();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
     public void onStart(){
         super.onStart();
 
         listView = (ListView) getActivity().findViewById(R.id.listView);
         faultCount = (TextView) getActivity().findViewById(R.id.tvCount);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
+        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinatorLayout);
 
         //display view depending on users protection level
         displayView(protectionLevel = usersTableController.getUserProtectionLevel1());
@@ -152,6 +177,12 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
             //if the protection level is admin show this view and options
             case Constants.PROTECTION_LEVEL_ADMIN:
 
+                //user with admin level has additional toolbar items
+                setHasOptionsMenu(true);
+
+                //disable the swipe refresh layout
+                swipeRefreshLayout.setEnabled(false);
+
                 //set the total fault count
                 totalFaultCount = faultsTableController.getTotalFaultCount();
                 faultCount.setText(totalFaultCount);
@@ -160,8 +191,8 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
                 listView.setAdapter(faultListviewExpandedAdapter);
 
-
-                /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                //get details from cursor and show them in FragmentFaultsListviewDetail
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 //get cursor from selected item
@@ -197,140 +228,70 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 tr.addToBackStack(null);
                 tr.commit();
                     }
-                });*/
+                });
 
 
-                /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });*/
-
-
-
-                /*listView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
-
-                    @Override
-                    public void onClick() {
-                        super.onClick();
-                        Toast.makeText(getActivity(), "On click listener", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onDoubleClick() {
-                        super.onDoubleClick();
-                        Toast.makeText(getActivity(), "On double click listener", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onLongClick() {
-                        super.onLongClick();
-                        Toast.makeText(getActivity(), "On long click listener", Toast.LENGTH_SHORT).show();
-                    }
-
-                    *//*@Override
-                    public void onSwipeUp() {
-                        super.onSwipeUp();
-                        Toast.makeText(getActivity(), "On swipe up", Toast.LENGTH_SHORT).show();
-                    }*//*
-
-                    *//*@Override
-                    public void onSwipeDown() {
-                        super.onSwipeDown();
-                        Toast.makeText(getActivity(), "On swipe d", Toast.LENGTH_SHORT).show();
-                    }*//*
-
-                    @Override
-                    public void onSwipeLeft() {
-                        super.onSwipeLeft();
-                        Toast.makeText(getActivity(), "On swipe l", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onSwipeRight() {
-                        super.onSwipeRight();
-                        Toast.makeText(getActivity(), "On swipe r", Toast.LENGTH_SHORT).show();
-                    }
-                });*/
-
-
-                /*listView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
-                                historicX = event.getX();
-                                historicY = event.getY();
-                                break;
-
-                            case MotionEvent.ACTION_UP:
-                                if (event.getX() - historicX < -DELTA) {
-                                    //FunctionDeleteRowWhenSlidingLeft();
-                                    Toast.makeText(getActivity(), "FunctionDeleteRowWhenSlidingLeft", Toast.LENGTH_SHORT).show();
-                                    return true;
-                                }
-                                else if (event.getX() - historicX > DELTA) {
-                                    //FunctionDeleteRowWhenSlidingRight();
-                                    Toast.makeText(getActivity(), "FunctionDeleteRowWhenSlidingRight", Toast.LENGTH_SHORT).show();
-                                    return true;
-                                }
-                                break;
-
-                            default:
-                                return false;
-                        }
-                        return false;
-                    }
-                });*/
-
-
-
+                //create menu items in swipemenu
                 SwipeMenuCreator swipeCreator = new SwipeMenuCreator() {
                     @Override
                     public void create(SwipeMenu menu) {
-                        // create "open" item
-                        SwipeMenuItem opItem = new SwipeMenuItem(getActivity());
-                        // set item background
-                        opItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                        // create "delete" item
+                        SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
+                        deleteItem.setBackground(R.color.colorDelete);
+                        deleteItem.setWidth(250);
+                        deleteItem.setIcon(R.drawable.ic_delete_forever_black);
+                        menu.addMenuItem(deleteItem);
 
-                        View parent = (View) getView().getParent();
-                        int width = parent.getWidth();
+                       //create "update" item
+                        SwipeMenuItem updateItem = new SwipeMenuItem(getActivity());
+                        updateItem.setBackground(R.color.colorUpdate);
+                        updateItem.setWidth(250);
+                        updateItem.setIcon(R.drawable.ic_create_black);
+                        menu.addMenuItem(updateItem);
 
-                        opItem.setWidth((width));
-                        opItem.setTitle("Open");
-                        opItem.setTitleSize(20);
-                        opItem.setTitleColor(Color.WHITE);
-                        menu.addMenuItem(opItem);
-
-                        /*SwipeMenuItem delItem = new SwipeMenuItem(getActivity());
-                        delItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
-                        delItem.setTitleSize(20);
-                        delItem.setBackground(R.color.colorAccent);
-                        delItem.setWidth((250));
-                        delItem.setTitleColor(Color.WHITE);
-                        delItem.setTitle("Delete");
-                        menu.addMenuItem(delItem);*/
+                        //create "archive" item
+                        SwipeMenuItem archiveItem = new SwipeMenuItem(getActivity());
+                        archiveItem.setBackground(R.color.colorArchive);
+                        archiveItem.setWidth(250);
+                        archiveItem.setIcon(R.drawable.ic_folder_black);
+                        menu.addMenuItem(archiveItem);
                     }
                 };
 
-                SwipeMenuListView listView1 = (SwipeMenuListView) getActivity().findViewById(R.id.listView);
-                listView1.setMenuCreator(swipeCreator);
-                listView1.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
-                listView1.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                swipeMenuListView = (SwipeMenuListView) getActivity().findViewById(R.id.listView);
+                swipeMenuListView.setMenuCreator(swipeCreator);
+                swipeMenuListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
+                //handle swipe menu item clicks
+                swipeMenuListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                         switch (index) {
+
                             case 0:
-                                // open
-                                Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
-                                //Toast.makeText(CustomerListActivity.this,"Position: "+index,Toast.LENGTH_LONG).show();
-                                break;
-                            case 1:
                                 // delete
-                                Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
+                                Snackbar.make(coordinatorLayout, R.string.snackbar_delete_fault, Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.snackbar_delete_fault_yes, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                //deleteFault();
+                                            }
+                                        }).show();
+                                break;
+
+
+                            case 1:
+                                // update
+                                Snackbar.make(coordinatorLayout, "Update", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                break;
+                            case 2:
+                                // archive
+                                //Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
+                                Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
+                                String datefault = c.getString(7);
+                                Snackbar.make(coordinatorLayout, datefault, Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                                 break;
                         }
                         return false;
@@ -379,6 +340,38 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
 
+    //method to delete fault
+    public void deleteFault(String id){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        DeleteFaultRequestInterface deleteFaultRequestInterface = retrofit.create(DeleteFaultRequestInterface.class);
+        DeleteFaultServerRequest deleteFaultServerRequest = new DeleteFaultServerRequest();
+        deleteFaultServerRequest.setId(id);
+        Call<DeleteFaultServerResponse> response = deleteFaultRequestInterface.operation(deleteFaultServerRequest);
+        response.enqueue(new Callback<DeleteFaultServerResponse>() {
+            @Override
+            public void onResponse(Call<DeleteFaultServerResponse> call, retrofit2.Response<DeleteFaultServerResponse> response) {
+                DeleteFaultServerResponse resp = response.body();
+                if(resp.getResult().equals(Constants.SUCCESS)){
+
+
+
+                }else if (resp.getResult().equals(Constants.FAILURE)){
+                    Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
+                }
+                //prgDialog.dismiss();
+            }
+            @Override
+            public void onFailure(Call<DeleteFaultServerResponse> call, Throwable t) {
+                //prgDialog.dismiss();
+                Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+    }
 
 
 
