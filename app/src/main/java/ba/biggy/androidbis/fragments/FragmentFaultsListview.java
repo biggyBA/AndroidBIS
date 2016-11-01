@@ -9,11 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -47,7 +52,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayout.OnRefreshListener  {
+
 
     private ListView listView;
     private TextView faultCount;
@@ -65,7 +71,14 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_faults_listview, container, false);
+        setHasOptionsMenu(true);
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.faults, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -76,27 +89,8 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         faultCount = (TextView) getActivity().findViewById(R.id.tvCount);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
 
-
         //display view depending on users protection level
         displayView(protectionLevel = usersTableController.getUserProtectionLevel1());
-
-
-
-
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-
-
-
-
-
-
-
 
 
     }
@@ -298,26 +292,27 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                     @Override
                     public void create(SwipeMenu menu) {
                         // create "open" item
-                        SwipeMenuItem opItem = new SwipeMenuItem(
-                                getActivity());
+                        SwipeMenuItem opItem = new SwipeMenuItem(getActivity());
                         // set item background
-                        opItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                                0xCE)));
-                        opItem.setWidth((250));
+                        opItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+
+                        View parent = (View) getView().getParent();
+                        int width = parent.getWidth();
+
+                        opItem.setWidth((width));
                         opItem.setTitle("Open");
                         opItem.setTitleSize(20);
                         opItem.setTitleColor(Color.WHITE);
                         menu.addMenuItem(opItem);
-                        SwipeMenuItem delItem = new SwipeMenuItem(
-                                getActivity());
-                        delItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                                0xCE)));
+
+                        /*SwipeMenuItem delItem = new SwipeMenuItem(getActivity());
+                        delItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
                         delItem.setTitleSize(20);
                         delItem.setBackground(R.color.colorAccent);
                         delItem.setWidth((250));
                         delItem.setTitleColor(Color.WHITE);
                         delItem.setTitle("Delete");
-                        menu.addMenuItem(delItem);
+                        menu.addMenuItem(delItem);*/
                     }
                 };
 
@@ -346,8 +341,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
 
-
-
                 break;
 
 
@@ -360,6 +353,15 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 //set the adapter
                 //faultListviewSimpleAdapter = new FaultListviewSimpleAdapter(getActivity(), faultsTableController.getFaultByServiceman());
                 //listView.setAdapter(faultListviewSimpleAdapter);
+
+
+                swipeRefreshLayout.setOnRefreshListener(this);
+                swipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
                 break;
 
 
