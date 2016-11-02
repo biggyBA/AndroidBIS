@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
         displayView(1);
 
 

@@ -65,7 +65,7 @@
     <string name="fragment_faults_listview_faultcount">Otvorenih intervencija:</string>
     <string name="title_activity_settings">Settings</string>
     <string name="snackbar_delete_fault">Dali sigurno želite ukloniti intervenciju?</string>
-    <string name="snackbar_delete_fault_yes">DA</string>
+    <string name="snackbar_delete_fault_yes">UKLONI</string>
 
 
     <!--    -->

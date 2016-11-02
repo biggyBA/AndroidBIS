@@ -262,21 +262,50 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 swipeMenuListView.setMenuCreator(swipeCreator);
                 swipeMenuListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
 
+
+
                 //handle swipe menu item clicks
                 swipeMenuListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
                     @Override
-                    public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                    public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+
+                        //get cursor from selected item
+                        Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
+
+
                         switch (index) {
 
                             case 0:
                                 // delete
-                                Snackbar.make(coordinatorLayout, R.string.snackbar_delete_fault, Snackbar.LENGTH_LONG)
+
+                                StringBuilder builder = new StringBuilder();
+                                builder.append("Username:");
+                                builder.append("\n" + getResources().getString(R.string.snackbar_delete_fault));
+                                builder.append("\n test");
+                                String myString = builder.toString();
+
+                                Snackbar snackbar = Snackbar
+                                        .make(coordinatorLayout, myString, Snackbar.LENGTH_LONG)
                                         .setAction(R.string.snackbar_delete_fault_yes, new View.OnClickListener() {
                                             @Override
-                                            public void onClick(View v) {
-                                                //deleteFault();
+                                            public void onClick(View view) {
+                                                String id = "12999";
+                                                deleteFault(id);
                                             }
-                                        }).show();
+                                        });
+
+                                // Changing message text color
+                                snackbar.setActionTextColor(Color.RED);
+
+                                // Changing action button text color
+                                View sbView = snackbar.getView();
+                                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                                textView.setTextColor(Color.YELLOW);
+                                textView.setMaxLines(10);
+                                snackbar.show();
+
+
+
                                 break;
 
 
@@ -288,7 +317,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                             case 2:
                                 // archive
                                 //Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
-                                Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
+                                //Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
                                 String datefault = c.getString(7);
                                 Snackbar.make(coordinatorLayout, datefault, Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
@@ -357,10 +386,10 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 DeleteFaultServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
-
+                    Snackbar.make(coordinatorLayout, "success", Snackbar.LENGTH_LONG).show();
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
-                    Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, "failure", Snackbar.LENGTH_LONG).show();
                 }
                 //prgDialog.dismiss();
             }

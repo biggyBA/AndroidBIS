@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 public interface DeleteFaultRequestInterface {
 
-    @POST("AndroidBIS/login/login.php")
+    @POST("AndroidBIS/faults/deleteFault.php")
     Call<DeleteFaultServerResponse> operation(@Body DeleteFaultServerRequest request);
 
 
