@@ -1,64 +1,54 @@
 package ba.biggy.androidbis.fragments;
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuLayout;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ba.biggy.androidbis.Constants;
-import ba.biggy.androidbis.LoginActivity;
-import ba.biggy.androidbis.OnSwipeTouchListener;
 import ba.biggy.androidbis.POJO.Fault;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerRequest;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.FaultServerResponse;
-import ba.biggy.androidbis.POJO.retrofitServerObjects.UserServerResponse;
 import ba.biggy.androidbis.R;
-import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
-import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
-import ba.biggy.androidbis.SettingsActivity;
-import ba.biggy.androidbis.TestActivity;
 import ba.biggy.androidbis.adapter.FaultListviewExpandedAdapter;
 import ba.biggy.androidbis.adapter.FaultListviewSimpleAdapter;
+import ba.biggy.androidbis.retrofitInterface.ArchiveFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.DeleteFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
-import ba.biggy.androidbis.retrofitInterface.UserRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,13 +65,12 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     private String protectionLevel, totalFaultCount;
     private ArrayList<Fault> faultData;
     private CoordinatorLayout coordinatorLayout;
+    private ProgressDialog prgDialog;
+    private AlertDialog updateDialog;
     FaultListviewExpandedAdapter faultListviewExpandedAdapter;
     FaultListviewSimpleAdapter faultListviewSimpleAdapter;
     UsersTableController usersTableController = new UsersTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
-    float historicX = Float.NaN, historicY = Float.NaN;
-    static final int DELTA = 50;
-    enum Direction {LEFT, RIGHT;}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -271,56 +260,81 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
                         //get cursor from selected item
                         Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
+                        //id string is needed for webservice
+                        final String id = c.getString(1);
+                        //strings which are shown in the snackbar
+                        String client = c.getString(7);
+                        String place = c.getString(9);
+                        String phone1 = c.getString(10);
+                        String phone2 = c.getString(11);
+                        String faultdescription = c.getString(12);
 
 
                         switch (index) {
 
                             case 0:
                                 // delete
+                                StringBuilder delBuilder = new StringBuilder();
+                                delBuilder.append(getResources().getString(R.string.snackbar_delete_fault));
+                                delBuilder.append("\n" + getResources().getString(R.string.snackbar_delete_fault_client) + " " + client);
+                                delBuilder.append("\n" + getResources().getString(R.string.snackbar_delete_fault_place) + " " + place);
+                                String deleteString = delBuilder.toString();
 
-                                StringBuilder builder = new StringBuilder();
-                                builder.append("Username:");
-                                builder.append("\n" + getResources().getString(R.string.snackbar_delete_fault));
-                                builder.append("\n test");
-                                String myString = builder.toString();
-
-                                Snackbar snackbar = Snackbar
-                                        .make(coordinatorLayout, myString, Snackbar.LENGTH_LONG)
+                                Snackbar delSnackbar = Snackbar
+                                        .make(coordinatorLayout, deleteString, Snackbar.LENGTH_LONG)
                                         .setAction(R.string.snackbar_delete_fault_yes, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                String id = "12999";
                                                 deleteFault(id);
                                             }
                                         });
 
-                                // Changing message text color
-                                snackbar.setActionTextColor(Color.RED);
-
-                                // Changing action button text color
-                                View sbView = snackbar.getView();
-                                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-                                textView.setTextColor(Color.YELLOW);
-                                textView.setMaxLines(10);
-                                snackbar.show();
-
-
+                                // set action button text color
+                                delSnackbar.setActionTextColor(Color.RED);
+                                //set snackbar max lines
+                                View dSbView = delSnackbar.getView();
+                                TextView dSbTv = (TextView) dSbView.findViewById(android.support.design.R.id.snackbar_text);
+                                dSbTv.setMaxLines(5);
+                                delSnackbar.show();
 
                                 break;
 
 
                             case 1:
                                 // update
-                                Snackbar.make(coordinatorLayout, "Update", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+
+                                showUpdateDialog(id, phone1, phone2, faultdescription);
+
+
+
                                 break;
+
+
                             case 2:
                                 // archive
-                                //Toast.makeText(getActivity(), "Index: " + index + " " + "Position: " + position, Toast.LENGTH_LONG).show();
-                                //Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
-                                String datefault = c.getString(7);
-                                Snackbar.make(coordinatorLayout, datefault, Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                StringBuilder arcBuilder = new StringBuilder();
+                                arcBuilder.append(getResources().getString(R.string.snackbar_archive_fault));
+                                arcBuilder.append("\n" + getResources().getString(R.string.snackbar_archive_fault_client) + " " + client);
+                                arcBuilder.append("\n" + getResources().getString(R.string.snackbar_archive_fault_place) + " " + place);
+                                String archiveString = arcBuilder.toString();
+
+                                Snackbar arcSnackbar = Snackbar
+                                        .make(coordinatorLayout, archiveString, Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.snackbar_archive_fault_yes, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                archiveFault(id);
+                                            }
+                                        });
+
+                                // set action button text color
+                                arcSnackbar.setActionTextColor(Color.GREEN);
+                                //set snackbar max lines
+                                View aSbView = arcSnackbar.getView();
+                                TextView aSbTv = (TextView) aSbView.findViewById(android.support.design.R.id.snackbar_text);
+                                aSbTv.setMaxLines(5);
+                                arcSnackbar.show();
+
                                 break;
                         }
                         return false;
@@ -370,8 +384,11 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     //method to delete fault
-    public void deleteFault(String id){
-
+    public void deleteFault(final String id){
+        prgDialog = new ProgressDialog(getActivity());
+        prgDialog.setMessage(getResources().getString(R.string.prgDialog_deleting));
+        prgDialog.setCancelable(false);
+        prgDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -386,23 +403,125 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 DeleteFaultServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
-                    Snackbar.make(coordinatorLayout, "success", Snackbar.LENGTH_LONG).show();
+                    //delete the archived fault from local sql table
+                    faultsTableController.deleteFault(id);
+
+                    //refresh fragment
+                    Fragment newFragment = new FragmentFaultsListview();
+                    FragmentTransaction tr = getFragmentManager().beginTransaction();
+                    tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    tr.replace(R.id.content_main, newFragment);
+                    tr.commit();
+
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_delete_success, Snackbar.LENGTH_LONG).show();
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
-                    Snackbar.make(coordinatorLayout, "failure", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_delete_failure, Snackbar.LENGTH_LONG).show();
                 }
-                //prgDialog.dismiss();
+                prgDialog.dismiss();
             }
             @Override
             public void onFailure(Call<DeleteFaultServerResponse> call, Throwable t) {
-                //prgDialog.dismiss();
-                Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                prgDialog.dismiss();
+                Snackbar.make(coordinatorLayout, R.string.snackbar_delete_error, Snackbar.LENGTH_LONG).show();
             }
         });
 
     }
 
 
+    //method to archive fault
+    public void archiveFault(final String id){
+        prgDialog = new ProgressDialog(getActivity());
+        prgDialog.setMessage(getResources().getString(R.string.prgDialog_archiving));
+        prgDialog.setCancelable(false);
+        prgDialog.show();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ArchiveFaultRequestInterface archiveFaultRequestInterface = retrofit.create(ArchiveFaultRequestInterface.class);
+        ArchiveFaultServerRequest archiveFaultServerRequest = new ArchiveFaultServerRequest();
+        archiveFaultServerRequest.setId(id);
+        Call<ArchiveFaultServerResponse> response = archiveFaultRequestInterface.operation(archiveFaultServerRequest);
+        response.enqueue(new Callback<ArchiveFaultServerResponse>() {
+            @Override
+            public void onResponse(Call<ArchiveFaultServerResponse> call, retrofit2.Response<ArchiveFaultServerResponse> response) {
+                ArchiveFaultServerResponse resp = response.body();
+                if(resp.getResult().equals(Constants.SUCCESS)){
+
+                    //delete the archived fault from local sql table
+                    faultsTableController.deleteFault(id);
+
+                    //refresh fragment
+                    Fragment newFragment = new FragmentFaultsListview();
+                    FragmentTransaction tr = getFragmentManager().beginTransaction();
+                    tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    tr.replace(R.id.content_main, newFragment);
+                    tr.commit();
+
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_archive_success, Snackbar.LENGTH_LONG).show();
+
+                }else if (resp.getResult().equals(Constants.FAILURE)){
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_archive_failure, Snackbar.LENGTH_LONG).show();
+                }
+                prgDialog.dismiss();
+            }
+            @Override
+            public void onFailure(Call<ArchiveFaultServerResponse> call, Throwable t) {
+                prgDialog.dismiss();
+                Snackbar.make(coordinatorLayout, R.string.snackbar_archive_error, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+
+    private void showUpdateDialog(String id, String phone1, String phone2, String faultDescription){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_update_fault, null);
+        Spinner spinnerServiceman = (Spinner) view.findViewById(R.id.spinnerServiceman);
+        EditText etPhone1 = (EditText) view.findViewById(R.id.etPhone1);
+        EditText etPhone2 = (EditText) view.findViewById(R.id.etPhone2);
+        EditText etFaultDescription = (EditText) view.findViewById(R.id.etFaultDescription);
+
+        //spinner.setSelection ( spinner_array_list.indexOf(string) );
+        /*Spinner my_spinner=(Spinner)findViewById(R.id.spn_items);
+        ArrayAdapter<String> array_spinner=(ArrayAdapter<String>)my_spinner.getAdapter();
+        my_spinner.setSelection(array_spinner.getPosition("list item"));*/
+        etPhone1.setText(phone1);
+        etPhone2.setText(phone2);
+        etFaultDescription.setText(faultDescription);
+
+
+        builder.setView(view);
+        builder.setTitle(R.string.dialog_update_title);
+        builder.setPositiveButton(R.string.dialog_update_positiveButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton(R.string.dialog_update_negativeButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        updateDialog = builder.create();
+        updateDialog.show();
+        updateDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });
+
+    }
 
 
 

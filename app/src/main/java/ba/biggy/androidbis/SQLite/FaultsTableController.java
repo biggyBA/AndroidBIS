@@ -158,6 +158,13 @@ public class FaultsTableController {
         db.close();
     }
 
+    public void deleteFault(String id){
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String buildSQL = "DELETE FROM " + tableName + " WHERE " + idColumn + " = '"+id+"'";
+        db.execSQL(buildSQL);
+        db.close();
+    }
+
 
     public String getTotalFaultCount(){
         int count = 0;

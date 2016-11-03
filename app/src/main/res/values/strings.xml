@@ -63,9 +63,31 @@
     <!-- Fragment faults listview  -->
     <!--    -->
     <string name="fragment_faults_listview_faultcount">Otvorenih intervencija:</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="snackbar_delete_fault">Dali sigurno želite ukloniti intervenciju?</string>
+    <string name="snackbar_delete_fault_client">Klijent:</string>
+    <string name="snackbar_delete_fault_place">Mjesto:</string>
     <string name="snackbar_delete_fault_yes">UKLONI</string>
+    <string name="prgDialog_deleting">Uklanjam intervenciju…</string>
+    <string name="snackbar_delete_success">Intervencija uspješno uklonjena</string>
+    <string name="snackbar_delete_failure">Došlo je do greške. Pokušajte ponovo.</string>
+    <string name="snackbar_delete_error">Došlo je do greške. Provjerite internet vezu.</string>
+
+    <string name="dialog_update_title">Izmijeni intervenciju</string>
+    <string name="dialog_update_positiveButton">IZMIJENI</string>
+    <string name="dialog_update_negativeButton">ODUSTANI</string>
+    <string name="dialog_update_phone1">Kontakt broj 1</string>
+    <string name="dialog_update_phone2">Kontakt broj 2</string>
+    <string name="dialog_update_faultdescription">Opis kvara</string>
+
+
+    <string name="snackbar_archive_fault">Dali sigurno želite arhivirati intervenciju?</string>
+    <string name="snackbar_archive_fault_client">Klijent:</string>
+    <string name="snackbar_archive_fault_place">Mjesto:</string>
+    <string name="snackbar_archive_fault_yes">ARHIVIRAJ</string>
+    <string name="prgDialog_archiving">Arhiviram intervenciju…</string>
+    <string name="snackbar_archive_success">Intervencija uspješno arhivirana</string>
+    <string name="snackbar_archive_failure">Došlo je do greške. Pokušajte ponovo.</string>
+    <string name="snackbar_archive_error">Došlo je do greške. Provjerite internet vezu.</string>
 
 
     <!--    -->
@@ -84,6 +106,7 @@
     <!--    -->
     <!-- Settings activity  -->
     <!--    -->
+    <string name="title_activity_settings">Settings</string>
     <string name="settings_activity_title">Postavke</string>
     <string name="settings_faultsview">Prikaži intervencije kao</string>
     <string name="settings_general">Opšte postavke</string>
