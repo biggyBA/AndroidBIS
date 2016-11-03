@@ -78,7 +78,10 @@
     <string name="dialog_update_phone1">Kontakt broj 1</string>
     <string name="dialog_update_phone2">Kontakt broj 2</string>
     <string name="dialog_update_faultdescription">Opis kvara</string>
-
+    <string name="prgDialog_updating">Mijenjam intervenciju…</string>
+    <string name="snackbar_update_success">Intervencija uspješno izmijenjena</string>
+    <string name="snackbar_update_failure">Došlo je do greške. Pokušajte ponovo.</string>
+    <string name="snackbar_update_error">Došlo je do greške. Provjerite internet vezu.</string>
 
     <string name="snackbar_archive_fault">Dali sigurno želite arhivirati intervenciju?</string>
     <string name="snackbar_archive_fault_client">Klijent:</string>

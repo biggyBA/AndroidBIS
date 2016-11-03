@@ -26,7 +26,7 @@ public class Constants {
     //Protection levels
     public static final String PROTECTION_LEVEL_ADMIN = "Admin";
     public static final String PROTECTION_LEVEL_VIEWER = "Viewer";
-    public static final String PROTECTION_LEVEL_USER = "User";
+    public static final String PROTECTION_LEVEL_USER = "Serviceman";
 
 
     //MySQL status info

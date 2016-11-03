@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -33,6 +34,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Fault;
@@ -41,6 +43,8 @@ import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerResponse
 import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.FaultServerResponse;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.UpdateFaultServerRequest;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.UpdateFaultServerResponse;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
@@ -49,6 +53,7 @@ import ba.biggy.androidbis.adapter.FaultListviewSimpleAdapter;
 import ba.biggy.androidbis.retrofitInterface.ArchiveFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.DeleteFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
+import ba.biggy.androidbis.retrofitInterface.UpdateFaultRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -268,6 +273,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                         String phone1 = c.getString(10);
                         String phone2 = c.getString(11);
                         String faultdescription = c.getString(12);
+                        String serviceman = c.getString(14);
 
 
                         switch (index) {
@@ -302,10 +308,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
                             case 1:
                                 // update
-
-                                showUpdateDialog(id, phone1, phone2, faultdescription);
-
-
+                                showUpdateDialog(id, serviceman, phone1, phone2, faultdescription);
 
                                 break;
 
@@ -348,16 +351,68 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 break;
 
 
+            //if the protection level is serviceman show this view and options
             case Constants.PROTECTION_LEVEL_USER:
+
+                //user with serviceman level has additional toolbar items
+                setHasOptionsMenu(true);
+
+                //disable the swipe refresh layout
+                swipeRefreshLayout.setEnabled(false);
 
                 //set the fault count for normal user
                 totalFaultCount = faultsTableController.getFaultCountByServiceman();
                 faultCount.setText(totalFaultCount);
 
                 //set the adapter
-                //faultListviewSimpleAdapter = new FaultListviewSimpleAdapter(getActivity(), faultsTableController.getFaultByServiceman());
-                //listView.setAdapter(faultListviewSimpleAdapter);
+                faultListviewSimpleAdapter = new FaultListviewSimpleAdapter(getActivity(), faultsTableController.getFaultByServiceman());
+                listView.setAdapter(faultListviewSimpleAdapter);
 
+                //get details from cursor and show them in FragmentFaultsListviewDetail
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                        //get cursor from selected item
+                        Cursor c = (Cursor) listView.getItemAtPosition(position);
+                        //get strings from cursor
+                        String datefault = c.getString(2);
+                        String timefault = c.getString(3);
+                        String client = c.getString(7);
+                        String address = c.getString(8);
+                        String place = c.getString(9);
+                        String phone1 = c.getString(10);
+                        String phone2 = c.getString(11);
+                        String descfault = c.getString(12);
+                        String note = c.getString(13);
+                        c.close();
+
+                        Fragment newFragment = new FragmentFaultsListviewDetail();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("datefault", datefault);
+                        bundle.putString("timefault", timefault);
+                        bundle.putString("client", client);
+                        bundle.putString("address", address);
+                        bundle.putString("place", place);
+                        bundle.putString("phone1", phone1);
+                        bundle.putString("phone2", phone2);
+                        bundle.putString("descfault", descfault);
+                        bundle.putString("note", note);
+                        newFragment.setArguments(bundle);
+
+                        FragmentTransaction tr = getFragmentManager().beginTransaction();
+                        tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                        tr.replace(R.id.content_main, newFragment);
+                        tr.addToBackStack(null);
+                        tr.commit();
+                    }
+                });
+
+
+
+                break;
+
+
+            case Constants.PROTECTION_LEVEL_VIEWER:
 
                 swipeRefreshLayout.setOnRefreshListener(this);
                 swipeRefreshLayout.post(new Runnable() {
@@ -366,10 +421,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
                     }
                 });
-                break;
-
-
-            case Constants.PROTECTION_LEVEL_VIEWER:
 
                 break;
 
@@ -384,7 +435,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     //method to delete fault
-    public void deleteFault(final String id){
+    private void deleteFault(final String id){
         prgDialog = new ProgressDialog(getActivity());
         prgDialog.setMessage(getResources().getString(R.string.prgDialog_deleting));
         prgDialog.setCancelable(false);
@@ -413,12 +464,14 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                     tr.replace(R.id.content_main, newFragment);
                     tr.commit();
 
+                    prgDialog.dismiss();
                     Snackbar.make(coordinatorLayout, R.string.snackbar_delete_success, Snackbar.LENGTH_LONG).show();
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
+                    prgDialog.dismiss();
                     Snackbar.make(coordinatorLayout, R.string.snackbar_delete_failure, Snackbar.LENGTH_LONG).show();
                 }
-                prgDialog.dismiss();
+
             }
             @Override
             public void onFailure(Call<DeleteFaultServerResponse> call, Throwable t) {
@@ -431,7 +484,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     //method to archive fault
-    public void archiveFault(final String id){
+    private void archiveFault(final String id){
         prgDialog = new ProgressDialog(getActivity());
         prgDialog.setMessage(getResources().getString(R.string.prgDialog_archiving));
         prgDialog.setCancelable(false);
@@ -460,12 +513,14 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                     tr.replace(R.id.content_main, newFragment);
                     tr.commit();
 
+                    prgDialog.dismiss();
                     Snackbar.make(coordinatorLayout, R.string.snackbar_archive_success, Snackbar.LENGTH_LONG).show();
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
+                    prgDialog.dismiss();
                     Snackbar.make(coordinatorLayout, R.string.snackbar_archive_failure, Snackbar.LENGTH_LONG).show();
                 }
-                prgDialog.dismiss();
+
             }
             @Override
             public void onFailure(Call<ArchiveFaultServerResponse> call, Throwable t) {
@@ -477,19 +532,23 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     }
 
 
-    private void showUpdateDialog(String id, String phone1, String phone2, String faultDescription){
+    private void showUpdateDialog(final String id, String serviceman, String phone1, String phone2, String faultDescription){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_update_fault, null);
-        Spinner spinnerServiceman = (Spinner) view.findViewById(R.id.spinnerServiceman);
-        EditText etPhone1 = (EditText) view.findViewById(R.id.etPhone1);
-        EditText etPhone2 = (EditText) view.findViewById(R.id.etPhone2);
-        EditText etFaultDescription = (EditText) view.findViewById(R.id.etFaultDescription);
+        final Spinner spinnerServiceman = (Spinner) view.findViewById(R.id.spinnerServiceman);
+        final EditText etPhone1 = (EditText) view.findViewById(R.id.etPhone1);
+        final EditText etPhone2 = (EditText) view.findViewById(R.id.etPhone2);
+        final EditText etFaultDescription = (EditText) view.findViewById(R.id.etFaultDescription);
 
-        //spinner.setSelection ( spinner_array_list.indexOf(string) );
-        /*Spinner my_spinner=(Spinner)findViewById(R.id.spn_items);
-        ArrayAdapter<String> array_spinner=(ArrayAdapter<String>)my_spinner.getAdapter();
-        my_spinner.setSelection(array_spinner.getPosition("list item"));*/
+        //populate spinner from userstable usernames with protection level serviceman
+        List<String> lables = usersTableController.getAllServiceman();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, lables);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerServiceman.setAdapter(dataAdapter);
+        //set the selection of serviceman
+        spinnerServiceman.setSelection(lables.indexOf(serviceman));
+        //set phone numbers and fault description
         etPhone1.setText(phone1);
         etPhone2.setText(phone2);
         etFaultDescription.setText(faultDescription);
@@ -516,7 +575,12 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
             @Override
             public void onClick(View v) {
 
-
+                String newServiceman = spinnerServiceman.getSelectedItem().toString().trim();
+                String newPhone1 = etPhone1.getText().toString().trim();
+                String newPhone2 = etPhone2.getText().toString().trim();
+                String newFaultDescription = etFaultDescription.getText().toString().trim();
+                updateFault(id, newServiceman, newPhone1, newPhone2, newFaultDescription);
+                updateDialog.dismiss();
 
             }
         });
@@ -524,6 +588,71 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     }
 
 
+    //method to update fault
+    private void updateFault(String id, String serviceman, String phone1, String phone2, String faultDescripton){
+
+        prgDialog = new ProgressDialog(getActivity());
+        prgDialog.setMessage(getResources().getString(R.string.prgDialog_updating));
+        prgDialog.setCancelable(false);
+        prgDialog.show();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        UpdateFaultRequestInterface updateFaultRequestInterface = retrofit.create(UpdateFaultRequestInterface.class);
+        UpdateFaultServerRequest updateFaultServerRequest = new UpdateFaultServerRequest();
+        updateFaultServerRequest.setId(id);
+        updateFaultServerRequest.setServiceman(serviceman);
+        updateFaultServerRequest.setPhone1(phone1);
+        updateFaultServerRequest.setPhone2(phone2);
+        updateFaultServerRequest.setFaultDescription(faultDescripton);
+
+        Call<UpdateFaultServerResponse> response = updateFaultRequestInterface.operation(updateFaultServerRequest);
+        response.enqueue(new Callback<UpdateFaultServerResponse>() {
+            @Override
+            public void onResponse(Call<UpdateFaultServerResponse> call, retrofit2.Response<UpdateFaultServerResponse> response) {
+                UpdateFaultServerResponse resp = response.body();
+
+                if(resp.getResult().equals(Constants.SUCCESS)){
+
+                    /*
+                    *
+                    *
+                    *
+                    *
+                    *need to insert method to update local database
+                    *
+                    *
+                    *
+                    *
+                    *
+                    *
+                     */
+
+                    //refresh fragment
+                    Fragment newFragment = new FragmentFaultsListview();
+                    FragmentTransaction tr = getFragmentManager().beginTransaction();
+                    tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    tr.replace(R.id.content_main, newFragment);
+                    tr.commit();
+
+                    prgDialog.dismiss();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_update_success, Snackbar.LENGTH_LONG).show();
+
+                }else if (resp.getResult().equals(Constants.FAILURE)){
+                    prgDialog.dismiss();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_update_failure, Snackbar.LENGTH_LONG).show();
+                }
+
+            }
+            @Override
+            public void onFailure(Call<UpdateFaultServerResponse> call, Throwable t) {
+                prgDialog.dismiss();
+                Snackbar.make(coordinatorLayout, R.string.snackbar_update_error, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+    }
 
 
 

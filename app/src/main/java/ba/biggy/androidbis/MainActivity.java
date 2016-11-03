@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-
         displayView(1);
 
 

@@ -5,6 +5,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.User;
 
 public class UsersTableController {
@@ -122,6 +126,23 @@ public class UsersTableController {
     public String getCountry(){
         String country = this.getCurrentUserDetails().getString(8).trim();
         return country;
+    }
+
+
+    public List<String> getAllServiceman(){
+        List<String> labels = new ArrayList<String>();
+        String plServiceman = Constants.PROTECTION_LEVEL_USER;
+        String selectQuery = "SELECT * FROM " + tableName + " WHERE " + protectionlevel1Column + "  = '"+plServiceman+"'";
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                labels.add(cursor.getString(1).toUpperCase());
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        database.close();
+        return labels;
     }
 
 
