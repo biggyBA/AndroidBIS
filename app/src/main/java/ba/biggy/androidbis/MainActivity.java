@@ -19,6 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.CurrentUserTableController;
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences pref;
-    private FloatingActionButton fab;
+    private FloatingActionButton fab, fab1, fab2;
+    private Boolean isFabOpen = false;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
     CurrentUserTableController currentUserTableController = new CurrentUserTableController();
     UsersTableController usersTableController = new UsersTableController();
     SparepartListTableController sparepartListTableController = new SparepartListTableController();
@@ -65,14 +70,39 @@ public class MainActivity extends AppCompatActivity
             //if protection level is admin show the fab
             if (usersTableController.getUserProtectionLevel1().equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
                 fab = (FloatingActionButton) findViewById(R.id.fab);
+                fab1 = (FloatingActionButton)findViewById(R.id.fab1);
+                fab2 = (FloatingActionButton)findViewById(R.id.fab2);
+                fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+                fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+                rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+                rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
+
                 fab.setVisibility(View.VISIBLE);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        animateFAB();
                     }
                 });
+
+
+                fab1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        animateFAB();
+                    }
+                });
+
+
+                fab2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        animateFAB();
+                    }
+                });
+
+
             }
 
 
@@ -216,4 +246,28 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle(title);
         }
     }
+
+
+
+    public void animateFAB(){
+        if(isFabOpen){
+            fab.startAnimation(rotate_backward);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab.startAnimation(rotate_forward);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
+
+
+
 }
