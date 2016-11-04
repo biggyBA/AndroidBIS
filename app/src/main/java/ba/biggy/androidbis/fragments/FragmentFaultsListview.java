@@ -226,7 +226,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
                 //create menu items in swipemenu
-                SwipeMenuCreator swipeCreator = new SwipeMenuCreator() {
+                SwipeMenuCreator adminSwipeCreator = new SwipeMenuCreator() {
                     @Override
                     public void create(SwipeMenu menu) {
                         // create "delete" item
@@ -253,7 +253,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 };
 
                 swipeMenuListView = (SwipeMenuListView) getActivity().findViewById(R.id.listView);
-                swipeMenuListView.setMenuCreator(swipeCreator);
+                swipeMenuListView.setMenuCreator(adminSwipeCreator);
                 swipeMenuListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
 
 
@@ -408,11 +408,179 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 });
 
 
+                //create menu items in swipemenu
+                SwipeMenuCreator userSwipeCreator = new SwipeMenuCreator() {
+                    @Override
+                    public void create(SwipeMenu menu) {
+                        // create "delete" item
+                        SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
+                        deleteItem.setBackground(R.color.colorDelete);
+                        deleteItem.setWidth(250);
+                        deleteItem.setIcon(R.drawable.ic_clear_black);
+                        menu.addMenuItem(deleteItem);
+
+                        //create "archive" item
+                        SwipeMenuItem archiveItem = new SwipeMenuItem(getActivity());
+                        archiveItem.setBackground(R.color.colorArchive);
+                        archiveItem.setWidth(250);
+                        archiveItem.setIcon(R.drawable.ic_done_black);
+                        menu.addMenuItem(archiveItem);
+                    }
+                };
+
+                swipeMenuListView = (SwipeMenuListView) getActivity().findViewById(R.id.listView);
+                swipeMenuListView.setMenuCreator(userSwipeCreator);
+                swipeMenuListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
+
+                //handle swipe menu item clicks
+                swipeMenuListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+
+                        //get cursor from selected item
+                        Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
+                        //id string is needed for webservice
+                        final String id = c.getString(1);
+                        //strings which are shown in the snackbar
+                        String client = c.getString(7);
+                        String place = c.getString(9);
+
+
+                        switch (index) {
+
+                            case 0:
+                                // delete
+                                StringBuilder userDelBuilder = new StringBuilder();
+                                userDelBuilder.append(getResources().getString(R.string.snackbar_delete_fault));
+                                userDelBuilder.append("\n" + getResources().getString(R.string.snackbar_delete_fault_client) + " " + client);
+                                userDelBuilder.append("\n" + getResources().getString(R.string.snackbar_delete_fault_place) + " " + place);
+                                String deleteString = userDelBuilder.toString();
+
+                                Snackbar delSnackbar = Snackbar
+                                        .make(coordinatorLayout, deleteString, Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.snackbar_delete_fault_yes, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                //delete fault from local sql table
+                                                faultsTableController.deleteFault(id);
+
+                                                //refresh fragment
+                                                Fragment newFragment = new FragmentFaultsListview();
+                                                FragmentTransaction tr = getFragmentManager().beginTransaction();
+                                                tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                                                tr.replace(R.id.content_main, newFragment);
+                                                tr.commit();
+                                            }
+                                        });
+
+                                // set action button text color
+                                delSnackbar.setActionTextColor(Color.RED);
+                                //set snackbar max lines
+                                View dSbView = delSnackbar.getView();
+                                TextView dSbTv = (TextView) dSbView.findViewById(android.support.design.R.id.snackbar_text);
+                                dSbTv.setMaxLines(5);
+                                delSnackbar.show();
+
+                                break;
+
+
+                            case 1:
+                                // archive
+                                StringBuilder userArcBuilder = new StringBuilder();
+                                userArcBuilder.append(getResources().getString(R.string.snackbar_archive_fault));
+                                userArcBuilder.append("\n" + getResources().getString(R.string.snackbar_archive_fault_client) + " " + client);
+                                userArcBuilder.append("\n" + getResources().getString(R.string.snackbar_archive_fault_place) + " " + place);
+                                String archiveString = userArcBuilder.toString();
+
+                                Snackbar arcSnackbar = Snackbar
+                                        .make(coordinatorLayout, archiveString, Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.snackbar_archive_fault_yes, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                //delete fault from local sql table
+                                                faultsTableController.deleteFault(id);
+
+                                                //refresh fragment
+                                                Fragment newFragment = new FragmentFaultsListview();
+                                                FragmentTransaction tr = getFragmentManager().beginTransaction();
+                                                tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                                                tr.replace(R.id.content_main, newFragment);
+                                                tr.commit();
+
+                                            }
+                                        });
+
+                                // set action button text color
+                                arcSnackbar.setActionTextColor(Color.GREEN);
+                                //set snackbar max lines
+                                View aSbView = arcSnackbar.getView();
+                                TextView aSbTv = (TextView) aSbView.findViewById(android.support.design.R.id.snackbar_text);
+                                aSbTv.setMaxLines(5);
+                                arcSnackbar.show();
+
+                                break;
+
+                        }
+                        return false;
+                    }
+                });
+
+
 
                 break;
 
 
+            //if the protection level is viewer show this view and options
             case Constants.PROTECTION_LEVEL_VIEWER:
+
+                //set the total fault count
+                totalFaultCount = faultsTableController.getTotalFaultCount();
+                faultCount.setText(totalFaultCount);
+
+                //set the adapter
+                faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
+                listView.setAdapter(faultListviewExpandedAdapter);
+
+                //get details from cursor and show them in FragmentFaultsListviewDetail
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                        //get cursor from selected item
+                        Cursor c = (Cursor) listView.getItemAtPosition(position);
+                        //get strings from cursor
+                        String datefault = c.getString(2);
+                        String timefault = c.getString(3);
+                        String client = c.getString(7);
+                        String address = c.getString(8);
+                        String place = c.getString(9);
+                        String phone1 = c.getString(10);
+                        String phone2 = c.getString(11);
+                        String descfault = c.getString(12);
+                        String note = c.getString(13);
+                        c.close();
+
+                        Fragment newFragment = new FragmentFaultsListviewDetail();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("datefault", datefault);
+                        bundle.putString("timefault", timefault);
+                        bundle.putString("client", client);
+                        bundle.putString("address", address);
+                        bundle.putString("place", place);
+                        bundle.putString("phone1", phone1);
+                        bundle.putString("phone2", phone2);
+                        bundle.putString("descfault", descfault);
+                        bundle.putString("note", note);
+                        newFragment.setArguments(bundle);
+
+                        FragmentTransaction tr = getFragmentManager().beginTransaction();
+                        tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                        tr.replace(R.id.content_main, newFragment);
+                        tr.addToBackStack(null);
+                        tr.commit();
+                    }
+                });
+
 
                 swipeRefreshLayout.setOnRefreshListener(this);
                 swipeRefreshLayout.post(new Runnable() {
@@ -589,7 +757,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     //method to update fault
-    private void updateFault(String id, String serviceman, String phone1, String phone2, String faultDescripton){
+    private void updateFault(final String id, final String serviceman, final String phone1, final String phone2, final String faultDescripton){
 
         prgDialog = new ProgressDialog(getActivity());
         prgDialog.setMessage(getResources().getString(R.string.prgDialog_updating));
@@ -615,19 +783,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
-                    /*
-                    *
-                    *
-                    *
-                    *
-                    *need to insert method to update local database
-                    *
-                    *
-                    *
-                    *
-                    *
-                    *
-                     */
+                    faultsTableController.updateFault(id, serviceman, phone1, phone2, faultDescripton);
 
                     //refresh fragment
                     Fragment newFragment = new FragmentFaultsListview();

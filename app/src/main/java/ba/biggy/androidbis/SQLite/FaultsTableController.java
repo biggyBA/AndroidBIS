@@ -206,6 +206,16 @@ public class FaultsTableController {
         return db.rawQuery(buildSQL, null);
     }
 
+    public void updateFault(String id, String serviceman, String phone1, String phone2, String faultDescripton){
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String buildSQL = "UPDATE " + tableName + " SET " + responsibleforfailureColumn + " = '"+serviceman+"' ,"
+                                                            + phoneNumberColumn + " = '"+phone1+"' ,"
+                                                            + phoneNumber2Column + " = '"+phone2+"' ,"
+                                                            + descFaultsColumn + " = '"+faultDescripton+"' "
+                                                            + " WHERE " + idColumn + " = '"+id+"'";
+        db.execSQL(buildSQL);
+        db.close();
+    }
 
 
 
