@@ -57,6 +57,7 @@
     <string name="fragment_title_servicesheet">Servini list</string>
     <string name="fragment_title_checkproduct">Provjeri proizvod</string>
     <string name="fragment_title_searcharchive">Pretraži arhivu</string>
+    <string name="fragment_title_addfault">Prijavi intervenciju</string>
 
 
     <!--    -->
@@ -105,6 +106,21 @@
     <string name="fragment_faults_listview_details_phone2">Kontakt broj 2:</string>
     <string name="fragment_faults_listview_details_description">Opis kvara:</string>
     <string name="fragment_faults_listview_details_note">Napomena:</string>
+
+
+    <!--    -->
+    <!-- Fragment add fault  -->
+    <!--    -->
+    <string name="fragment_addfault_sn">Serijski broj</string>
+    <string name="fragment_addfault_client">Klijent</string>
+    <string name="fragment_addfault_address">Adresa</string>
+    <string name="fragment_addfault_place">Mjesto</string>
+    <string name="fragment_addfault_phone1">Kontakt broj 1</string>
+    <string name="fragment_addfault_phone2">Kontakt broj 2</string>
+    <string name="fragment_addfault_faultDescription">Opis kvara</string>
+    <string name="fragment_addfault_note">Napomena</string>
+    <string name="fragment_addfault_btnAddFault">PRIJAVI INTERVENCIJU</string>
+
 
     <!--    -->
     <!-- Settings activity  -->

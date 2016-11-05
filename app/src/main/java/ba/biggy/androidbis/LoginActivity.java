@@ -82,8 +82,8 @@ public class LoginActivity extends AppCompatActivity {
         sparepartListTableController = new SparepartListTableController();
 
 
-        //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        //pref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);

@@ -5,6 +5,7 @@ package ba.biggy.androidbis.fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -72,16 +73,22 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     private CoordinatorLayout coordinatorLayout;
     private ProgressDialog prgDialog;
     private AlertDialog updateDialog;
+    private SharedPreferences pref;
+    private int lvPosition;
     FaultListviewExpandedAdapter faultListviewExpandedAdapter;
     FaultListviewSimpleAdapter faultListviewSimpleAdapter;
     UsersTableController usersTableController = new UsersTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_faults_listview, container, false);
         return rootView;
     }
+
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -100,16 +107,28 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     @Override
+    public void onPause(){
+        super.onPause();
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(Constants.SP_LISTVIEW_POSITION, listView.getFirstVisiblePosition());
+        editor.apply();
+    }
+
+
+
+
+    @Override
     public void onStart(){
         super.onStart();
-
         listView = (ListView) getActivity().findViewById(R.id.listView);
         faultCount = (TextView) getActivity().findViewById(R.id.tvCount);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinatorLayout);
+        pref = getActivity().getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
+        lvPosition = pref.getInt(Constants.SP_LISTVIEW_POSITION, 0);
         //display view depending on users protection level
-        displayView(protectionLevel = usersTableController.getUserProtectionLevel1());
+        displayView(usersTableController.getUserProtectionLevel1());
 
 
     }
@@ -164,7 +183,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
 
-
     private void displayView (String protectionLevel){
         switch (protectionLevel){
 
@@ -184,6 +202,9 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 //set the adapter
                 faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
                 listView.setAdapter(faultListviewExpandedAdapter);
+
+                listView.setSelection(lvPosition);
+
 
                 //get details from cursor and show them in FragmentFaultsListviewDetail
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

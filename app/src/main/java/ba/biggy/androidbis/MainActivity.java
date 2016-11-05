@@ -28,6 +28,7 @@ import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
 import ba.biggy.androidbis.SQLite.SparepartListTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
+import ba.biggy.androidbis.fragments.FragmentAddFault;
 import ba.biggy.androidbis.fragments.FragmentCheckProduct;
 import ba.biggy.androidbis.fragments.FragmentFaultsCardview;
 import ba.biggy.androidbis.fragments.FragmentFaultsExpandableListview;
@@ -38,7 +39,7 @@ import ba.biggy.androidbis.fragments.FragmentServicesheet;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private SharedPreferences pref;
+    private SharedPreferences pref, sPref;
     private FloatingActionButton fab, fab1, fab2;
     private Boolean isFabOpen = false;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        sPref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         displayView(1);
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         animateFAB();
+                        showAddFaultFragment();
                     }
                 });
 
@@ -116,6 +118,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -196,7 +204,7 @@ public class MainActivity extends AppCompatActivity
 
             case 1:
                 //get the set value from settings
-                String view = pref.getString(Constants.SP_FAULTSVIEW, "");
+                String view = sPref.getString(Constants.SP_FAULTSVIEW, "");
                 int currentValue = 1;
                 if (view!=""){
                 currentValue = Integer.parseInt(view);}
@@ -265,6 +273,21 @@ public class MainActivity extends AppCompatActivity
             fab2.setClickable(true);
             isFabOpen = true;
         }
+    }
+
+
+    private void showAddFaultFragment(){
+        Fragment fragment = new FragmentAddFault();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+        String title = getString(R.string.fragment_title_addfault);
+        //set the toolbar title
+        getSupportActionBar().setTitle(title);
     }
 
 

@@ -20,6 +20,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         addPreferencesFromResource(R.xml.settings);
 
+        //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
