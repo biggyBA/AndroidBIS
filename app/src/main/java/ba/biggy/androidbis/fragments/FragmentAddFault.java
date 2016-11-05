@@ -10,18 +10,40 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import ba.biggy.androidbis.Constants;
+import ba.biggy.androidbis.POJO.Fault;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.AddFaultServerRequest;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.AddFaultServerResponse;
 import ba.biggy.androidbis.R;
+import ba.biggy.androidbis.SQLite.CurrentUserTableController;
+import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
+import ba.biggy.androidbis.global.DateMethods;
+import ba.biggy.androidbis.global.TimeMethods;
+import ba.biggy.androidbis.retrofitInterface.AddFaultRequestInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FragmentAddFault extends Fragment {
+public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
     private EditText etSN, etClient, etAddress, etPlace, etPhone1, etPhone2, etFaultDescription, etNote;
     private Spinner spinnerProductType, spinnerServiceman;
     private Button btnAddFault;
+    private ArrayList<Fault> faultData;
     UsersTableController usersTableController = new UsersTableController();
+    CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+    FaultsTableController faultsTableController = new FaultsTableController();
+    DateMethods dateMethods = new DateMethods();
+    TimeMethods timeMethods = new TimeMethods();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +69,28 @@ public class FragmentAddFault extends Fragment {
 
         btnAddFault = (Button) getActivity().findViewById(R.id.btnAddFault);
 
+        //populate product type spinner with data
+        List<String> spinnerProductTypeArray =  new ArrayList<String>();
+        spinnerProductTypeArray.add("7,5 kW");
+        spinnerProductTypeArray.add("10,5 kW Voda");
+        spinnerProductTypeArray.add("10,5 kW Zrak");
+        spinnerProductTypeArray.add("11 kW");
+        spinnerProductTypeArray.add("18 kW");
+        spinnerProductTypeArray.add("33 kW");
+        spinnerProductTypeArray.add("20 kW");
+        spinnerProductTypeArray.add("35 kW");
+        spinnerProductTypeArray.add("50 kW");
+        spinnerProductTypeArray.add("75 kW");
+        spinnerProductTypeArray.add("100 kW");
+        spinnerProductTypeArray.add("150 kW");
+        spinnerProductTypeArray.add("200 kW");
+        spinnerProductTypeArray.add("300 kW");
+        spinnerProductTypeArray.add("400 kW");
+        spinnerProductTypeArray.add("500 kW");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerProductTypeArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProductType.setAdapter(adapter);
+
 
         //populate spinner from userstable usernames with protection level serviceman
         List<String> lables = usersTableController.getAllServiceman();
@@ -57,6 +101,97 @@ public class FragmentAddFault extends Fragment {
         spinnerServiceman.setSelection(lables.indexOf("N/A"));
 
 
+        btnAddFault.setOnClickListener(this);
 
     }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnAddFault:
+                String date = dateMethods.getDateForMysql();
+                String time = timeMethods.getCurrentTime();
+                String productType = spinnerProductType.getSelectedItem().toString();
+                String serialNumber = etSN.getText().toString().trim();
+                String client = etClient.getText().toString().trim();
+                String address = etAddress.getText().toString().trim();
+                String place = etPlace.getText().toString().trim();
+                String phone1 = etPhone1.getText().toString().trim();
+                String phone2 = etPhone2.getText().toString().trim();
+                String faultDescription = etFaultDescription.getText().toString().trim();
+                String note = etNote.getText().toString().trim();
+                String serviceman = spinnerServiceman.getSelectedItem().toString();
+                String status = Constants.STATUS_FAULT;
+                String priority = Constants.PRIORITY;
+                String issuedBy = currentUserTableController.getUsername().toUpperCase();
+                String typeOfService = Constants.TYPE_OF_SERVICE;
+                addFault(date, time, productType, serialNumber, client, address, place, phone1, phone2, faultDescription, note, serviceman, status, priority, issuedBy, typeOfService);
+                break;
+
+        }
+    }
+
+
+
+    private void addFault(String datefault, String timefault, String productType, String serialNumber, String client, String address, String place, String phone1, String phone2,
+                          String faultDescription, String note, String serviceman, String status, String priority, String issuedBy, String typeOfService){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        AddFaultRequestInterface addFaultRequestInterface = retrofit.create(AddFaultRequestInterface.class);
+        Fault fault = new Fault();
+        fault.setDatefault(datefault);
+        fault.setTimefault(timefault);
+        fault.setIdent(productType);
+        fault.setSerialNumber(serialNumber);
+        fault.setBuyer(client);
+        fault.setAddress(address);
+        fault.setPlacefault(place);
+        fault.setPhoneNumber(phone1);
+        fault.setPhoneNumber2(phone2);
+        fault.setDescFaults(faultDescription);
+        fault.setNotesInfo(note);
+        fault.setResponsibleforfailure(serviceman);
+        fault.setStatus(status);
+        fault.setPriorities(priority);
+        fault.setOrderIssued(issuedBy);
+        fault.setTypeOfService(typeOfService);
+        AddFaultServerRequest addFaultServerRequest = new AddFaultServerRequest();
+        addFaultServerRequest.setFault(fault);
+        Call<AddFaultServerResponse> response = addFaultRequestInterface.operation(addFaultServerRequest);
+        response.enqueue(new Callback<AddFaultServerResponse>() {
+            @Override
+            public void onResponse(Call<AddFaultServerResponse> call, retrofit2.Response<AddFaultServerResponse> response) {
+                AddFaultServerResponse resp = response.body();
+                if(resp.getResult().equals(Constants.SUCCESS)){
+
+                    /*//delete previously stored faults from local sql table
+                    faultsTableController.deleteAll();
+
+                    //get all faults and insert into local sql table
+                    faultData = new ArrayList<>(Arrays.asList(resp.getFault()));
+                    for (int i = 0; i < faultData.size(); i++) {
+                        faultsTableController.insertFault(faultData.get(i));
+                    }*/
+
+
+                }else if (resp.getResult().equals(Constants.FAILURE)){
+
+                }
+
+            }
+            @Override
+            public void onFailure(Call<AddFaultServerResponse> call, Throwable t) {
+                //prgDialog.dismiss();
+                //Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+
+
 }

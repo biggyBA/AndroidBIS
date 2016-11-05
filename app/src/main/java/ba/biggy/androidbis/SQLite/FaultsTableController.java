@@ -127,6 +127,7 @@ public class FaultsTableController {
     }
 
 
+    //method to insert fault into table got from mysql
     public void insertFault(Fault fault){
         SQLiteDatabase data = DataBaseAdapter.getDatabase();
 
@@ -151,6 +152,8 @@ public class FaultsTableController {
         data.insert(tableName, null, values);
         data.close();
     }
+
+
 
     public void deleteAll(){
         SQLiteDatabase db = DataBaseAdapter.getDatabase();

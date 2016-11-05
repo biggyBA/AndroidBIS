@@ -8,6 +8,7 @@ public class Fault {
     private String datefault;
     private String timefault;
     private String ident;
+    private String serialNumber;
     private String buyer;
     private String address;
     private String placefault;
@@ -148,5 +149,13 @@ public class Fault {
 
     public void setTypeOfService(String typeOfService) {
         this.typeOfService = typeOfService;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }

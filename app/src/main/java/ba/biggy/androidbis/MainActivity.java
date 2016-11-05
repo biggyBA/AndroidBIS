@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         sPref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
+
         displayView(1);
 
 
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     @Override

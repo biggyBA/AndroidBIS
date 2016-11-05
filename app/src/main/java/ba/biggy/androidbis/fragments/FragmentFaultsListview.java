@@ -68,7 +68,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     private SwipeMenuListView swipeMenuListView;
     private TextView faultCount;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private String protectionLevel, totalFaultCount;
+    private String totalFaultCount;
     private ArrayList<Fault> faultData;
     private CoordinatorLayout coordinatorLayout;
     private ProgressDialog prgDialog;
@@ -89,12 +89,12 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.faults, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,8 +115,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     }
 
 
-
-
     @Override
     public void onStart(){
         super.onStart();
@@ -132,6 +130,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     }
+
 
     @Override
     public void onRefresh() {
@@ -179,8 +178,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
         });
     }
-
-
 
 
     private void displayView (String protectionLevel){
@@ -620,9 +617,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     }
 
 
-
-
-
     //method to delete fault
     private void deleteFault(final String id){
         prgDialog = new ProgressDialog(getActivity());
@@ -830,11 +824,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         });
 
     }
-
-
-
-
-
 
 
 

@@ -30,8 +30,10 @@ public class Constants {
     public static final String PROTECTION_LEVEL_USER = "Serviceman";
 
 
-    //MySQL status info
+    //MySQL
     public static final String STATUS_FAULT = "INTERVENCIJA";
+    public static final String PRIORITY = "Normal";
+    public static final String TYPE_OF_SERVICE = "Redovna intervencija";
 
 
 
