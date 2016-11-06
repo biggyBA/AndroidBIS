@@ -136,6 +136,7 @@ public class FaultsTableController {
         values.put(datefaultColumn, fault.getDatefault());
         values.put(timefaultColumn, fault.getTimefault());
         values.put(identColumn, fault.getIdent());
+        values.put(serialnumberColumn, fault.getSerialNumber());
         values.put(buyerColumn, fault.getBuyer());
         values.put(addressColumn, fault.getAddress());
         values.put(placefaultColumn, fault.getPlacefault());

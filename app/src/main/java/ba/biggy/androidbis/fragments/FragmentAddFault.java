@@ -1,8 +1,15 @@
 package ba.biggy.androidbis.fragments;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +46,8 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
     private Spinner spinnerProductType, spinnerServiceman;
     private Button btnAddFault;
     private ArrayList<Fault> faultData;
+    private ProgressDialog prgDialog;
+    private CoordinatorLayout coordinatorLayout;
     UsersTableController usersTableController = new UsersTableController();
     CurrentUserTableController currentUserTableController = new CurrentUserTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
@@ -63,6 +72,7 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
         etPhone2 = (EditText) getActivity().findViewById(R.id.etPhone2);
         etFaultDescription = (EditText) getActivity().findViewById(R.id.etFaultDescription);
         etNote = (EditText) getActivity().findViewById(R.id.etNote);
+        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinatorLayout);
 
         spinnerProductType = (Spinner) getActivity().findViewById(R.id.spinnerProductType);
         spinnerServiceman = (Spinner) getActivity().findViewById(R.id.spinnerServiceman);
@@ -103,6 +113,29 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
         btnAddFault.setOnClickListener(this);
 
+        TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        PhoneStateListener callStateListener = new PhoneStateListener() {
+            public void onCallStateChanged(int state, String incomingNumber)
+            {
+                if(state==TelephonyManager.CALL_STATE_RINGING){
+
+                    Toast.makeText(getActivity(),incomingNumber,
+                            Toast.LENGTH_LONG).show();
+                }
+                if(state==TelephonyManager.CALL_STATE_OFFHOOK){
+
+                    Toast.makeText(getActivity(),"Phone is Currently in A call",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                if(state==TelephonyManager.CALL_STATE_IDLE){
+                    Toast.makeText(getActivity(),"phone is neither ringing nor in a call",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);
+
     }
 
 
@@ -136,7 +169,10 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
     private void addFault(String datefault, String timefault, String productType, String serialNumber, String client, String address, String place, String phone1, String phone2,
                           String faultDescription, String note, String serviceman, String status, String priority, String issuedBy, String typeOfService){
-
+        prgDialog = new ProgressDialog(getActivity());
+        prgDialog.setMessage(getResources().getString(R.string.prgDialog_addingfault));
+        prgDialog.setCancelable(false);
+        prgDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -168,25 +204,38 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
                 AddFaultServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
-                    /*//delete previously stored faults from local sql table
+                    //delete previously stored faults from local sql table
                     faultsTableController.deleteAll();
 
                     //get all faults and insert into local sql table
                     faultData = new ArrayList<>(Arrays.asList(resp.getFault()));
                     for (int i = 0; i < faultData.size(); i++) {
                         faultsTableController.insertFault(faultData.get(i));
-                    }*/
+                    }
 
+
+                    //refresh fragment
+                    Fragment newFragment = new FragmentFaultsListview();
+                    FragmentTransaction tr = getFragmentManager().beginTransaction();
+                    tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    tr.replace(R.id.content_main, newFragment);
+                    tr.addToBackStack(null);
+                    tr.commit();
+
+                    prgDialog.dismiss();
+
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_addfault_success, Snackbar.LENGTH_LONG).show();
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
-
+                    prgDialog.dismiss();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_addfault_failure, Snackbar.LENGTH_LONG).show();
                 }
 
             }
             @Override
             public void onFailure(Call<AddFaultServerResponse> call, Throwable t) {
-                //prgDialog.dismiss();
-                //Snackbar.make(coordinatorLayout, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                prgDialog.dismiss();
+                Snackbar.make(coordinatorLayout, R.string.snackbar_addfault_error, Snackbar.LENGTH_LONG).show();
             }
         });
 

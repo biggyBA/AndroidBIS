@@ -1,7 +1,9 @@
 package ba.biggy.androidbis;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiEnterpriseConfig;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -10,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,6 +39,7 @@ import ba.biggy.androidbis.fragments.FragmentFaultsExpandableListview;
 import ba.biggy.androidbis.fragments.FragmentFaultsListview;
 import ba.biggy.androidbis.fragments.FragmentSearchArchive;
 import ba.biggy.androidbis.fragments.FragmentServicesheet;
+import ba.biggy.androidbis.phoneStateReceiver.PhoneStateReceiver;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +67,29 @@ public class MainActivity extends AppCompatActivity
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
         sPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        //get state of phone
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        PhoneStateListener callStateListener = new PhoneStateListener() {
+            public void onCallStateChanged(int state, String incomingNumber)
+            {
+                if(state==TelephonyManager.CALL_STATE_RINGING){
+                    Toast.makeText(getApplicationContext(),"Phone Is Riging" + incomingNumber,
+                            Toast.LENGTH_LONG).show();
+                }
+                if(state==TelephonyManager.CALL_STATE_OFFHOOK){
+                    Toast.makeText(getApplicationContext(),"Phone is Currently in A call",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                if(state==TelephonyManager.CALL_STATE_IDLE){
+                    Toast.makeText(getApplicationContext(),"phone is neither ringing nor in a call",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);
 
 
 

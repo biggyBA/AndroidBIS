@@ -120,7 +120,10 @@
     <string name="fragment_addfault_faultDescription">Opis kvara</string>
     <string name="fragment_addfault_note">Napomena</string>
     <string name="fragment_addfault_btnAddFault">PRIJAVI INTERVENCIJU</string>
-
+    <string name="prgDialog_addingfault">Prijavljujem intervenciju</string>
+    <string name="snackbar_addfault_success">Intervencija uspješno prijavljena</string>
+    <string name="snackbar_addfault_failure">Došlo je do greške</string>
+    <string name="snackbar_addfault_error">Došlo je do greške. Provjerite internet vezu.</string>
 
     <!--    -->
     <!-- Settings activity  -->

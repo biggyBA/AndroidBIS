@@ -27,6 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:inputType="number"
                     android:hint="@string/fragment_addfault_sn"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -75,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:inputType="phone"
                     android:hint="@string/fragment_addfault_phone1"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -87,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:inputType="phone"
                     android:hint="@string/fragment_addfault_phone2"/>
             </android.support.design.widget.TextInputLayout>
 
