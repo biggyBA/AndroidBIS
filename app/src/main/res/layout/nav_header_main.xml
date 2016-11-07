@@ -18,7 +18,6 @@
         android:layout_width="244dp"
         android:layout_height="57dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/ic_ekoline"
         android:layout_weight="0.63" />
 
     <TextView

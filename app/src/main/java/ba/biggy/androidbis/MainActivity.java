@@ -1,6 +1,8 @@
 package ba.biggy.androidbis;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -11,6 +13,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.CurrentUserTableController;
@@ -63,6 +69,10 @@ public class MainActivity extends AppCompatActivity
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
         sPref = PreferenceManager.getDefaultSharedPreferences(this);
 
+        /*SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(Constants.SP_IS_LOGGED_IN,false);
+        editor.apply();*/
+
 
 
         /*//get state of phone
@@ -71,7 +81,14 @@ public class MainActivity extends AppCompatActivity
             public void onCallStateChanged(int state, String incomingNumber) {
                 super.onCallStateChanged(state, incomingNumber);
                 if(state==TelephonyManager.CALL_STATE_RINGING){
-                    String num = incomingNumber.toString();
+                    String num = "";
+                    if (incomingNumber.equalsIgnoreCase("")){
+                        num = "empty";
+                    }else if (incomingNumber.isEmpty()){
+                        num = "e";
+                    }else if (incomingNumber == null){
+                        num = "null";
+                    }
                     Toast.makeText(getApplicationContext(),"Phone Is Riging" + num,
                             Toast.LENGTH_LONG).show();
                 }
@@ -87,6 +104,14 @@ public class MainActivity extends AppCompatActivity
             }
         };
         telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);*/
+
+
+        /*// INITIALIZE RECEIVER
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        BroadcastReceiver mReceiver = new Broadcast();
+        registerReceiver(mReceiver, filter);*/
+
 
 
 
