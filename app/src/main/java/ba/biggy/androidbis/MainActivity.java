@@ -1,19 +1,16 @@
 package ba.biggy.androidbis;
 
-import android.content.Context;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiEnterpriseConfig;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.CurrentUserTableController;
@@ -39,7 +35,6 @@ import ba.biggy.androidbis.fragments.FragmentFaultsExpandableListview;
 import ba.biggy.androidbis.fragments.FragmentFaultsListview;
 import ba.biggy.androidbis.fragments.FragmentSearchArchive;
 import ba.biggy.androidbis.fragments.FragmentServicesheet;
-import ba.biggy.androidbis.phoneStateReceiver.PhoneStateReceiver;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,13 +64,15 @@ public class MainActivity extends AppCompatActivity
         sPref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        //get state of phone
+
+        /*//get state of phone
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener callStateListener = new PhoneStateListener() {
-            public void onCallStateChanged(int state, String incomingNumber)
-            {
+            public void onCallStateChanged(int state, String incomingNumber) {
+                super.onCallStateChanged(state, incomingNumber);
                 if(state==TelephonyManager.CALL_STATE_RINGING){
-                    Toast.makeText(getApplicationContext(),"Phone Is Riging" + incomingNumber,
+                    String num = incomingNumber.toString();
+                    Toast.makeText(getApplicationContext(),"Phone Is Riging" + num,
                             Toast.LENGTH_LONG).show();
                 }
                 if(state==TelephonyManager.CALL_STATE_OFFHOOK){
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
-        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);
+        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);*/
 
 
 

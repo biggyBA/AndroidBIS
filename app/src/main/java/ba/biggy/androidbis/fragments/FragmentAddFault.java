@@ -113,28 +113,6 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
         btnAddFault.setOnClickListener(this);
 
-        TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        PhoneStateListener callStateListener = new PhoneStateListener() {
-            public void onCallStateChanged(int state, String incomingNumber)
-            {
-                if(state==TelephonyManager.CALL_STATE_RINGING){
-
-                    Toast.makeText(getActivity(),incomingNumber,
-                            Toast.LENGTH_LONG).show();
-                }
-                if(state==TelephonyManager.CALL_STATE_OFFHOOK){
-
-                    Toast.makeText(getActivity(),"Phone is Currently in A call",
-                            Toast.LENGTH_LONG).show();
-                }
-
-                if(state==TelephonyManager.CALL_STATE_IDLE){
-                    Toast.makeText(getActivity(),"phone is neither ringing nor in a call",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        };
-        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);
 
     }
 
