@@ -21,7 +21,7 @@ public class FaultListviewExpandedAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View retView = inflater.inflate(R.layout.item_faults_listview_expanded, parent, false);
+        View retView = inflater.inflate(R.layout.item_faults_listview_expanded_v2, parent, false);
         return retView;
     }
 

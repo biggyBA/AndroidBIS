@@ -37,7 +37,7 @@ import ba.biggy.androidbis.SQLite.UsersTableController;
 
 public class TestActivity extends AppCompatActivity {
 
-    private SharedPreferences pref, sPref;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +51,15 @@ public class TestActivity extends AppCompatActivity {
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
-        String test = pref.getString("phone", "");
-
-
+        String phone = pref.getString("phone","");
+        Toast.makeText(TestActivity.this, phone, Toast.LENGTH_LONG).show();
 
         TextView tv = (TextView) findViewById(R.id.tv);
+        TextView tv2 = (TextView) findViewById(R.id.tv2);
 
         tv.setText(LastCall());
+
+        tv2.setText(phone);
 
 }
 
