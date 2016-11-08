@@ -39,6 +39,7 @@ import java.util.List;
 
 import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Fault;
+import ba.biggy.androidbis.POJO.Phonecall;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerRequest;

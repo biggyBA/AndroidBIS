@@ -3,6 +3,9 @@ package ba.biggy.androidbis.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -33,7 +36,9 @@ import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.global.DateMethods;
+import ba.biggy.androidbis.global.PhoneMethods;
 import ba.biggy.androidbis.global.TimeMethods;
+import ba.biggy.androidbis.receiver.PhoneStateReceiver;
 import ba.biggy.androidbis.retrofitInterface.AddFaultRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +53,7 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
     private ArrayList<Fault> faultData;
     private ProgressDialog prgDialog;
     private CoordinatorLayout coordinatorLayout;
+    private SharedPreferences pref;
     UsersTableController usersTableController = new UsersTableController();
     CurrentUserTableController currentUserTableController = new CurrentUserTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
@@ -63,6 +69,8 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
     @Override
     public void onStart(){
         super.onStart();
+
+        pref = getActivity().getSharedPreferences(Constants.PREF, 0);
 
         etSN = (EditText) getActivity().findViewById(R.id.etSn);
         etClient = (EditText) getActivity().findViewById(R.id.etClient);
@@ -113,8 +121,53 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
         btnAddFault.setOnClickListener(this);
 
+        etPhone1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                TelephonyManager mtelephony = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                mtelephony.listen(new PhoneStateListener(){
+                    @Override
+                    public void onCallStateChanged(int state, String incomingNumber) {
+                        super.onCallStateChanged(state, incomingNumber);
+                        switch (state) {
+                            case TelephonyManager.CALL_STATE_OFFHOOK:
+                                // CALL_STATE_RINGING
+                                //Toast.makeText(getActivity(), incomingNumber, Toast.LENGTH_LONG).show();
+                                etPhone1.setText(incomingNumber);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },PhoneStateListener.LISTEN_CALL_STATE);
+
+
+
+
+                return false;
+            }
+        });
+
+        etPhone2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                String phone = pref.getString("phone", "");
+                etPhone2.setText(phone);
+
+
+                return false;
+            }
+        });
+
+
+
 
     }
+
+
+
 
 
     @Override
@@ -137,7 +190,26 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
                 String priority = Constants.PRIORITY;
                 String issuedBy = currentUserTableController.getUsername().toUpperCase();
                 String typeOfService = Constants.TYPE_OF_SERVICE;
-                addFault(date, time, productType, serialNumber, client, address, place, phone1, phone2, faultDescription, note, serviceman, status, priority, issuedBy, typeOfService);
+                //addFault(date, time, productType, serialNumber, client, address, place, phone1, phone2, faultDescription, note, serviceman, status, priority, issuedBy, typeOfService);
+
+               /* TelephonyManager mtelephony = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                mtelephony.listen(new PhoneStateListener(){
+                    @Override
+                    public void onCallStateChanged(int state, String incomingNumber) {
+                        super.onCallStateChanged(state, incomingNumber);
+                        switch (state) {
+                            case TelephonyManager.CALL_STATE_RINGING:
+                                // CALL_STATE_RINGING
+                                Toast.makeText(getActivity(), incomingNumber, Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },PhoneStateListener.LISTEN_CALL_STATE);*/
+
+
+
                 break;
 
         }
@@ -218,6 +290,7 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
         });
 
     }
+
 
 
 

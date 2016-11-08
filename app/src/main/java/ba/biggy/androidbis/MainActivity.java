@@ -69,9 +69,15 @@ public class MainActivity extends AppCompatActivity
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
         sPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        /*SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(Constants.SP_IS_LOGGED_IN,false);
-        editor.apply();*/
+        if (currentUserTableController.getUsername().equalsIgnoreCase("0")){
+            //set the logged in status to false
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean(Constants.SP_IS_LOGGED_IN, false);
+            editor.apply();
+            //start login activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
 
 
@@ -105,12 +111,6 @@ public class MainActivity extends AppCompatActivity
         };
         telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);*/
 
-
-        /*// INITIALIZE RECEIVER
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        BroadcastReceiver mReceiver = new Broadcast();
-        registerReceiver(mReceiver, filter);*/
 
 
 

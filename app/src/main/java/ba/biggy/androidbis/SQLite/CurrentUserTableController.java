@@ -65,8 +65,13 @@ public class CurrentUserTableController {
 
 
     public String getUsername(){
-        String user = this.getCurrentUserDetails().getString(0).trim();
-        return user;
+        //String user = this.getCurrentUserDetails().getString(0).trim();
+        String user = "";
+        if (this.getCurrentUserDetails().isBeforeFirst()){
+            return user="0";
+        }else{
+        return user = this.getCurrentUserDetails().getString(0).trim();
+        }
     }
 
 
