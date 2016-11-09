@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -39,7 +40,6 @@ import java.util.List;
 
 import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Fault;
-import ba.biggy.androidbis.POJO.Phonecall;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.ArchiveFaultServerResponse;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.DeleteFaultServerRequest;
@@ -50,8 +50,10 @@ import ba.biggy.androidbis.POJO.retrofitServerObjects.UpdateFaultServerResponse;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
-import ba.biggy.androidbis.adapter.FaultListviewExpandedAdapter;
-import ba.biggy.androidbis.adapter.FaultListviewSimpleAdapter;
+import ba.biggy.androidbis.adapter.listviewAdapter.FaultListviewExpandedAdapter;
+import ba.biggy.androidbis.adapter.listviewAdapter.FaultListviewSimpleAdapter;
+import ba.biggy.androidbis.adapter.spinnerAdapter.NothingSelectedSpinnerAdapter;
+import ba.biggy.androidbis.global.DateMethods;
 import ba.biggy.androidbis.retrofitInterface.ArchiveFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.DeleteFaultRequestInterface;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
@@ -75,11 +77,13 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     private ProgressDialog prgDialog;
     private AlertDialog updateDialog;
     private SharedPreferences pref;
+    private Spinner spinnerFilterServiceman;
     private int lvPosition;
     FaultListviewExpandedAdapter faultListviewExpandedAdapter;
     FaultListviewSimpleAdapter faultListviewSimpleAdapter;
     UsersTableController usersTableController = new UsersTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
+    DateMethods dateMethods = new DateMethods();
 
 
     @Override
@@ -123,13 +127,83 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         faultCount = (TextView) getActivity().findViewById(R.id.tvCount);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinatorLayout);
+        spinnerFilterServiceman = (Spinner) getActivity().findViewById(R.id.spinnerFilterServiceman);
         pref = getActivity().getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
+
+
+        //initialy set this spinner to invisible. only admin protection level can see this spinner
+        spinnerFilterServiceman.setVisibility(View.GONE);
+
+
+        //populate spinner from userstable usernames with protection level serviceman
+        List<String> lablesFilter = usersTableController.getAllServiceman();
+        lablesFilter.add(getString(R.string.spinner_not_assigned));
+        final ArrayAdapter<String> dataAdapterFilter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, lablesFilter);
+        dataAdapterFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFilterServiceman.setAdapter(dataAdapterFilter);
+
+
+
+        //get listview position from shared preferences to restore view for last viewed position
         lvPosition = pref.getInt(Constants.SP_LISTVIEW_POSITION, 0);
+
+
         //display view depending on users protection level
         displayView(usersTableController.getUserProtectionLevel1());
 
 
+        //set nothingSelected text to spinner
+        spinnerFilterServiceman.setPrompt(getString(R.string.spinner_nothing_selected_prompt));
+        spinnerFilterServiceman.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapterFilter, R.layout.spinner_row_nothing_selected, getActivity()));
+
+
+        spinnerFilterServiceman.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int currentSelection = (int) spinnerFilterServiceman.getSelectedItemId();
+                if (currentSelection != -1){
+                String serviceman = spinnerFilterServiceman.getSelectedItem().toString().trim();
+                faultCount.setText(faultsTableController.getFilterFaultCountByServiceman(serviceman));
+                faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getFilterFaultByServiceman(serviceman));
+                listView.setAdapter(faultListviewExpandedAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerFilterServiceman.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                spinnerFilterServiceman.setPrompt(getString(R.string.spinner_nothing_selected_prompt));
+                spinnerFilterServiceman.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapterFilter, R.layout.spinner_row_nothing_selected, getActivity()));
+
+                faultCount.setText(totalFaultCount);
+                faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
+                listView.setAdapter(faultListviewExpandedAdapter);
+
+                return false;
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment fragment = new FragmentFaultsListview();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.commit();
     }
 
 
@@ -192,6 +266,15 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
                 //disable the swipe refresh layout
                 swipeRefreshLayout.setEnabled(false);
+
+                //set spinner used as filter by serviceman to visible
+                spinnerFilterServiceman.setVisibility(View.VISIBLE);
+
+
+
+
+
+
 
                 //set the total fault count
                 totalFaultCount = faultsTableController.getTotalFaultCount();
@@ -345,7 +428,8 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                                         .setAction(R.string.snackbar_archive_fault_yes, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                archiveFault(id);
+                                                String dateArchive = dateMethods.getTodayDateForMysql();
+                                                archiveFault(id, dateArchive);
                                             }
                                         });
 
@@ -668,7 +752,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
 
     //method to archive fault
-    private void archiveFault(final String id){
+    private void archiveFault(final String id, String dateArchive){
         prgDialog = new ProgressDialog(getActivity());
         prgDialog.setMessage(getResources().getString(R.string.prgDialog_archiving));
         prgDialog.setCancelable(false);
@@ -680,6 +764,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         ArchiveFaultRequestInterface archiveFaultRequestInterface = retrofit.create(ArchiveFaultRequestInterface.class);
         ArchiveFaultServerRequest archiveFaultServerRequest = new ArchiveFaultServerRequest();
         archiveFaultServerRequest.setId(id);
+        archiveFaultServerRequest.setDateArchive(dateArchive);
         Call<ArchiveFaultServerResponse> response = archiveFaultRequestInterface.operation(archiveFaultServerRequest);
         response.enqueue(new Callback<ArchiveFaultServerResponse>() {
             @Override

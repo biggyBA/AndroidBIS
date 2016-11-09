@@ -210,6 +210,25 @@ public class FaultsTableController {
         return db.rawQuery(buildSQL, null);
     }
 
+    public Cursor getFilterFaultByServiceman(String serviceman) {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + responsibleforfailureColumn + " = '"+serviceman+"'";
+        return db.rawQuery(buildSQL, null);
+    }
+
+    public String getFilterFaultCountByServiceman(String serviceman){
+        int count = 0;
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + responsibleforfailureColumn + " = '"+serviceman+"'";
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(buildSQL, null);
+        count = cursor.getCount();
+        database.close();
+        String faultsCount = Integer.toString(count);
+        return faultsCount;
+    }
+
+
+
     public void updateFault(String id, String serviceman, String phone1, String phone2, String faultDescripton){
         SQLiteDatabase db = DataBaseAdapter.getDatabase();
         String buildSQL = "UPDATE " + tableName + " SET " + responsibleforfailureColumn + " = '"+serviceman+"' ,"

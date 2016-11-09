@@ -48,7 +48,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
                         pref = context.getSharedPreferences(Constants.PREF, 0);
                         SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("phone", incomingNumber);
+                        editor.putString(Constants.SP_PHONE, incomingNumber);
                         editor.apply();
                         //Toast.makeText(context, incomingNumber, Toast.LENGTH_LONG).show();
 

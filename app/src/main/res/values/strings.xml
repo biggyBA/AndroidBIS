@@ -93,6 +93,9 @@
     <string name="snackbar_archive_failure">Došlo je do greške. Pokušajte ponovo.</string>
     <string name="snackbar_archive_error">Došlo je do greške. Provjerite internet vezu.</string>
 
+    <string name="spinner_nothing_selected_prompt">Sve intervencije</string>
+    <string name="spinner_not_assigned">N/A</string>
+
 
     <!--    -->
     <!-- Fragment faults listview detail -->

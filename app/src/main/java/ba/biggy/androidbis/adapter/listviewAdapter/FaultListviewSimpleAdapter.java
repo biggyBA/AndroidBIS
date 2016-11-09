@@ -1,4 +1,4 @@
-package ba.biggy.androidbis.adapter;
+package ba.biggy.androidbis.adapter.listviewAdapter;
 
 
 import android.content.Context;
@@ -11,17 +11,16 @@ import android.widget.TextView;
 
 import ba.biggy.androidbis.R;
 
-public class FaultListviewExpandedAdapter extends CursorAdapter {
+public class FaultListviewSimpleAdapter extends CursorAdapter {
 
-
-    public FaultListviewExpandedAdapter(Context context, Cursor c) {
+    public FaultListviewSimpleAdapter(Context context, Cursor c) {
         super(context, c);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View retView = inflater.inflate(R.layout.item_faults_listview_expanded_v2, parent, false);
+        View retView = inflater.inflate(R.layout.item_faults_listview_simple, parent, false);
         return retView;
     }
 
@@ -45,7 +44,9 @@ public class FaultListviewExpandedAdapter extends CursorAdapter {
         TextView tvProductType = (TextView) view.findViewById(R.id.tvProductType);
         tvProductType.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
 
-        TextView tvServiceman = (TextView) view.findViewById(R.id.tvServiceman);
-        tvServiceman.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(14))));
     }
+
+
+
+
 }

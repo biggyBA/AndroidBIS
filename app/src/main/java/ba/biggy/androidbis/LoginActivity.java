@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout layoutUsername, layoutPassword;
     private Button btnLogin;
     private CoordinatorLayout coordinatorLayout;
-    private SharedPreferences pref;
+    private SharedPreferences pref, pref2;
     private ArrayList<User> userData;
     private ArrayList<Sparepart> sparepartData;
     private CurrentUserTableController currentUserTableController;
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
-        //pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref2 = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);

@@ -21,8 +21,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         addPreferencesFromResource(R.xml.settings);
 
         //pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-
+        //pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
         //get the value for faultsview from shared preferences
         faultsviewListPreference = (ListPreference) findPreference(Constants.SP_FAULTSVIEW);

@@ -38,13 +38,23 @@
         android:background="@color/colorPrimary"
         android:layout_below="@+id/tvFaultCount"/>
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvFaultCount"
+        android:layout_alignStart="@+id/tvFaultCount"
+        android:id="@+id/spinnerFilterServiceman"
+        android:layout_below="@+id/tvFaultCount"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/linLayout"
-        android:layout_below="@+id/tvFaultCount">
+        android:layout_below="@+id/spinnerFilterServiceman">
 
 
 
@@ -72,6 +82,8 @@
      </LinearLayout>
 
 
- </RelativeLayout>
+
+
+</RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

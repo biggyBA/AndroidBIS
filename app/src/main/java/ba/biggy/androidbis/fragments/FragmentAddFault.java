@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import ba.biggy.androidbis.Constants;
+import ba.biggy.androidbis.MainActivity;
 import ba.biggy.androidbis.POJO.Fault;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.AddFaultServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.AddFaultServerResponse;
@@ -112,11 +114,12 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
         //populate spinner from userstable usernames with protection level serviceman
         List<String> lables = usersTableController.getAllServiceman();
+        lables.add(getString(R.string.spinner_not_assigned));
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, lables);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServiceman.setAdapter(dataAdapter);
         //set the selection of serviceman
-        spinnerServiceman.setSelection(lables.indexOf("N/A"));
+        spinnerServiceman.setSelection(lables.indexOf(getString(R.string.spinner_not_assigned)));
 
 
         btnAddFault.setOnClickListener(this);
@@ -125,25 +128,8 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
             @Override
             public boolean onLongClick(View v) {
 
-                TelephonyManager mtelephony = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-                mtelephony.listen(new PhoneStateListener(){
-                    @Override
-                    public void onCallStateChanged(int state, String incomingNumber) {
-                        super.onCallStateChanged(state, incomingNumber);
-                        switch (state) {
-                            case TelephonyManager.CALL_STATE_OFFHOOK:
-                                // CALL_STATE_RINGING
-                                //Toast.makeText(getActivity(), incomingNumber, Toast.LENGTH_LONG).show();
-                                etPhone1.setText(incomingNumber);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                },PhoneStateListener.LISTEN_CALL_STATE);
-
-
-
+                String phone = pref.getString(Constants.SP_PHONE, "");
+                etPhone1.setText(phone);
 
                 return false;
             }
@@ -153,9 +139,8 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
             @Override
             public boolean onLongClick(View v) {
 
-                String phone = pref.getString("phone", "");
+                String phone = pref.getString(Constants.SP_PHONE, "");
                 etPhone2.setText(phone);
-
 
                 return false;
             }
@@ -166,7 +151,17 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
 
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment fragment = new FragmentAddFault();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.commit();
+    }
 
 
 
@@ -174,7 +169,7 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAddFault:
-                String date = dateMethods.getDateForMysql();
+                String date = dateMethods.getTodayDateForMysql();
                 String time = timeMethods.getCurrentTime();
                 String productType = spinnerProductType.getSelectedItem().toString();
                 String serialNumber = etSN.getText().toString().trim();
@@ -190,31 +185,12 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
                 String priority = Constants.PRIORITY;
                 String issuedBy = currentUserTableController.getUsername().toUpperCase();
                 String typeOfService = Constants.TYPE_OF_SERVICE;
-                //addFault(date, time, productType, serialNumber, client, address, place, phone1, phone2, faultDescription, note, serviceman, status, priority, issuedBy, typeOfService);
-
-               /* TelephonyManager mtelephony = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-                mtelephony.listen(new PhoneStateListener(){
-                    @Override
-                    public void onCallStateChanged(int state, String incomingNumber) {
-                        super.onCallStateChanged(state, incomingNumber);
-                        switch (state) {
-                            case TelephonyManager.CALL_STATE_RINGING:
-                                // CALL_STATE_RINGING
-                                Toast.makeText(getActivity(), incomingNumber, Toast.LENGTH_LONG).show();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                },PhoneStateListener.LISTEN_CALL_STATE);*/
-
-
+                addFault(date, time, productType, serialNumber, client, address, place, phone1, phone2, faultDescription, note, serviceman, status, priority, issuedBy, typeOfService);
 
                 break;
 
         }
     }
-
 
 
     private void addFault(String datefault, String timefault, String productType, String serialNumber, String client, String address, String place, String phone1, String phone2,
