@@ -155,7 +155,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
         //set nothingSelected text to spinner
         spinnerFilterServiceman.setPrompt(getString(R.string.spinner_nothing_selected_prompt));
-        spinnerFilterServiceman.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapterFilter, R.layout.spinner_row_nothing_selected, getActivity()));
+        spinnerFilterServiceman.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapterFilter, R.layout.spinner_row_nothing_selected_all_faults, getActivity()));
 
 
         spinnerFilterServiceman.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -180,7 +180,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
             @Override
             public boolean onLongClick(View v) {
                 spinnerFilterServiceman.setPrompt(getString(R.string.spinner_nothing_selected_prompt));
-                spinnerFilterServiceman.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapterFilter, R.layout.spinner_row_nothing_selected, getActivity()));
+                spinnerFilterServiceman.setAdapter(new NothingSelectedSpinnerAdapter(dataAdapterFilter, R.layout.spinner_row_nothing_selected_all_faults, getActivity()));
 
                 faultCount.setText(totalFaultCount);
                 faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());

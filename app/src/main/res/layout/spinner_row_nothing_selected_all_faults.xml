@@ -8,4 +8,4 @@
     android:ellipsize="marquee"
     android:textSize="20sp"
     android:textColor="#808080"
-    android:text="@string/spinner_nothing_selected_prompt" />
+    android:text="@string/spinner_nothing_selected_prompt"/>
