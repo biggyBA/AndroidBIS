@@ -22,6 +22,7 @@
     <!-- Global  -->
     <!--    -->
     <string name="error_nointernet">Došlo je do greške. Provjerite internet vezu.</string>
+    <string name="spinner_nothing_selected_choose">Odaberi</string>
 
     <!-- spinner YES NO  -->
     <string-array name="spinnerYesNo">
@@ -152,12 +153,15 @@
     <string name="fragment_servicesheet_phone1">Kontakt broj 1</string>
     <string name="fragment_servicesheet_phone2">Kontakt broj 2</string>
     <string name="fragment_servicesheet_title_productinfo">Podaci o proizvodu</string>
+    <string name="fragment_servicesheet_productType">Vrsta proizvoda</string>
     <string name="fragment_servicesheet_sn">Serijski broj</string>
     <string name="fragment_servicesheet_buydate">Datum kupovine</string>
+    <string name="fragment_servicesheet_warrantydate">Datum isteka garancije</string>
     <string name="fragment_servicesheet_title_intinfo">Podaci o intervenciji</string>
     <string name="fragment_servicesheet_intdescription">Opis intervencije</string>
     <string name="fragment_servicesheet_buyerremark">Primjedba kupca</string>
     <string name="fragment_servicesheet_note">Napomena</string>
+    <string name="fragment_servicesheet_warrantyYesNo">Kvar podliježe garanciji</string>
     <string name="fragment_servicesheet_title_sparepartsinfo">Ugrađeni dijelovi</string>
 
     <string name="fragment_servicesheet_title_costinfo">Podaci o troškovima</string>
@@ -166,20 +170,51 @@
     <string name="fragment_servicesheet_pricetravel">Putni troškovi</string>
     <string name="fragment_servicesheet_pricetotal">Ukupno</string>
 
+    <string name="fragment_servicesheet_paymentMethod">Način plaćanja</string>
+    <string name="fragment_servicesheet_payedYesNo">Plaćeno</string>
+
     <string name="fragment_servicesheet_timework">Vrijeme rada servisera</string>
     <string name="fragment_servicesheet_timetravel">Vrijeme servisera na putu</string>
 
-    <string name="fragment_servicesheet_spinnerWarrantyYesNo_prompt">Kvar podliježe garanciji</string>
-    <string name="fragment_servicesheet_spinnerPaymentMethod_prompt">Način plaćanja</string>
-    <string name="fragment_servicesheet_spinnerPayedYesNo_prompt">Plaćeno</string>
+
+
+
 
     <!-- spinner METHOD PAYMENT  -->
     <string-array name="spinnerMethodPayment">
-        <item>@string/spinnerYes</item>
-        <item>@string/spinnerNo</item>
+        <item>@string/cash</item>
+        <item>@string/invoice</item>
     </string-array>
     <string name="cash">GOTOVINSKI</string>
     <string name="invoice">FAKTURA</string>
+
+    <!-- time array  -->
+    <string-array name="time_array">
+        <item>0:15 h</item>
+        <item>0:30 h</item>
+        <item>0:45 h</item>
+        <item>1:00 h</item>
+        <item>1:15 h</item>
+        <item>1:30 h</item>
+        <item>1:45 h</item>
+        <item>2:00 h</item>
+        <item>2:15 h</item>
+        <item>2:30 h</item>
+        <item>2:45 h</item>
+        <item>3:00 h</item>
+        <item>3:15 h</item>
+        <item>3:30 h</item>
+        <item>3:45 h</item>
+        <item>4:00 h</item>
+        <item>4:15 h</item>
+        <item>4:30 h</item>
+        <item>4:45 h</item>
+        <item>5:00 h</item>
+        <item>5:15 h</item>
+        <item>5:30 h</item>
+        <item>5:45 h</item>
+        <item>6:00 h</item>
+    </string-array>
 
 
     <!--    -->

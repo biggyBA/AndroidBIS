@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@drawable/layout_outline"
                 android:id="@+id/layoutClientInfo">
 
                 <TextView
@@ -103,20 +104,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="15sp"
+                android:background="@drawable/layout_outline"
                 android:id="@+id/layoutProductInfo">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="15sp"
                     android:text="@string/fragment_servicesheet_title_productinfo"
                     android:textSize="20sp"
                     android:textStyle="normal|bold" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:text="@string/fragment_servicesheet_productType"/>
+
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinnerProductType"
-                    android:layout_weight="1" />
+                    android:textAlignment="textEnd"
+                    android:spinnerMode="dialog"
+                    android:layout_gravity="end"
+                    android:id="@+id/spinnerProductType"/>
+
+                </LinearLayout>
 
 
                 <android.support.design.widget.TextInputLayout
@@ -147,13 +166,29 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/layout_warrantyDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:id="@+id/etWarrantyDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/fragment_servicesheet_warrantydate"/>
+
+                </android.support.design.widget.TextInputLayout>
+
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="15sp"
+                android:background="@drawable/layout_outline">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -193,6 +228,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/layout_note"
                     android:layout_width="match_parent"
+                    android:layout_marginBottom="15sp"
                     android:layout_height="wrap_content">
 
 
@@ -204,19 +240,36 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="@string/fragment_servicesheet_warrantyYesNo"/>
+
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:spinnerMode="dialog"
+                    android:layout_gravity="end"
                     android:id="@+id/spinnerWarrantyYesNo">
-
                 </Spinner>
+
+                </LinearLayout>
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="15sp"
+                android:background="@drawable/layout_outline">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -237,6 +290,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:orientation="vertical"
+                android:background="@drawable/layout_outline">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -370,58 +430,128 @@
 
                 </LinearLayout>
 
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spinnerPaymentMethod"/>
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spinnerPayedYesNo"/>
+            </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginBottom="15sp"
+                    android:background="@drawable/layout_outline">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginBottom="15sp"
+                     android:orientation="horizontal">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:textSize="17sp"
+                         android:text="@string/fragment_servicesheet_paymentMethod"
+                         android:id="@+id/textView2" />
+
+                     <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                         android:spinnerMode="dialog"
+                    android:layout_gravity="end"
+                    android:id="@+id/spinnerPaymentMethod"/>
+
+                 </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/fragment_servicesheet_timework"
-                        android:id="@+id/tvTimeWork"
-                        android:layout_marginTop="20sp"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17sp"
+                            android:text="@string/fragment_servicesheet_payedYesNo"/>
 
                     <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinnerTimeWork"
-                        android:spinnerMode="dialog"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                        android:spinnerMode="dialog"
+                        android:textAlignment="textEnd"
+                        android:layout_gravity="end"
+                    android:id="@+id/spinnerPayedYesNo"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fragment_servicesheet_timetravel"
-                        android:id="@+id/tvTimeTravel"
-                        android:layout_marginTop="20sp"/>
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinnerTimeTravel"
-                        android:spinnerMode="dialog"/>
+                </LinearLayout>
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="15sp"
+                    android:background="@drawable/layout_outline">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15sp"
+                        android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="@string/fragment_servicesheet_timework"
+                        android:id="@+id/tvTimeWork"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerTimeWork"
+                        android:textAlignment="textEnd"
+                        android:layout_gravity="end"
+                        android:spinnerMode="dialog"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="@string/fragment_servicesheet_timetravel"
+                        android:id="@+id/tvTimeTravel"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerTimeTravel"
+                        android:textAlignment="textEnd"
+                        android:layout_gravity="end"
+                        android:spinnerMode="dialog"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="save"
                     android:id="@+id/btnSubmitServicesheet"/>
 
-
+                </LinearLayout>
 
 
 

@@ -40,6 +40,11 @@ public class Constants {
     public static final String TYPE_OF_SERVICE = "Redovna intervencija";
 
 
+    //date format strings
+    public static final String DATE_SHOW_FORMAT = "dd.MM.yyyy";
+    public static final String DATE_MYSQL_FORMAT = "yyyy-MM-dd";
+
+
 
 
 }
