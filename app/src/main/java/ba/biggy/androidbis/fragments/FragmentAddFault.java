@@ -114,7 +114,6 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
         //populate spinner from userstable usernames with protection level serviceman
         List<String> lables = usersTableController.getAllServiceman();
-        lables.add(getString(R.string.spinner_not_assigned));
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, lables);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServiceman.setAdapter(dataAdapter);

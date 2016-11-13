@@ -23,6 +23,7 @@
     <!--    -->
     <string name="error_nointernet">Došlo je do greške. Provjerite internet vezu.</string>
     <string name="spinner_nothing_selected_choose">Odaberi</string>
+    <string name="spinner_not_assigned">N/A</string>
 
     <!-- spinner YES NO  -->
     <string-array name="spinnerYesNo">
@@ -106,7 +107,7 @@
     <string name="snackbar_archive_error">Došlo je do greške. Provjerite internet vezu.</string>
 
     <string name="spinner_nothing_selected_prompt">Sve intervencije</string>
-    <string name="spinner_not_assigned">N/A</string>
+
 
 
     <!--    -->
@@ -176,7 +177,46 @@
     <string name="fragment_servicesheet_timework">Vrijeme rada servisera</string>
     <string name="fragment_servicesheet_timetravel">Vrijeme servisera na putu</string>
 
+    <string name="fragment_servicesheet_btnSubmitServicesheet">Sačuvaj servisni list</string>
 
+    <string name="fragment_servicesheet_initial_cost">0.00</string>
+
+    <string name="fragment_servicesheet_btnAddSparepart">Dodaj dio</string>
+    <string name="fragment_servicesheet_noUsedSpareparts">Nema ugrađenih dijelova</string>
+    <string name="fragment_servicesheet_sparepartName">Naziv dijela:</string>
+    <string name="fragment_servicesheet_sparepartQty">Količina:</string>
+    <string name="fragment_servicesheet_dialog_title">Ugrađeni dijelovi</string>
+    <string name="fragment_servicesheet_dialog_sparepartSNin">Serijski broj ugrađenog dijela</string>
+    <string name="fragment_servicesheet_dialog_sparepartSNout">Serijski broj skinutog dijela</string>
+    <string name="fragment_servicesheet_dialog_sparepartQty">Količina</string>
+    <string name="fragment_servicesheet_dialog__sparepart_cancel">Odustani</string>
+    <string name="fragment_servicesheet_dialog__sparepart_add">Dodaj dio</string>
+
+
+    <!-- validation strings  -->
+    <string name="fragment_servicesheet_empty">Polje ne smije biti prazno</string>
+
+    <string name="fragment_servicesheet_insert_client">Unesite ime klijenta</string>
+    <string name="fragment_servicesheet_insert_address">Unesite adresu</string>
+    <string name="fragment_servicesheet_insert_place">Unesite mjesto</string>
+    <string name="fragment_servicesheet_insert_phone">Unesite kontakt broj</string>
+    <string name="fragment_servicesheet_insert_productType">Odaberite vrstu proizvoda</string>
+    <string name="fragment_servicesheet_insert_sn">Unesite serijski broj</string>
+    <string name="fragment_servicesheet_insert_sn_valid">Unesite validan serijski broj</string>
+    <string name="fragment_servicesheet_insert_buyDate">Unesite datum kupovine</string>
+    <string name="fragment_servicesheet_insert_buyerRemark">Unesite primjedbu kupca</string>
+    <string name="fragment_servicesheet_insert_buyerRemark_detail">Potreban detaljniji opis</string>
+    <string name="fragment_servicesheet_insert_intDescription">Unesite opis intervencije</string>
+    <string name="fragment_servicesheet_insert_intDescription_detail">Potreban detaljniji opis</string>
+    <string name="fragment_servicesheet_insert_warrantyYesNo">Odaberite dali kvar podliježe garanciji</string>
+    <string name="fragment_servicesheet_insert_priceParts">Unesite cijenu dijelova</string>
+    <string name="fragment_servicesheet_insert_priceWork">Unesite troškove rada</string>
+    <string name="fragment_servicesheet_insert_priceTravel">Unesite putne troškove</string>
+    <string name="fragment_servicesheet_insert_priceTotal">Unesite ukupne troškove</string>
+    <string name="fragment_servicesheet_insert_timeWork">Odaberite Vaše vrijeme rada</string>
+    <string name="fragment_servicesheet_insert_timeTravel">Odaberite Vaše vrijeme u putu</string>
+
+    <string name="fragment_servicesheet_insert_dialog_sparepartQty">Unesite količinu dijelova</string>
 
 
 

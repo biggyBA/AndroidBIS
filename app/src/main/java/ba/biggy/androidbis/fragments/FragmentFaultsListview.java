@@ -138,7 +138,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
 
         //populate spinner from userstable usernames with protection level serviceman
         List<String> lablesFilter = usersTableController.getAllServiceman();
-        lablesFilter.add(getString(R.string.spinner_not_assigned));
         final ArrayAdapter<String> dataAdapterFilter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, lablesFilter);
         dataAdapterFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilterServiceman.setAdapter(dataAdapterFilter);

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerSparepartName"
+        android:spinnerMode="dialog"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layout_sparepart_sn_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etSparepartSNin"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/fragment_servicesheet_dialog_sparepartSNin" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layout_sparepart_sn_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etSparepartSNout"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/fragment_servicesheet_dialog_sparepartSNout" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layout_sparepartQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etSparepartQty"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/fragment_servicesheet_dialog_sparepartQty"
+            android:inputType="number" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="end"
+        android:id="@+id/dialogButtonLayout">
+
+
+        <Button
+            android:id="@+id/dialogButtonCancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_servicesheet_dialog__sparepart_cancel"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <Button
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_servicesheet_dialog__sparepart_add"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
+
+</LinearLayout>
