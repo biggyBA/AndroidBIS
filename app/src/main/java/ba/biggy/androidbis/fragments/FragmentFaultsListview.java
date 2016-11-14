@@ -201,7 +201,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         Fragment fragment = new FragmentFaultsListview();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.detach(fragment);
-        fragmentTransaction.detach(fragment);
+        fragmentTransaction.attach(fragment);
         fragmentTransaction.commit();
     }
 
@@ -240,7 +240,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 FragmentTransaction tr = getFragmentManager().beginTransaction();
                 tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 tr.replace(R.id.content_main, newFragment);
-                tr.addToBackStack(null);
                 tr.commit();
 
             }

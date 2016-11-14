@@ -41,6 +41,7 @@ import ba.biggy.androidbis.fragments.FragmentCheckProduct;
 import ba.biggy.androidbis.fragments.FragmentFaultsCardview;
 import ba.biggy.androidbis.fragments.FragmentFaultsExpandableListview;
 import ba.biggy.androidbis.fragments.FragmentFaultsListview;
+import ba.biggy.androidbis.fragments.FragmentMyServicesheets;
 import ba.biggy.androidbis.fragments.FragmentSearchArchive;
 import ba.biggy.androidbis.fragments.FragmentServicesheet;
 
@@ -198,15 +199,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -259,9 +256,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -275,6 +269,8 @@ public class MainActivity extends AppCompatActivity
             displayView(3);
         } else if (id == R.id.nav_item_searcharchive) {
             displayView(4);
+        } else if (id == R.id.nav_item_myServicesheets) {
+            displayView(5);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -310,18 +306,24 @@ public class MainActivity extends AppCompatActivity
 
 
                 break;
+
             case 2:
                 fragment = new FragmentServicesheet();
                 title = getString(R.string.fragment_title_servicesheet);
                 break;
+
             case 3:
                 fragment = new FragmentCheckProduct();
                 title = getString(R.string.fragment_title_checkproduct);
                 break;
+
             case 4:
                 fragment = new FragmentSearchArchive();
                 title = getString(R.string.fragment_title_searcharchive);
 
+            case 5:
+                fragment = new FragmentMyServicesheets();
+                title = getString(R.string.fragment_title_myServicesheets);
 
             default:
                 break;

@@ -93,6 +93,7 @@ public class UsersTableController {
         String buildSQL = "SELECT * FROM " + tableName + " WHERE " + nameColumn + " = '"+currentUser+"'";
         Cursor cursor = db.rawQuery(buildSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
+            db.close();
             return cursor;
         }
         return cursor;

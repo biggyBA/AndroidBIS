@@ -60,6 +60,7 @@ public class CurrentUserTableController {
         if (cursor != null && cursor.moveToFirst()) {
             return cursor;
         }
+        db.close();
         return cursor;
     }
 

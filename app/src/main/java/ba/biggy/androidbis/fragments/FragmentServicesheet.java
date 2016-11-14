@@ -11,6 +11,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,6 +43,7 @@ import ba.biggy.androidbis.POJO.Servicesheet;
 import ba.biggy.androidbis.POJO.Sparepart;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.CurrentUserTableController;
+import ba.biggy.androidbis.SQLite.ServicesheetTableController;
 import ba.biggy.androidbis.SQLite.SparepartListTableController;
 import ba.biggy.androidbis.SQLite.SparepartTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
@@ -69,6 +72,7 @@ public class FragmentServicesheet extends Fragment{
     SparepartTableController sparepartTableController = new SparepartTableController();
     CurrentUserTableController currentUserTableController = new CurrentUserTableController();
     UsersTableController usersTableController = new UsersTableController();
+    ServicesheetTableController servicesheetTableController = new ServicesheetTableController();
     RandomStringGenerator randomStringController = new RandomStringGenerator();
     DateMethods dateMethods = new DateMethods();
     TimeMethods timeMethods = new TimeMethods();
@@ -335,6 +339,7 @@ public class FragmentServicesheet extends Fragment{
                     return;
                 }else{
                     submitServicesheet();
+                    refreshFragment();
                 }
             }
         });
@@ -385,7 +390,7 @@ public class FragmentServicesheet extends Fragment{
      */
     private void submitServicesheet(){
 
-        /*Servicesheet servicesheet = new Servicesheet();
+        Servicesheet servicesheet = new Servicesheet();
 
         servicesheet.setDatefault(dateMethods.getTodayDateForMysql());
         servicesheet.setTimefault(timeMethods.getCurrentTime());
@@ -416,12 +421,14 @@ public class FragmentServicesheet extends Fragment{
         servicesheet.setTotalcostsum(getServicemanTotalCost());
         servicesheet.setRandomStringParts(randomString);
         servicesheet.setUpdateStatus(Constants.UPDATE_STATUS_NO);
-        servicesheet.setBuydate(etBuyDate.getText().toString().trim());  //need to edit  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        servicesheet.setEndwarranty(etWarrantyDate.getText().toString().trim());   //need to edit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+        servicesheet.setBuydate(dateMethods.formatDateFromViewToMysql(etBuyDate.getText().toString().trim()));
+        servicesheet.setEndwarranty(dateMethods.formatDateFromViewToMysql(etWarrantyDate.getText().toString().trim()));
 
+        servicesheetTableController.insertServicesheet(servicesheet);
 
-        String text = getServicemanTotalCost();
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        /*Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.fragment_servicesheet_insert_success, Snackbar.LENGTH_LONG);
+        snackbar.show();*/
+
 
     }
 
@@ -522,7 +529,7 @@ public class FragmentServicesheet extends Fragment{
 
         //get the pricing for hours and minutes separately and combine them into one price
         double priceHourWork = workHourInt * priceWork;
-        double priceMinWork = workMinInt * prWork;
+        double priceMinWork = workMinInt / 15 * prWork;
         double totalPriceWork = priceHourWork + priceMinWork;
 
 
@@ -558,7 +565,7 @@ public class FragmentServicesheet extends Fragment{
 
         //get the pricing for hours and minutes separately and combine them into one price
         double priceHourTravel = travelHourInt * priceTravel;
-        double priceMinTravel = travelMinInt * prTravel;
+        double priceMinTravel = travelMinInt / 15 * prTravel;
         double totalPriceTravel = priceHourTravel + priceMinTravel;
 
 
@@ -572,7 +579,7 @@ public class FragmentServicesheet extends Fragment{
 
     //validate service sheet
     private boolean validateServiceSheet() {
-        /*if(!validateClient()){
+        if(!validateClient()){
             return false;
         }
         if(!validateAddress()){
@@ -596,6 +603,9 @@ public class FragmentServicesheet extends Fragment{
         if(!validateBuyerRemark()){
             return false;
         }
+        if (!validateIntDescription()){
+            return false;
+        }
         if (!validateWarrantyYesNo()){
             return false;
         }
@@ -611,9 +621,15 @@ public class FragmentServicesheet extends Fragment{
         if (!validatePriceTotal()){
             return false;
         }
+        if (!validatePaymentMethod()){
+            return false;
+        }
+        if (!validatePaymentStatus()){
+            return false;
+        }
         if (!validateTimeWork()){
             return false;
-        }*/
+        }
         if (!validateTimeTravel()){
             return false;
         }
@@ -813,6 +829,26 @@ public class FragmentServicesheet extends Fragment{
         return true;
     }
 
+    private boolean validatePaymentMethod() {
+        if (spinnerPaymentMethod.getSelectedItemId() == -1 && spinnerWarrantyYesNo.getSelectedItemId() == 1){
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.fragment_servicesheet_insert_paymentMethod, Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private boolean validatePaymentStatus() {
+        if (spinnerPayedYesNo.getSelectedItemId() == -1 && spinnerPaymentMethod.getSelectedItemId() == 0){
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.fragment_servicesheet_insert_payedYesNo, Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     private boolean validateTimeWork() {
         if (spinnerTimeWork.getSelectedItemId() == -1) {
             vib.vibrate(120);
@@ -998,6 +1034,15 @@ public class FragmentServicesheet extends Fragment{
         if (view.requestFocus()) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    private void refreshFragment(){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment fragment = new FragmentServicesheet();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.attach(fragment);
+        fragmentTransaction.commit();
     }
 
 

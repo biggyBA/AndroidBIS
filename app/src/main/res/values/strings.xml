@@ -57,8 +57,13 @@
     <!-- Navigation drawer  -->
     <!--    -->
     <string name="nav_item_faults">Otvorene intervencije</string>
+
     <string name="nav_title_forms">Formulari</string>
     <string name="nav_item_servicesheet">Servisni list</string>
+
+    <string name="nav_title_myDocuments">Moji dokumenti</string>
+    <string name="nav_item_myServicesheets">Servisni listovi</string>
+
     <string name="nav_title_search">Pretraga</string>
     <string name="nav_item_checkproduct">Provjeri proizvod</string>
     <string name="nav_item_searcharchive">Pretraži arhivu</string>
@@ -68,6 +73,7 @@
     <!--    -->
     <string name="fragment_title_faults">Otvorene intervencije</string>
     <string name="fragment_title_servicesheet">Servini list</string>
+    <string name="fragment_title_myServicesheets">Moji servisni listovi</string>
     <string name="fragment_title_checkproduct">Provjeri proizvod</string>
     <string name="fragment_title_searcharchive">Pretraži arhivu</string>
     <string name="fragment_title_addfault">Prijavi intervenciju</string>
@@ -215,8 +221,12 @@
     <string name="fragment_servicesheet_insert_priceTotal">Unesite ukupne troškove</string>
     <string name="fragment_servicesheet_insert_timeWork">Odaberite Vaše vrijeme rada</string>
     <string name="fragment_servicesheet_insert_timeTravel">Odaberite Vaše vrijeme u putu</string>
+    <string name="fragment_servicesheet_insert_paymentMethod">Odaberite način plaćanja</string>
+    <string name="fragment_servicesheet_insert_payedYesNo">Odaberite dali je servis plaćen</string>
 
     <string name="fragment_servicesheet_insert_dialog_sparepartQty">Unesite količinu dijelova</string>
+
+    <string name="fragment_servicesheet_insert_success">Uspješno ste unijeli servisni list</string>
 
 
 

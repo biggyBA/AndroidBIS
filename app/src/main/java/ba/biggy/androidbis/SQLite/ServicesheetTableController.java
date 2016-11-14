@@ -1,6 +1,11 @@
 package ba.biggy.androidbis.SQLite;
 
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import ba.biggy.androidbis.POJO.Servicesheet;
+import ba.biggy.androidbis.POJO.Sparepart;
 
 public class ServicesheetTableController {
 
@@ -118,5 +123,47 @@ public class ServicesheetTableController {
 
     public static String getSQLiteUpgradeTableStatement(){
         return String.format("DROP TABLE IF EXISTS %s", tableName);
+    }
+
+    public void insertServicesheet(Servicesheet servicesheet){
+
+        SQLiteDatabase data = DataBaseAdapter.getDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(datefaultColumn, servicesheet.getDatefault());
+        values.put(timefaultColumn, servicesheet.getTimefault());
+        values.put(identColumn, servicesheet.getIdent());
+        values.put(serialnumberColumn, servicesheet.getSerialnumber());
+        values.put(productTypeColumn, servicesheet.getProductType());
+        values.put(buyerColumn, servicesheet.getBuyer());
+        values.put(addressColumn, servicesheet.getAddress());
+        values.put(placefaultColumn, servicesheet.getPlacefault());
+        values.put(phoneNumberColumn, servicesheet.getPhoneNumber());
+        values.put(phoneNumber2Column, servicesheet.getPhoneNumber2());
+        values.put(descFaultsColumn, servicesheet.getDescFaults());
+        values.put(notesInfoColumn, servicesheet.getNotesInfo());
+        values.put(responsibleforfailureColumn, servicesheet.getResponsibleforfailure());
+        values.put(statusColumn, servicesheet.getStatus());
+        values.put(datearchiveColumn, servicesheet.getDatearchive());
+        values.put(authorizedserviceColumn, servicesheet.getAuthorizedservice());
+        values.put(descinterventionColumn, servicesheet.getDescintervention());
+        values.put(warrantyYesNoColumn, servicesheet.getWarrantyYesNo());
+        values.put(methodpaymentColumn, servicesheet.getMethodpayment());
+        values.put(partsBuyerPriceColumn, servicesheet.getPartsBuyerPrice());
+        values.put(workBuyerPriceColumn, servicesheet.getWorkBuyerPrice());
+        values.put(tripBuyerPriceColumn, servicesheet.getTripBuyerPrice());
+        values.put(totalBuyerPriceColumn, servicesheet.getTotalBuyerPrice());
+        values.put(statusOfPaymentColumn, servicesheet.getStatusOfPayment());
+        values.put(hPUTServiceCostColumn, servicesheet.gethPUTServiceCost());
+        values.put(hINTColumn, servicesheet.gethINT());
+        values.put(totalcostsumColumn, servicesheet.getTotalcostsum());
+        values.put(randomStringPartsColum, servicesheet.getRandomStringParts());
+        values.put(updateStatusColumn, servicesheet.getUpdateStatus());
+        values.put(buydateColumn, servicesheet.getBuydate());
+        values.put(endwarrantyColumn, servicesheet.getEndwarranty());
+
+        data.insert(tableName, null, values);
+        data.close();
+
     }
 }

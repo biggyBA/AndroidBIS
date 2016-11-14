@@ -17,6 +17,15 @@
         </menu>
     </item>
 
+    <item android:title="@string/nav_title_myDocuments">
+        <menu>
+            <item
+                android:id="@+id/nav_item_myServicesheets"
+                android:icon="@drawable/ic_servicesheet_black"
+                android:title="@string/nav_item_myServicesheets" />
+        </menu>
+    </item>
+
     <item android:title="@string/nav_title_search">
         <menu>
             <item
