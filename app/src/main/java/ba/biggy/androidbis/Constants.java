@@ -38,6 +38,11 @@ public class Constants {
     public static final String STATUS_FAULT = "INTERVENCIJA";
     public static final String PRIORITY = "Normal";
     public static final String TYPE_OF_SERVICE = "Redovna intervencija";
+    public static final String SERVICESHEET_STATUS = "SERVISNI LIST ANDROID";
+    public static final String UPDATE_STATUS_NO = "no";
+    public static final String UPDATE_STATUS_YES = "yes";
+    public static final String PAYED_STATUS_NO = "NE PLACENO";
+    public static final String PAYED_STATUS_YES = "PLACENO";
 
 
     //date format strings

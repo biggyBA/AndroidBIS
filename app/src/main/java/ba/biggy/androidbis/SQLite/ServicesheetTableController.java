@@ -59,7 +59,7 @@ public class ServicesheetTableController {
     private static final String buydateColumn = "BuyDate";  //38
     private static final String endwarrantyColumn = "EndWarrenty";  //39
     private static final String typeOfServiceColumn = "TypeOfService";   //40
-    private static final String colum41 = "column41";
+    private static final String updateStatusColumn = "updateStatus";
     private static final String colum42 = "column42";
     private static final String colum43 = "column43";
     private static final String colum44 = "column44";
@@ -108,7 +108,7 @@ public class ServicesheetTableController {
                 + buydateColumn + " TEXT,"
                 + endwarrantyColumn + " TEXT,"
                 + typeOfServiceColumn + " TEXT,"
-                + colum41 + " TEXT,"
+                + updateStatusColumn + " TEXT,"
                 + colum42 + " TEXT,"
                 + colum43 + " TEXT,"
                 + colum44 + " TEXT,"

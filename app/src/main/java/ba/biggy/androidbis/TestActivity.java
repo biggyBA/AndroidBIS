@@ -56,12 +56,33 @@ public class TestActivity extends AppCompatActivity {
 
         TextView tv = (TextView) findViewById(R.id.tv);
         TextView tv2 = (TextView) findViewById(R.id.tv2);
-
         tv.setText(LastCall());
-
         tv2.setText(phone);
 
-}
+
+
+        Button btn1 = (Button) findViewById(R.id.button);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public String LastCall() {
         StringBuffer sb = new StringBuffer();

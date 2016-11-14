@@ -16,6 +16,11 @@ public class Sparepart {
     private String measurementUnits;
     private String partnumber2;
 
+    //used as key with servicesheet
+    private String rdmString;
+    //used to identify if sparepart has been sent to mysql
+    private String updateStatus;
+
 
     public String getId() {
         return id;
@@ -103,5 +108,21 @@ public class Sparepart {
 
     public void setPartnumber2(String partnumber2) {
         this.partnumber2 = partnumber2;
+    }
+
+    public String getRdmString() {
+        return rdmString;
+    }
+
+    public void setRdmString(String rdmString) {
+        this.rdmString = rdmString;
+    }
+
+    public String getUpdateStatus() {
+        return updateStatus;
+    }
+
+    public void setUpdateStatus(String updateStatus) {
+        this.updateStatus = updateStatus;
     }
 }

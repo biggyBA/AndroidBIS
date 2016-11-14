@@ -37,14 +37,23 @@ import java.util.Locale;
 
 import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.MainActivity;
+import ba.biggy.androidbis.POJO.Servicesheet;
+import ba.biggy.androidbis.POJO.Sparepart;
 import ba.biggy.androidbis.R;
+import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.SparepartListTableController;
+import ba.biggy.androidbis.SQLite.SparepartTableController;
+import ba.biggy.androidbis.SQLite.UsersTableController;
 import ba.biggy.androidbis.adapter.spinnerAdapter.NothingSelectedSpinnerAdapter;
+import ba.biggy.androidbis.global.DateMethods;
+import ba.biggy.androidbis.global.RandomStringGenerator;
+import ba.biggy.androidbis.global.TimeMethods;
 
 public class FragmentServicesheet extends Fragment{
 
+    public String randomString;
     private EditText etClient, etAddress, etPlace, etPhone1, etPhone2, etSN, etBuyDate, etWarrantyDate, etBuyerRemark, etIntDescription, etNote,
-                                etPriceParts, etPriceWork, etPriceTravel, etPriceTotal, dialogEtSparepartQty;
+                                etPriceParts, etPriceWork, etPriceTravel, etPriceTotal, dialogEtSparepartQty, dialogEtSNin, dialogEtSNout;
     private TextInputLayout layoutClient, layoutAddress, layoutPlace, layoutPhone1, layoutSN, layoutBuyDate, layoutBuyerRemark, layoutIntDescription,
                             layoutPriceParts, layoutPriceWork, layoutPriceTravel, layoutPriceTotal,
                             dialogLayoutSparepartSNin, dialogLayoutSparepartSNout, dialogLayoutSparepartQty;
@@ -57,6 +66,12 @@ public class FragmentServicesheet extends Fragment{
     private ArrayAdapter<CharSequence> adapterYesNo, adapterPaymentMethod, adapterTime, adapterDialogSparepartNames;
     private Vibrator vib;
     SparepartListTableController sparepartListTableController = new SparepartListTableController();
+    SparepartTableController sparepartTableController = new SparepartTableController();
+    CurrentUserTableController currentUserTableController = new CurrentUserTableController();
+    UsersTableController usersTableController = new UsersTableController();
+    RandomStringGenerator randomStringController = new RandomStringGenerator();
+    DateMethods dateMethods = new DateMethods();
+    TimeMethods timeMethods = new TimeMethods();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +83,8 @@ public class FragmentServicesheet extends Fragment{
     @Override
     public void onStart(){
         super.onStart();
+
+        randomString = randomStringController.generateRandomString();
 
         vib = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -317,7 +334,7 @@ public class FragmentServicesheet extends Fragment{
                 if (!validateServiceSheet()){
                     return;
                 }else{
-
+                    submitServicesheet();
                 }
             }
         });
@@ -362,6 +379,196 @@ public class FragmentServicesheet extends Fragment{
 
     }
 
+
+    /*
+     * method to submit servicesheet
+     */
+    private void submitServicesheet(){
+
+        /*Servicesheet servicesheet = new Servicesheet();
+
+        servicesheet.setDatefault(dateMethods.getTodayDateForMysql());
+        servicesheet.setTimefault(timeMethods.getCurrentTime());
+        servicesheet.setIdent(spinnerProductType.getSelectedItem().toString().trim());
+        servicesheet.setSerialnumber(etSN.getText().toString().trim());
+        servicesheet.setProductType(spinnerProductType.getSelectedItem().toString().trim());
+        servicesheet.setBuyer(etClient.getText().toString().trim());
+        servicesheet.setAddress(etAddress.getText().toString().trim());
+        servicesheet.setPlacefault(etPlace.getText().toString().trim());
+        servicesheet.setPhoneNumber(etPhone1.getText().toString().trim());
+        servicesheet.setPhoneNumber2(etPhone2.getText().toString().trim());
+        servicesheet.setDescFaults(etBuyerRemark.getText().toString().trim());
+        servicesheet.setNotesInfo(etNote.getText().toString().trim());
+        servicesheet.setResponsibleforfailure(currentUserTableController.getUsername());
+        servicesheet.setStatus(Constants.SERVICESHEET_STATUS);
+        servicesheet.setDatearchive(dateMethods.getTodayDateForMysql());
+        servicesheet.setAuthorizedservice(usersTableController.getAuthorizedService());
+        servicesheet.setDescintervention(etIntDescription.getText().toString().trim());
+        servicesheet.setWarrantyYesNo(spinnerWarrantyYesNo.getSelectedItem().toString().trim());
+        servicesheet.setMethodpayment(getPaymentMethod());
+        servicesheet.setPartsBuyerPrice(etPriceParts.getText().toString().trim());
+        servicesheet.setWorkBuyerPrice(etPriceWork.getText().toString().trim());
+        servicesheet.setTripBuyerPrice(etPriceTravel.getText().toString().trim());
+        servicesheet.setTotalBuyerPrice(etPriceTotal.getText().toString().trim());
+        servicesheet.setStatusOfPayment(getPayedStatus());
+        servicesheet.sethPUTServiceCost(getTimeTravel());
+        servicesheet.sethINT(getTimeWork());
+        servicesheet.setTotalcostsum(getServicemanTotalCost());
+        servicesheet.setRandomStringParts(randomString);
+        servicesheet.setUpdateStatus(Constants.UPDATE_STATUS_NO);
+        servicesheet.setBuydate(etBuyDate.getText().toString().trim());  //need to edit  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        servicesheet.setEndwarranty(etWarrantyDate.getText().toString().trim());   //need to edit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+
+        String text = getServicemanTotalCost();
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    /*
+     * method to define the payment method string
+     */
+    public String getPaymentMethod(){
+        String paymentMethod = null;
+        if(spinnerPaymentMethod.getSelectedItemId() == -1){
+            paymentMethod = "";
+        }else{
+            paymentMethod = spinnerPaymentMethod.getSelectedItem().toString().trim();
+        }
+        return paymentMethod;
+    }
+
+    /*
+     * method to define the payed status string
+     */
+    public String getPayedStatus(){
+        String payedStatus = null;
+        if(spinnerPayedYesNo.getSelectedItemId() == -1){
+            payedStatus = "";
+        }else if (spinnerPayedYesNo.getSelectedItemId() == 0){
+            payedStatus = Constants.PAYED_STATUS_YES;
+        }else {
+            payedStatus = Constants.PAYED_STATUS_NO;
+        }
+        return payedStatus;
+    }
+
+    /*
+     * get the selected time from spinner
+     * the string has a format x:xx h
+     * string format needed for mysql is x.xx
+     */
+    public String getTimeTravel(){
+        String timeTravel = spinnerTimeTravel.getSelectedItem().toString().trim();
+        String hours = Character.toString(timeTravel.charAt(0));
+        String seperator = ".";
+        String minutes = Character.toString(timeTravel.charAt(2));
+        String minutes2 = Character.toString(timeTravel.charAt(3));
+        timeTravel = hours + seperator + minutes + minutes2;
+        return timeTravel;
+    }
+
+    /*
+     * get the selected time from spinner
+     * the string has a format x:xx h
+     * string format needed for mysql is x.xx
+     */
+    public String getTimeWork(){
+        String timeWork = spinnerTimeWork.getSelectedItem().toString().trim();
+        String hours = Character.toString(timeWork.charAt(0));
+        String seperator = ".";
+        String minutes = Character.toString(timeWork.charAt(2));
+        String minutes2 = Character.toString(timeWork.charAt(3));
+        timeWork = hours + seperator + minutes + minutes2;
+        return timeWork;
+    }
+
+    /*
+     * this method returns a string with the total cost that needs to be payed to the serviceman
+     */
+    public String getServicemanTotalCost(){
+
+        /*
+         * calculation for serviceman work cost
+         */
+
+        //get the pricing for one hour of the current serviceman
+        double priceWork = usersTableController.getPriceHourWork();
+
+        //get the pricing for 15 minutes of work. divide by 4. selection can be made in intervals of 15 minutes
+        double prWork = priceWork / 4;
+
+        /*
+         * get the serviceman worktime from the spinner
+         * convert it to propper format - from    x:xx h    to    hours   and   minutes    as string
+         * convert the hours and minutes strings to integer
+         * calculate the hour and minutes costs
+         * add them to one price
+         */
+
+        //get the serviceman worktime from the spinner
+        String timeWork = getTimeWork();
+        //get the work hour as string
+        String workHour = Character.toString(timeWork.charAt(0));
+        //get the work minutes as strings and combine them into one minutes string
+        String workMin = Character.toString(timeWork.charAt(2));
+        String workMin1 = Character.toString(timeWork.charAt(3));
+        String workMinTotal = workMin + workMin1;
+
+        //convert work hours and minutes to integer
+        int workHourInt = Integer.parseInt(workHour);
+        int workMinInt = Integer.parseInt(workMinTotal);
+
+        //get the pricing for hours and minutes separately and combine them into one price
+        double priceHourWork = workHourInt * priceWork;
+        double priceMinWork = workMinInt * prWork;
+        double totalPriceWork = priceHourWork + priceMinWork;
+
+
+
+        /*
+         * calculation for serviceman travel cost
+         */
+        //get the pricing for one hour of the current serviceman
+        double priceTravel = usersTableController.getPriceHourTravel();
+
+        //divide by 4. selection can be made in intervals of 15 minutes
+        double prTravel = priceTravel / 4;
+
+        /*
+         * get the serviceman travel time from the spinner
+         * convert it to propper format - from    x:xx h    to    hours   and   minutes    as string
+         * convert the hours and minutes strings to integer
+         * calculate the hour and minutes costs
+         * add them to one price
+         */
+        //get the serviceman travel time from the spinner
+        String timeTravel = getTimeTravel();
+        //get the travel hour as string
+        String travelHour = Character.toString(timeTravel.charAt(0));
+        //get the travel minutes as strings and combine them into one minutes string
+        String travelMin = Character.toString(timeTravel.charAt(2));
+        String travelMin1 = Character.toString(timeTravel.charAt(3));
+        String travelMinTotal = travelMin + travelMin1;
+
+        //convert travel hours and minutes to integer
+        int travelHourInt = Integer.parseInt(travelHour);
+        int travelMinInt = Integer.parseInt(travelMinTotal);
+
+        //get the pricing for hours and minutes separately and combine them into one price
+        double priceHourTravel = travelHourInt * priceTravel;
+        double priceMinTravel = travelMinInt * prTravel;
+        double totalPriceTravel = priceHourTravel + priceMinTravel;
+
+
+        //calculate the total cost for serviceman
+        double totalCost = totalPriceWork + totalPriceTravel;
+        //konverzija double u string u pravom formatu
+        String totalCostSum = String.format("%1.2f", totalCost).replace(",", ".");
+
+        return totalCostSum;
+    }
 
     //validate service sheet
     private boolean validateServiceSheet() {
@@ -631,6 +838,11 @@ public class FragmentServicesheet extends Fragment{
 
 
 
+
+
+    /*
+     * create the sparepart dialog
+     */
     private void createAddSparepartDialog(){
 
         // create custom dialog
@@ -645,6 +857,8 @@ public class FragmentServicesheet extends Fragment{
         dialogLayoutSparepartSNin = (TextInputLayout) dialog.findViewById(R.id.layout_sparepart_sn_in);
         dialogLayoutSparepartSNout = (TextInputLayout) dialog.findViewById(R.id.layout_sparepart_sn_out);
         dialogLayoutSparepartQty = (TextInputLayout) dialog.findViewById(R.id.layout_sparepartQty);
+        dialogEtSNin = (EditText) dialog.findViewById(R.id.etSparepartSNin);
+        dialogEtSNout = (EditText) dialog.findViewById(R.id.etSparepartSNout);
         dialogEtSparepartQty = (EditText) dialog.findViewById(R.id.etSparepartQty);
 
         dialogButtonLayout = (LinearLayout) dialog.findViewById(R.id.dialogButtonLayout);
@@ -692,6 +906,8 @@ public class FragmentServicesheet extends Fragment{
                 }else{
                     //hide text
                     tvNoUsedParts.setVisibility(View.GONE);
+                    //insert sparepart into sql table sparepartTable
+                    submitSparepart();
                     //update layout with inserted partname and qty
                     usedSpareparts();
                     //dismiss the dialog
@@ -711,6 +927,9 @@ public class FragmentServicesheet extends Fragment{
 
     }
 
+    /*
+     * method to validate all fields before insert into sql table
+     */
     private boolean validateSparepart(){
         if (!validateSparepartQty()){
             return false;
@@ -737,7 +956,7 @@ public class FragmentServicesheet extends Fragment{
     /*
      * method to add the sparepart name and qty to linear layout usedSpareparts
      */
-    public void usedSpareparts(){
+    private void usedSpareparts(){
         //create the textviews
         TextView tvSparepartName = new TextView(getActivity());
         TextView tvSparepartQty = new TextView(getActivity());
@@ -756,6 +975,23 @@ public class FragmentServicesheet extends Fragment{
         layoutUsedSpareparts.addView(tvSparepartQty);
         layoutUsedSpareparts.addView(emptyTv);
     }
+
+    /*
+     * method to insert sparepart into sql table
+     */
+    private void submitSparepart(){
+        Sparepart sparepart = new Sparepart();
+        sparepart.setiDfromAddNewFault(randomString);
+        sparepart.setDescription(dialogSpinnerSparepartName.getSelectedItem().toString().trim());
+        sparepart.setPartnumber(dialogEtSNin.getText().toString().trim());
+        sparepart.setPartnumber2(dialogEtSNout.getText().toString().trim());
+        sparepart.setQty(dialogEtSparepartQty.getText().toString().trim());
+        sparepart.setUpdateStatus(Constants.UPDATE_STATUS_NO);
+
+        sparepartTableController.insertSparepart(sparepart);
+
+    }
+
 
 
     private void requestFocus(View view) {

@@ -33,7 +33,7 @@ public class SparepartTableController {
     private static final String priceperunitColumn = "priceperunit";    //9
     private static final String measurementUnitsColumn = "MeasurementUnits";    //10
     private static final String partnumber2Column = "partnumber2";  //11
-    private static final String colum12 = "column12";
+    private static final String updateStatusColumn = "updateStatus";
     private static final String colum13 = "column13";
     private static final String colum14 = "column14";
     private static final String colum15 = "column15";
@@ -54,7 +54,7 @@ public class SparepartTableController {
                 + priceperunitColumn + " TEXT,"
                 + measurementUnitsColumn + " TEXT,"
                 + partnumber2Column + " TEXT,"
-                + colum12 + " TEXT,"
+                + updateStatusColumn + " TEXT,"
                 + colum13 + " TEXT,"
                 + colum14 + " TEXT,"
                 + colum15 + " TEXT,"
@@ -84,6 +84,7 @@ public class SparepartTableController {
         values.put(priceperunitColumn, sparepart.getPriceperunit());
         values.put(measurementUnitsColumn, sparepart.getMeasurementUnits());
         values.put(partnumber2Column, sparepart.getPartnumber2());
+        values.put(updateStatusColumn, sparepart.getUpdateStatus());
 
         data.insert(tableName, null, values);
         data.close();
