@@ -2,8 +2,10 @@ package ba.biggy.androidbis.SQLite;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Servicesheet;
 import ba.biggy.androidbis.POJO.Sparepart;
 
@@ -165,5 +167,15 @@ public class ServicesheetTableController {
         data.insert(tableName, null, values);
         data.close();
 
+    }
+
+    public Cursor getAllServicesheets() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName;
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor;
+        }
+        return cursor;
     }
 }
