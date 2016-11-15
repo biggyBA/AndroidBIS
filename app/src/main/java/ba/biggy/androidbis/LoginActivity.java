@@ -29,6 +29,7 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import ba.biggy.androidbis.POJO.Sparepart;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.LoginServerRequest;
@@ -123,7 +124,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (pref.getBoolean(Constants.SP_IS_LOGGED_IN, true)){
-            goToMainActivity();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
 
     }
@@ -134,10 +136,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void goToMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
+
 
 
     private boolean validateForm(){
@@ -203,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        LoginServerRequest request = new LoginServerRequest();
+        final LoginServerRequest request = new LoginServerRequest();
         request.setUser(user);
         Call<LoginServerResponse> response = loginRequestInterface.operation(request);
         response.enqueue(new Callback<LoginServerResponse>() {
@@ -227,6 +226,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
+
+
                     //delete previous list of spareparts
                     sparepartListTableController.deleteAll();
                     //get array of spareparts and insert into sparepart table
@@ -242,10 +243,19 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
                     //set default faultsview
                     editor.putString(Constants.SP_FAULTSVIEW, Constants.SP_LISTVIEW);
+                    /*//insert details about user
+                    editor.putString(Constants.USERNAME, resp.getUser().getUsername());
+                    editor.putString(Constants.PROTECTION_LEVEL_ONE, resp.getUser().getProtectionLevel1());
+                    editor.putString(Constants.PROTECTION_LEVEL_TWO, resp.getUser().getProtectionLevel2());
+                    editor.putString(Constants.PRICE_HOUR_WORK, resp.getUser().getPriceHourWork());
+                    editor.putString(Constants.PRICE_HOUR_TRAVEL, resp.getUser().getPriceHourTravel());
+                    editor.putString(Constants.AUTHORIZED_SERVICE, resp.getUser().getAuthorizedService());
+                    editor.putString(Constants.COUNTRY, resp.getUser().getCountry());*/
+
                     editor.apply();
 
-
-                    goToMainActivity();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
 
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){

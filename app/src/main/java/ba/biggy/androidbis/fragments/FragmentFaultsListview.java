@@ -197,12 +197,12 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     public void onResume(){
         super.onResume();
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         Fragment fragment = new FragmentFaultsListview();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.detach(fragment);
         fragmentTransaction.attach(fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
     }
 
 
@@ -269,11 +269,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 spinnerFilterServiceman.setVisibility(View.VISIBLE);
 
 
-
-
-
-
-
                 //set the total fault count
                 totalFaultCount = faultsTableController.getTotalFaultCount();
                 faultCount.setText(totalFaultCount);
@@ -283,7 +278,6 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 listView.setAdapter(faultListviewExpandedAdapter);
 
                 listView.setSelection(lvPosition);
-
 
                 //get details from cursor and show them in FragmentFaultsListviewDetail
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -374,6 +368,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                         String phone2 = c.getString(11);
                         String faultdescription = c.getString(12);
                         String serviceman = c.getString(14);
+                        c.close();
 
 
                         switch (index) {
@@ -546,6 +541,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                         //strings which are shown in the snackbar
                         String client = c.getString(7);
                         String place = c.getString(9);
+                        c.close();
 
 
                         switch (index) {

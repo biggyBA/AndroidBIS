@@ -78,7 +78,6 @@ public class UsersTableController {
         SQLiteDatabase database = DataBaseAdapter.getDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         int count = cursor.getCount();
-        database.close();
         if (count > 0){
             return true;
         }
@@ -93,7 +92,6 @@ public class UsersTableController {
         String buildSQL = "SELECT * FROM " + tableName + " WHERE " + nameColumn + " = '"+currentUser+"'";
         Cursor cursor = db.rawQuery(buildSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
-            db.close();
             return cursor;
         }
         return cursor;
@@ -141,8 +139,6 @@ public class UsersTableController {
                 labels.add(cursor.getString(1).toUpperCase());
             } while (cursor.moveToNext());
         }
-        cursor.close();
-        database.close();
         return labels;
     }
 

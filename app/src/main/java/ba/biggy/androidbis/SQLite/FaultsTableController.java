@@ -177,7 +177,6 @@ public class FaultsTableController {
         SQLiteDatabase database = DataBaseAdapter.getDatabase();
         Cursor cursor = database.rawQuery(buildSQL, null);
         count = cursor.getCount();
-        database.close();
         String faultsCount = Integer.toString(count);
         return faultsCount;
     }
@@ -188,7 +187,6 @@ public class FaultsTableController {
         String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + statusColumn + " = '"+status+"'";
         Cursor cursor = db.rawQuery(buildSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
-            db.close();
             return cursor;
         }
         return cursor;
@@ -202,7 +200,6 @@ public class FaultsTableController {
         SQLiteDatabase database = DataBaseAdapter.getDatabase();
         Cursor cursor = database.rawQuery(buildSQL, null);
         count = cursor.getCount();
-        database.close();
         String faultsCount = Integer.toString(count);
         return faultsCount;
     }
@@ -212,15 +209,15 @@ public class FaultsTableController {
         CurrentUserTableController currentUserTableController = new CurrentUserTableController();
         String currentUser = currentUserTableController.getUsername().toUpperCase();
         String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + responsibleforfailureColumn + " = '"+currentUser+"'";
-        db.close();
-        return db.rawQuery(buildSQL, null);
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        return cursor;
     }
 
     public Cursor getFilterFaultByServiceman(String serviceman) {
         SQLiteDatabase db = DataBaseAdapter.getDatabase();
         String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + responsibleforfailureColumn + " = '"+serviceman+"'";
-        db.close();
-        return db.rawQuery(buildSQL, null);
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        return cursor;
     }
 
     public String getFilterFaultCountByServiceman(String serviceman){
@@ -229,7 +226,6 @@ public class FaultsTableController {
         SQLiteDatabase database = DataBaseAdapter.getDatabase();
         Cursor cursor = database.rawQuery(buildSQL, null);
         count = cursor.getCount();
-        database.close();
         String faultsCount = Integer.toString(count);
         return faultsCount;
     }

@@ -66,6 +66,10 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String username = pref.getString(Constants.USERNAME, "");
+                String plone = pref.getString(Constants.PROTECTION_LEVEL_ONE, "");
+
+                Toast.makeText(TestActivity.this, username + plone, Toast.LENGTH_SHORT).show();
             }
         });
 
