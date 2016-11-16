@@ -10,8 +10,11 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import ba.biggy.androidbis.R;
+import ba.biggy.androidbis.global.DateMethods;
 
 public class ServicesheetListviewAdapter extends CursorAdapter {
+
+    DateMethods dateMethods = new DateMethods();
 
     public ServicesheetListviewAdapter(Context context, Cursor c) {
         super(context, c);
@@ -48,7 +51,11 @@ public class ServicesheetListviewAdapter extends CursorAdapter {
         tvProductType.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
 
         TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
-        tvDate.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(18))));
+        String showDateFormated = dateMethods.formatDateFromMysqlToView(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(18))));
+        tvDate.setText(showDateFormated);
+
+
+
 
 
         String thisDate = cursor.getString(18);

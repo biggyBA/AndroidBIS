@@ -267,6 +267,32 @@
     </string-array>
 
 
+
+
+
+    <!--    -->
+    <!-- Fragment MyServicesheets  -->
+    <!--    -->
+
+
+
+    <!-- spinner Kind  -->
+    <string-array name="spinnerKind">
+        <item>@string/spinnerAll</item>
+        <item>@string/spinnerSent</item>
+        <item>@string/spinnerNotSent</item>
+    </string-array>
+    <string name="spinnerAll">Svi</string>
+    <string name="spinnerSent">Poslano</string>
+    <string name="spinnerNotSent">Nije poslano</string>
+
+
+
+
+
+
+
+
     <!--    -->
     <!-- Settings activity  -->
     <!--    -->

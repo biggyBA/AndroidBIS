@@ -153,7 +153,9 @@
         android:layout_toRightOf="@+id/phone1"
         android:layout_below="@+id/tvPlace"
         android:id="@+id/tvPhone1"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:longClickable="true"
+        android:textIsSelectable="true"/>
 
     <TextView
         android:text="TextView"
@@ -162,7 +164,9 @@
         android:layout_toRightOf="@+id/phone2"
         android:layout_below="@+id/tvPhone1"
         android:id="@+id/tvPhone2"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:longClickable="true"
+        android:textIsSelectable="true"/>
 
     <TextView
         android:text="TextView"

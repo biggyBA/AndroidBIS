@@ -38,7 +38,7 @@ public class FragmentFaultsListviewDetail extends Fragment {
         //get bundle from FaultsServiceSupportFragment
         Bundle bundle = this.getArguments();
         //get strings from bundle
-        String date = bundle.getString("dateservice");
+        String date = bundle.getString("datefault");
         String time = bundle.getString("timefault");
         String client = bundle.getString("client");
         String address = bundle.getString("address");

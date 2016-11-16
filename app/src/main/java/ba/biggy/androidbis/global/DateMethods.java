@@ -34,4 +34,23 @@ public class DateMethods {
     }
 
 
+    /*
+     * this method get a date as input with format yyyy-MM-dd which is used in mysql
+     * it returns a date with format dd.MM.yyyy which is showed to the user
+     */
+    public String formatDateFromMysqlToView(String date){
+        String formatedDate = "";
+        SimpleDateFormat viewFormat = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat mysqlFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            formatedDate = viewFormat.format(mysqlFormat.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return formatedDate;
+    }
+
+
 }

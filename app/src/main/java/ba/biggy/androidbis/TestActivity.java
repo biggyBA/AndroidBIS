@@ -18,10 +18,13 @@ import java.util.Arrays;
 import java.util.Date;
 
 import ba.biggy.androidbis.POJO.Fault;
+import ba.biggy.androidbis.POJO.Servicesheet;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.FaultServerResponse;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
+import ba.biggy.androidbis.TESTPACKAGE.TestsheetRequestInterface;
+import ba.biggy.androidbis.TESTPACKAGE.TestsheetServerResponse;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TestActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
-    //private ArrayList<ServicesheetTests> sheetData;
+    private ArrayList<Servicesheet> sheetData;
     private ArrayList<Fault> faultData;
     ServicesheetTableController servicesheetTableController = new ServicesheetTableController();
     FaultsTableController faultsTableController = new FaultsTableController();
@@ -65,7 +68,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                    getSheets();
             }
         });
 
@@ -126,16 +129,49 @@ public class TestActivity extends AppCompatActivity {
 
                 //get the response body and insert faults
                 FaultServerResponse jsonResponse = response.body();
-                faultData = new ArrayList<>(Arrays.asList(jsonResponse.getFault()));
+                /*faultData = new ArrayList<>(Arrays.asList(jsonResponse.getFault()));
                 for (int i = 0; i < faultData.size(); i++) {
                     faultsTableController.insertFault(faultData.get(i));
+                }*/
+
+                String test = jsonResponse.toString();
+                Toast.makeText(TestActivity.this, test, Toast.LENGTH_SHORT).show();
+
+            }
+            @Override
+            public void onFailure(Call<FaultServerResponse> call, Throwable t) {
+                Toast.makeText(TestActivity.this, R.string.error_nointernet, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
+
+    private void getSheets(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://biggy.ba/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        TestsheetRequestInterface request = retrofit.create(TestsheetRequestInterface.class);
+        Call<TestsheetServerResponse> call = request.getFaults();
+        call.enqueue(new Callback<TestsheetServerResponse>() {
+            @Override
+            public void onResponse(Call<TestsheetServerResponse> call, Response<TestsheetServerResponse> response) {
+
+
+
+                //get the response body and insert faults
+                TestsheetServerResponse jsonResponse = response.body();
+                sheetData = new ArrayList<>(Arrays.asList(jsonResponse.getFault()));
+                for (int i = 0; i < sheetData.size(); i++) {
+                    servicesheetTableController.insertServicesheet(sheetData.get(i));
                 }
 
 
 
             }
             @Override
-            public void onFailure(Call<FaultServerResponse> call, Throwable t) {
+            public void onFailure(Call<TestsheetServerResponse> call, Throwable t) {
                 Toast.makeText(TestActivity.this, R.string.error_nointernet, Toast.LENGTH_SHORT).show();
             }
 

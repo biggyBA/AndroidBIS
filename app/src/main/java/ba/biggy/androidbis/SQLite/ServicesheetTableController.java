@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Servicesheet;
 
 public class ServicesheetTableController {
@@ -170,6 +171,28 @@ public class ServicesheetTableController {
     public Cursor getAllServicesheets() {
         SQLiteDatabase db = DataBaseAdapter.getDatabase();
         String buildSQL = "SELECT rowid _id,* FROM " + tableName;
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor;
+        }
+        return cursor;
+    }
+
+    public Cursor getSentServicesheets() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String status = Constants.UPDATE_STATUS_YES;
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + updateStatusColumn + " = '"+status+"'";
+        Cursor cursor = db.rawQuery(buildSQL, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            return cursor;
+        }
+        return cursor;
+    }
+
+    public Cursor getNotSentServicesheets() {
+        SQLiteDatabase db = DataBaseAdapter.getDatabase();
+        String status = Constants.UPDATE_STATUS_NO;
+        String buildSQL = "SELECT rowid _id,* FROM " + tableName + " WHERE " + updateStatusColumn + " = '"+status+"'";
         Cursor cursor = db.rawQuery(buildSQL, null);
         if (cursor != null && cursor.moveToFirst()) {
             return cursor;

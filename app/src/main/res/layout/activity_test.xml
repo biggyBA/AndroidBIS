@@ -25,7 +25,7 @@
         android:id="@+id/tv2" />
 
     <Button
-        android:text="Button"
+        android:text="GET SERVICESHEETS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button" />
