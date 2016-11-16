@@ -67,6 +67,7 @@ public class SparepartListTableController {
         SQLiteDatabase database = DataBaseAdapter.getDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         count = cursor.getCount();
+        cursor.close();
         database.close();
         return count;
     }

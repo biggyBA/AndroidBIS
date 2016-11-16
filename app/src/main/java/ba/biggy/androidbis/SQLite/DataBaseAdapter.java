@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class DataBaseAdapter extends SQLiteOpenHelper {
 
     // database name
-    protected static final String DATABASE_NAME = "AndroidBIS";
+    protected static final String DATABASE_NAME = "AndroidBIS2";
     // database version
     protected static final int DATABASE_VERSION = 1;
 

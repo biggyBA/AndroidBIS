@@ -1,43 +1,42 @@
 package ba.biggy.androidbis;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.os.Vibrator;
 import android.provider.CallLog;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
-import ba.biggy.androidbis.SQLite.CurrentUserTableController;
+import ba.biggy.androidbis.POJO.Fault;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.FaultServerResponse;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
-import ba.biggy.androidbis.SQLite.SparepartListTableController;
-import ba.biggy.androidbis.SQLite.UsersTableController;
+import ba.biggy.androidbis.SQLite.FaultsTableController;
+import ba.biggy.androidbis.SQLite.ServicesheetTableController;
+import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class TestActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
+    //private ArrayList<ServicesheetTests> sheetData;
+    private ArrayList<Fault> faultData;
+    ServicesheetTableController servicesheetTableController = new ServicesheetTableController();
+    FaultsTableController faultsTableController = new FaultsTableController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +65,11 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
             }
         });
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -116,5 +106,39 @@ public class TestActivity extends AppCompatActivity {
         cur.close();
         String str=sb.toString();
         return str;
+    }
+
+
+
+
+    private void getFaults(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        FaultRequestInterface request = retrofit.create(FaultRequestInterface.class);
+        Call<FaultServerResponse> call = request.getFaults();
+        call.enqueue(new Callback<FaultServerResponse>() {
+            @Override
+            public void onResponse(Call<FaultServerResponse> call, Response<FaultServerResponse> response) {
+
+
+
+                //get the response body and insert faults
+                FaultServerResponse jsonResponse = response.body();
+                faultData = new ArrayList<>(Arrays.asList(jsonResponse.getFault()));
+                for (int i = 0; i < faultData.size(); i++) {
+                    faultsTableController.insertFault(faultData.get(i));
+                }
+
+
+
+            }
+            @Override
+            public void onFailure(Call<FaultServerResponse> call, Throwable t) {
+                Toast.makeText(TestActivity.this, R.string.error_nointernet, Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 }

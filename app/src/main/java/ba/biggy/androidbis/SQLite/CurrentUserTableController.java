@@ -49,7 +49,6 @@ public class CurrentUserTableController {
         SQLiteDatabase database = DataBaseAdapter.getDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         count = cursor.getCount();
-        database.close();
         return count;
     }
 
@@ -60,7 +59,6 @@ public class CurrentUserTableController {
         if (cursor != null && cursor.moveToFirst()) {
             return cursor;
         }
-        db.close();
         return cursor;
     }
 

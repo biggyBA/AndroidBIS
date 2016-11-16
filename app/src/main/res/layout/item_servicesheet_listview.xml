@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
-    android:background="@color/colorLight">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@color/colorLightDarker">
+        android:gravity="end"
+        android:id="@+id/layoutDate"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextViewDate"
+            android:id="@+id/tvDate"
+            android:textStyle="normal|bold"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
 
         <TextView
             android:text="TextViewClient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:id="@+id/tvClient"
             android:textStyle="normal|bold"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_below="@+id/layoutDate"/>
 
         <TextView
             android:text="TextViewPlace"
@@ -68,25 +79,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-        <TextView
-            android:text="TextViewServiceman"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvServiceman"
-            android:layout_below="@+id/tvPhone2"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-
-
-
-
-
-
-
-
-
 
     </RelativeLayout>
+
 
 </RelativeLayout>

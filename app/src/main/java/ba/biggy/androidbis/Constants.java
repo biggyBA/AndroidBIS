@@ -25,6 +25,14 @@ public class Constants {
     public static final String SP_LISTVIEW = "1";  //used as value for listview
     public static final String SP_LISTVIEW_POSITION = "lv_position";  //used as key to save listview position
 
+    public static final String USERNAME = "username";
+    public static final String PROTECTION_LEVEL_ONE = "protectionLevel1";
+    public static final String PROTECTION_LEVEL_TWO = "protectionLevel2";
+    public static final String PRICE_HOUR_WORK = "priceHourWork";
+    public static final String PRICE_HOUR_TRAVEL = "priceHourTravel";
+    public static final String AUTHORIZED_SERVICE = "authorizedService";
+    public static final String COUNTRY = "country";
+
     public static final String SP_PHONE = "phone";
 
 

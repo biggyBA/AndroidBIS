@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
         sPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (currentUserTableController.getUsername().equalsIgnoreCase("0")){
+        if (pref.getString(Constants.USERNAME,"").equalsIgnoreCase("0")){
             //set the logged in status to false
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean(Constants.SP_IS_LOGGED_IN, false);
@@ -84,46 +84,14 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        /*//get state of phone
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        PhoneStateListener callStateListener = new PhoneStateListener() {
-            public void onCallStateChanged(int state, String incomingNumber) {
-                super.onCallStateChanged(state, incomingNumber);
-                if(state==TelephonyManager.CALL_STATE_RINGING){
-                    String num = "";
-                    if (incomingNumber.equalsIgnoreCase("")){
-                        num = "empty";
-                    }else if (incomingNumber.isEmpty()){
-                        num = "e";
-                    }else if (incomingNumber == null){
-                        num = "null";
-                    }
-                    Toast.makeText(getApplicationContext(),"Phone Is Riging" + num,
-                            Toast.LENGTH_LONG).show();
-                }
-                if(state==TelephonyManager.CALL_STATE_OFFHOOK){
-                    Toast.makeText(getApplicationContext(),"Phone is Currently in A call",
-                            Toast.LENGTH_LONG).show();
-                }
 
-                if(state==TelephonyManager.CALL_STATE_IDLE){
-                    Toast.makeText(getApplicationContext(),"phone is neither ringing nor in a call",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        };
-        telephonyManager.listen(callStateListener,PhoneStateListener.LISTEN_CALL_STATE);*/
-
-
-
-
-
-        displayView(1);
+        displayView(3);
 
 
 
             //if protection level is admin show the fab
-            if (usersTableController.getUserProtectionLevel1().equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
+            if (pref.getString(Constants.PROTECTION_LEVEL_ONE, "").equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
+            //if (usersTableController.getUserProtectionLevel1().equalsIgnoreCase(Constants.PROTECTION_LEVEL_ADMIN)){
                 fab = (FloatingActionButton) findViewById(R.id.fab);
                 fab1 = (FloatingActionButton)findViewById(R.id.fab1);
                 fab2 = (FloatingActionButton)findViewById(R.id.fab2);
@@ -320,10 +288,12 @@ public class MainActivity extends AppCompatActivity
             case 4:
                 fragment = new FragmentSearchArchive();
                 title = getString(R.string.fragment_title_searcharchive);
+                break;
 
             case 5:
                 fragment = new FragmentMyServicesheets();
                 title = getString(R.string.fragment_title_myServicesheets);
+                break;
 
             default:
                 break;
