@@ -5,9 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Servicesheet;
-import ba.biggy.androidbis.POJO.Sparepart;
 
 public class ServicesheetTableController {
 
@@ -178,4 +176,6 @@ public class ServicesheetTableController {
         }
         return cursor;
     }
+
+
 }

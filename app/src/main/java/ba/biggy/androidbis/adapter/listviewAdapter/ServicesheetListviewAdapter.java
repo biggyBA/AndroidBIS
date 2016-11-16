@@ -33,10 +33,10 @@ public class ServicesheetListviewAdapter extends CursorAdapter {
         tvClient.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(7))));
 
         TextView tvAddress = (TextView) view.findViewById(R.id.tvAddress);
-        tvAddress.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(9))));
+        tvAddress.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(8))));
 
         TextView tvPlace = (TextView) view.findViewById(R.id.tvPlace);
-        tvPlace.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(8))));
+        tvPlace.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(9))));
 
         TextView tvPhone1 = (TextView) view.findViewById(R.id.tvPhone1);
         tvPhone1.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(10))));
@@ -48,10 +48,10 @@ public class ServicesheetListviewAdapter extends CursorAdapter {
         tvProductType.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
 
         TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
-        tvDate.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(10))));
+        tvDate.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(18))));
 
 
-        String thisDate = cursor.getString(2);
+        String thisDate = cursor.getString(18);
         String prevDate = null;
 
         // get previous item's date, for comparison
