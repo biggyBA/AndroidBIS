@@ -34,9 +34,6 @@
     <string name="spinnerNo">NE</string>
 
 
-
-
-
     <!--    -->
     <!-- Login activity  -->
     <!--    -->
@@ -115,7 +112,6 @@
     <string name="spinner_nothing_selected_prompt">Sve intervencije</string>
 
 
-
     <!--    -->
     <!-- Fragment faults listview detail -->
     <!--    -->
@@ -146,7 +142,6 @@
     <string name="snackbar_addfault_success">Intervencija uspješno prijavljena</string>
     <string name="snackbar_addfault_failure">Došlo je do greške</string>
     <string name="snackbar_addfault_error">Došlo je do greške. Provjerite internet vezu.</string>
-
 
 
     <!--    -->
@@ -229,7 +224,6 @@
     <string name="fragment_servicesheet_insert_success">Uspješno ste unijeli servisni list</string>
 
 
-
     <!-- spinner METHOD PAYMENT  -->
     <string-array name="spinnerMethodPayment">
         <item>@string/cash</item>
@@ -267,13 +261,9 @@
     </string-array>
 
 
-
-
-
     <!--    -->
     <!-- Fragment MyServicesheets  -->
     <!--    -->
-
 
 
     <!-- spinner Kind  -->
@@ -285,12 +275,6 @@
     <string name="spinnerAll">Svi</string>
     <string name="spinnerSent">Poslano</string>
     <string name="spinnerNotSent">Nije poslano</string>
-
-
-
-
-
-
 
 
     <!--    -->
