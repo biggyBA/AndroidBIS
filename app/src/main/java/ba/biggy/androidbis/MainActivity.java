@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +44,7 @@ import ba.biggy.androidbis.fragments.FragmentCheckProduct;
 import ba.biggy.androidbis.fragments.FragmentFaultsCardview;
 import ba.biggy.androidbis.fragments.FragmentFaultsExpandableListview;
 import ba.biggy.androidbis.fragments.FragmentFaultsListview;
+import ba.biggy.androidbis.fragments.FragmentMap;
 import ba.biggy.androidbis.fragments.FragmentMyServicesheets;
 import ba.biggy.androidbis.fragments.FragmentSearchArchive;
 import ba.biggy.androidbis.fragments.FragmentServicesheet;
@@ -60,6 +64,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        permGPS();
+
+
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -239,6 +249,8 @@ public class MainActivity extends AppCompatActivity
             displayView(4);
         } else if (id == R.id.nav_item_myServicesheets) {
             displayView(5);
+        } else if (id == R.id.nav_item_map) {
+            displayView(6);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -295,6 +307,10 @@ public class MainActivity extends AppCompatActivity
                 title = getString(R.string.fragment_title_myServicesheets);
                 break;
 
+            case 6:
+                fragment = new FragmentMap();
+                title = getString(R.string.fragment_title_map);
+
             default:
                 break;
 
@@ -311,8 +327,6 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle(title);
         }
     }
-
-
 
     public void animateFAB(){
         if(isFabOpen){
@@ -332,7 +346,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     private void showAddFaultFragment(){
         Fragment fragment = new FragmentAddFault();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -347,7 +360,32 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle(title);
     }
 
+    private void permGPS(){
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, Constants.PERMISSIONS_REQUEST_READ_CALL_LOG);
 
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        } else {
+            // Android version is less than 6.0 or the permission is already granted.
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == Constants.PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
 }

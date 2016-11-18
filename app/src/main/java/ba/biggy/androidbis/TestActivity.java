@@ -1,8 +1,11 @@
 package ba.biggy.androidbis;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.CallLog;
@@ -48,6 +51,8 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        permGPS();
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         DataBaseAdapter.init(this);
@@ -88,7 +93,32 @@ public class TestActivity extends AppCompatActivity {
     }
 
 
+    private void permGPS(){
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, Constants.PERMISSIONS_REQUEST_READ_CALL_LOG);
 
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        } else {
+            // Android version is less than 6.0 or the permission is already granted.
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == Constants.PERMISSIONS_REQUEST_READ_CALL_LOG) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                Toast.makeText(this, "Granted CALL", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     public String LastCall() {
         StringBuffer sb = new StringBuffer();
@@ -123,9 +153,6 @@ public class TestActivity extends AppCompatActivity {
         String str=sb.toString();
         return str;
     }
-
-
-
 
     private void getFaults(){
         Retrofit retrofit = new Retrofit.Builder()

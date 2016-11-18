@@ -58,6 +58,19 @@ public class Constants {
     public static final String DATE_MYSQL_FORMAT = "yyyy-MM-dd";
 
 
+    //permissions
+    public static int PERMISSIONS_REQUEST_READ_CALL_LOG = 1;
+    public static int PERMISSIONS_REQUEST_READ_CONTACTS = 2;
+    public static int PERMISSIONS_REQUEST_VIBRATE = 3;
+    public static int PERMISSIONS_REQUEST_INTERNET = 4;
+    public static int PERMISSIONS_REQUEST_READ_PHONE_STATE = 5;
+    public static int PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 6;
+    public static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 7;
+    public static int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 8;
+    public static int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 9;
+
+
+
 
 
 }

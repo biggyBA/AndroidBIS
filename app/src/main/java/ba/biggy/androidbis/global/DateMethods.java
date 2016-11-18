@@ -5,11 +5,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import ba.biggy.androidbis.Constants;
+
 public class DateMethods {
 
 
     public String getTodayDateForMysql(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_MYSQL_FORMAT);
         String currentDate = sdf.format(new Date());
         return currentDate;
     }
@@ -21,8 +23,8 @@ public class DateMethods {
      */
     public String formatDateFromViewToMysql(String date){
         String formatedDate = "";
-        SimpleDateFormat viewFormat = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat mysqlFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat viewFormat = new SimpleDateFormat(Constants.DATE_SHOW_FORMAT);
+        SimpleDateFormat mysqlFormat = new SimpleDateFormat(Constants.DATE_MYSQL_FORMAT);
 
         try {
             formatedDate = mysqlFormat.format(viewFormat.parse(date));
@@ -40,8 +42,8 @@ public class DateMethods {
      */
     public String formatDateFromMysqlToView(String date){
         String formatedDate = "";
-        SimpleDateFormat viewFormat = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat mysqlFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat viewFormat = new SimpleDateFormat(Constants.DATE_SHOW_FORMAT);
+        SimpleDateFormat mysqlFormat = new SimpleDateFormat(Constants.DATE_MYSQL_FORMAT);
 
         try {
             formatedDate = viewFormat.format(mysqlFormat.parse(date));

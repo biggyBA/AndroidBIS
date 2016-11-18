@@ -65,6 +65,9 @@
     <string name="nav_item_checkproduct">Provjeri proizvod</string>
     <string name="nav_item_searcharchive">Pretraži arhivu</string>
 
+    <string name="nav_title_other">Ostalo</string>
+    <string name="nav_item_map">Karta</string>
+
     <!--    -->
     <!-- Fragment titles used for appbar  -->
     <!--    -->
@@ -74,6 +77,7 @@
     <string name="fragment_title_checkproduct">Provjeri proizvod</string>
     <string name="fragment_title_searcharchive">Pretraži arhivu</string>
     <string name="fragment_title_addfault">Prijavi intervenciju</string>
+    <string name="fragment_title_map">Karta</string>
 
 
     <!--    -->
@@ -305,6 +309,9 @@
     <string name="MergedAppBarLayoutBehavior">ba.biggy.androidbis.bottomSheets.MergedAppBarLayoutBehavior</string>
     <string name="ScrollingAppBarLayoutBehavior">ba.biggy.androidbis.bottomSheets.ScrollingAppBarLayoutBehavior</string>
     <string name="key_binding_default_toolbar_name">Modal-Toolbar-Title</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
