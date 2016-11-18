@@ -299,4 +299,12 @@
     </string-array>
 
 
+    <string name="BackDropBottomSheetBehavior">ba.biggy.androidbis.bottomSheets.BackdropBottomSheetBehavior</string>
+    <string name="BottomSheetBehaviorGoogleMapsLike">ba.biggy.androidbis.bottomSheets.BottomSheetBehaviorGoogleMapsLike</string>
+    <string name="ScrollAwareFABBehavior">ba.biggy.androidbis.bottomSheets.ScrollAwareFABBehavior</string>
+    <string name="MergedAppBarLayoutBehavior">ba.biggy.androidbis.bottomSheets.MergedAppBarLayoutBehavior</string>
+    <string name="ScrollingAppBarLayoutBehavior">ba.biggy.androidbis.bottomSheets.ScrollingAppBarLayoutBehavior</string>
+    <string name="key_binding_default_toolbar_name">Modal-Toolbar-Title</string>
+
+
 </resources>

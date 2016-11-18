@@ -2,10 +2,7 @@ package ba.biggy.androidbis.fragments;
 
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -24,8 +20,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
-import ba.biggy.androidbis.ServicesheetDetail;
-import ba.biggy.androidbis.adapter.listviewAdapter.FaultListviewExpandedAdapter;
 import ba.biggy.androidbis.adapter.listviewAdapter.ServicesheetListviewAdapter;
 
 public class FragmentMyServicesheets extends Fragment {
@@ -99,8 +93,7 @@ public class FragmentMyServicesheets extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(getActivity(), ServicesheetDetail.class);
-                startActivity(intent);
+
             }
         });
 

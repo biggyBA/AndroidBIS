@@ -1,5 +1,6 @@
 package ba.biggy.androidbis;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
 import ba.biggy.androidbis.TESTPACKAGE.TestsheetRequestInterface;
 import ba.biggy.androidbis.TESTPACKAGE.TestsheetServerResponse;
+import ba.biggy.androidbis.bottomSheets.FaultDetail;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,22 +55,33 @@ public class TestActivity extends AppCompatActivity {
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
-        String phone = pref.getString("phone","");
+       /* String phone = pref.getString("phone","");
         Toast.makeText(TestActivity.this, phone, Toast.LENGTH_LONG).show();
 
         TextView tv = (TextView) findViewById(R.id.tv);
         TextView tv2 = (TextView) findViewById(R.id.tv2);
         tv.setText(LastCall());
-        tv2.setText(phone);
+        tv2.setText(phone);*/
 
 
 
-        Button btn1 = (Button) findViewById(R.id.button);
-        btn1.setOnClickListener(new View.OnClickListener() {
+        Button btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                     getSheets();
+            }
+        });
+
+
+        Button btn1 = (Button) findViewById(R.id.button1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(TestActivity.this, FaultDetail.class);
+                startActivity(intent);
             }
         });
 
