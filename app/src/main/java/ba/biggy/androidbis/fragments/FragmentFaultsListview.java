@@ -5,6 +5,7 @@ package ba.biggy.androidbis.fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -50,6 +51,7 @@ import ba.biggy.androidbis.POJO.retrofitServerObjects.UpdateFaultServerResponse;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.UsersTableController;
+import ba.biggy.androidbis.activities.faultDetailAdmin.FaultDetailAdmin;
 import ba.biggy.androidbis.adapter.listviewAdapter.FaultListviewExpandedAdapter;
 import ba.biggy.androidbis.adapter.listviewAdapter.FaultListviewSimpleAdapter;
 import ba.biggy.androidbis.adapter.spinnerAdapter.NothingSelectedSpinnerAdapter;
@@ -288,16 +290,33 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 //get strings from cursor
                 String datefault = c.getString(2);
                 String timefault = c.getString(3);
+                String productType = c.getString(4);
                 String client = c.getString(7);
                 String address = c.getString(8);
                 String place = c.getString(9);
                 String phone1 = c.getString(10);
                 String phone2 = c.getString(11);
-                String descfault = c.getString(12);
+                String descFault = c.getString(12);
                 String note = c.getString(13);
+                String serviceman = c.getString(14);
                 c.close();
 
-                Fragment newFragment = new FragmentFaultsListviewDetail();
+
+                Intent intent = new Intent(getActivity(), FaultDetailAdmin.class);
+                intent.putExtra(Constants.DATEFAULT, datefault);
+                intent.putExtra(Constants.TIMEFAULT, timefault);
+                intent.putExtra(Constants.PRODUCT_TYPE, productType);
+                intent.putExtra(Constants.CLIENT, client);
+                intent.putExtra(Constants.ADDRESS, address);
+                intent.putExtra(Constants.PLACE, place);
+                intent.putExtra(Constants.PHONE_ONE, phone1);
+                intent.putExtra(Constants.PHONE_TWO, phone2);
+                intent.putExtra(Constants.DESCRIPTION_FAULT, descFault);
+                intent.putExtra(Constants.NOTE, note);
+                intent.putExtra(Constants.SERVICEMAN, serviceman);
+
+                startActivity(intent);
+                /*Fragment newFragment = new FragmentFaultsListviewDetail();
                 Bundle bundle = new Bundle();
                 bundle.putString("datefault", datefault);
                 bundle.putString("timefault", timefault);
@@ -314,7 +333,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 tr.replace(R.id.content_main, newFragment);
                 tr.addToBackStack(null);
-                tr.commit();
+                tr.commit();*/
                     }
                 });
 

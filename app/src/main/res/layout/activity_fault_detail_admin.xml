@@ -58,7 +58,7 @@
         android:fitsSystemWindows="true">
 
         <include
-            layout="@layout/bottom_sheet_content"
+            layout="@layout/fault_detail_admin_bottom_sheet_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"/>

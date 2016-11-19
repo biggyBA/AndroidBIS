@@ -1,38 +1,33 @@
-package ba.biggy.androidbis.bottomSheets;
+package ba.biggy.androidbis.activities.faultDetailAdmin;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.R;
+import ba.biggy.androidbis.bottomSheets.ItemPagerAdapter;
 import ba.biggy.androidbis.bottomSheets.lib.BottomSheetBehaviorGoogleMapsLike;
 import ba.biggy.androidbis.bottomSheets.lib.MergedAppBarLayoutBehavior;
 
-public class FaultDetail extends AppCompatActivity {
+public class FaultDetailAdmin extends AppCompatActivity {
 
-    int[] mDrawables = {
-            R.drawable.ic_ekoline,
-            R.drawable.cheese_3,
-            R.drawable.ic_ekoline,
-            R.drawable.ic_ekoline,
-            R.drawable.ic_ekoline,
-            R.drawable.ic_ekoline
-    };
-
-    TextView bottomSheetTextView;
+    private TextView bottomSheetTextView, tvClient, tvPhone, tvAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fault_detail);
+        setContentView(R.layout.activity_fault_detail_admin);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,22 +48,22 @@ public class FaultDetail extends AppCompatActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED:
-                        Log.d("bottomsheet-", "STATE_COLLAPSED");
+
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_DRAGGING:
-                        Log.d("bottomsheet-", "STATE_DRAGGING");
+
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED:
-                        Log.d("bottomsheet-", "STATE_EXPANDED");
+
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT:
-                        Log.d("bottomsheet-", "STATE_ANCHOR_POINT");
+
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN:
-                        Log.d("bottomsheet-", "STATE_HIDDEN");
+
                         break;
                     default:
-                        Log.d("bottomsheet-", "STATE_SETTLING");
+
                         break;
                 }
             }
@@ -80,7 +75,7 @@ public class FaultDetail extends AppCompatActivity {
 
         AppBarLayout mergedAppBarLayout = (AppBarLayout) findViewById(R.id.merged_appbarlayout);
         MergedAppBarLayoutBehavior mergedAppBarLayoutBehavior = MergedAppBarLayoutBehavior.from(mergedAppBarLayout);
-        mergedAppBarLayoutBehavior.setToolbarTitle("Title Dummy");
+        mergedAppBarLayoutBehavior.setToolbarTitle("Fault details");
         mergedAppBarLayoutBehavior.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +84,37 @@ public class FaultDetail extends AppCompatActivity {
         });
 
         bottomSheetTextView = (TextView) bottomSheet.findViewById(R.id.bottom_sheet_title);
-        ItemPagerAdapter adapter = new ItemPagerAdapter(this,mDrawables);
+        /*ItemPagerAdapter adapter = new ItemPagerAdapter(this,mDrawables);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);*/
+
+
+        //get extras from bundle
+        Intent intent= getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle!=null) {
+
+
+            tvClient = (TextView) bottomSheet.findViewById(R.id.tvClient);
+            tvPhone = (TextView) bottomSheet.findViewById(R.id.tvPhone1);
+            tvAddress = (TextView) bottomSheet.findViewById(R.id.tvAddress);
+
+            String datefault = (String) bundle.get(Constants.DATEFAULT);
+            String timefault = (String) bundle.get(Constants.TIMEFAULT);
+            String productType = (String) bundle.get(Constants.PRODUCT_TYPE);
+            String client = (String) bundle.get(Constants.CLIENT);
+            String address = (String) bundle.get(Constants.ADDRESS);
+            String place = (String) bundle.get(Constants.PLACE);
+            String phone1 = (String) bundle.get(Constants.PHONE_ONE);
+            String phone2 = (String) bundle.get(Constants.PHONE_TWO);
+            String descFault = (String) bundle.get(Constants.DESCRIPTION_FAULT);
+            String note = (String) bundle.get(Constants.NOTE);
+            String serviceman = (String) bundle.get(Constants.SERVICEMAN);
+
+            tvClient.setText(client);
+            tvPhone.setText(phone1);
+            tvAddress.setText(address);
+
+        }
     }
 }

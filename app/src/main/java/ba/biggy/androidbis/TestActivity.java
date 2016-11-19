@@ -29,6 +29,7 @@ import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
 import ba.biggy.androidbis.TESTPACKAGE.TestsheetRequestInterface;
 import ba.biggy.androidbis.TESTPACKAGE.TestsheetServerResponse;
+import ba.biggy.androidbis.activities.faultDetailAdmin.FaultDetailAdmin;
 import ba.biggy.androidbis.bottomSheets.FaultDetail;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
 import retrofit2.Call;
@@ -86,6 +87,17 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(TestActivity.this, FaultDetail.class);
+                startActivity(intent);
+            }
+        });
+
+
+        Button btn2 = (Button) findViewById(R.id.button2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(TestActivity.this, FaultDetailAdmin.class);
                 startActivity(intent);
             }
         });

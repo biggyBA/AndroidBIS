@@ -13,7 +13,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/tvClient"
         android:textStyle="normal|bold"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:text="TextViewPlace"

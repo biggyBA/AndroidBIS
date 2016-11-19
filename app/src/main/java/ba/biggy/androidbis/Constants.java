@@ -42,6 +42,22 @@ public class Constants {
     public static final String PROTECTION_LEVEL_USER = "Serviceman";
 
 
+    //extras
+    public static final String DATEFAULT = "datefault";
+    public static final String TIMEFAULT = "timefault";
+    public static final String PRODUCT_TYPE = "producttype";
+    public static final String CLIENT = "client";
+    public static final String ADDRESS = "address";
+    public static final String PLACE = "place";
+    public static final String PHONE_ONE = "phone1";
+    public static final String PHONE_TWO = "phone2";
+    public static final String DESCRIPTION_FAULT = "descfault";
+    public static final String NOTE = "note";
+    public static final String SERVICEMAN = "serviceman";
+
+
+
+
     //MySQL
     public static final String STATUS_FAULT = "INTERVENCIJA";
     public static final String PRIORITY = "Normal";

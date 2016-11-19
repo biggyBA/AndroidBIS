@@ -1,4 +1,4 @@
-package ba.biggy.androidbis.bottomSheets;
+package ba.biggy.androidbis.bottomSheets.lib;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

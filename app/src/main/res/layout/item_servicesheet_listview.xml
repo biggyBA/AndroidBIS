@@ -13,14 +13,15 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:id="@+id/layoutDate"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorLight">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextViewDate"
             android:id="@+id/tvDate"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 
@@ -31,7 +32,8 @@
             android:id="@+id/tvClient"
             android:textStyle="normal|bold"
             android:textSize="18sp"
-            android:layout_below="@+id/layoutDate"/>
+            android:layout_below="@+id/layoutDate"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewPlace"

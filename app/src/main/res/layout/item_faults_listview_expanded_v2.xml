@@ -21,7 +21,8 @@
             android:layout_alignParentStart="true"
             android:id="@+id/tvClient"
             android:textStyle="normal|bold"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewPlace"
@@ -30,7 +31,8 @@
             android:layout_below="@+id/tvAddress"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/tvPlace" />
+            android:id="@+id/tvPlace"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewAddress"
@@ -39,7 +41,8 @@
             android:id="@+id/tvAddress"
             android:layout_below="@+id/tvClient"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewPhone1"
@@ -48,7 +51,8 @@
             android:id="@+id/tvPhone1"
             android:layout_below="@+id/tvProductType"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewPhone2"
@@ -57,7 +61,8 @@
             android:id="@+id/tvPhone2"
             android:layout_below="@+id/tvPhone1"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewProductType"
@@ -66,7 +71,8 @@
             android:id="@+id/tvProductType"
             android:layout_alignBottom="@+id/tvClient"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:text="TextViewServiceman"
@@ -75,7 +81,8 @@
             android:id="@+id/tvServiceman"
             android:layout_below="@+id/tvPhone2"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"/>
 
 
 
