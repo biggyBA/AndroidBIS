@@ -135,10 +135,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
-
-
     private boolean validateForm(){
         if(!validateUsername()){
             etUsername.setAnimation(animShake);
@@ -154,8 +150,6 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }
     }
-
-
 
     private boolean validateUsername() {
         if (etUsername.getText().toString().trim().isEmpty()) {
@@ -186,11 +180,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     private void loginProcess(final String username, String password){
         prgDialog = new ProgressDialog(this);
+        // TODO define message in strings.xml
         prgDialog.setMessage("Logujem se...");
         prgDialog.setCancelable(false);
         prgDialog.show();
@@ -226,8 +218,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
-
-
                     //delete previous list of spareparts
                     sparepartListTableController.deleteAll();
                     //get array of spareparts and insert into sparepart table
@@ -237,20 +227,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
-
                     SharedPreferences.Editor editor = pref.edit();
                     //set logged in
                     editor.putBoolean(Constants.SP_IS_LOGGED_IN,true);
                     //set default faultsview
                     editor.putString(Constants.SP_FAULTSVIEW, Constants.SP_LISTVIEW);
-                    /*//insert details about user
-                    editor.putString(Constants.USERNAME, resp.getUser().getUsername());
-                    editor.putString(Constants.PROTECTION_LEVEL_ONE, resp.getUser().getProtectionLevel1());
-                    editor.putString(Constants.PROTECTION_LEVEL_TWO, resp.getUser().getProtectionLevel2());
-                    editor.putString(Constants.PRICE_HOUR_WORK, resp.getUser().getPriceHourWork());
-                    editor.putString(Constants.PRICE_HOUR_TRAVEL, resp.getUser().getPriceHourTravel());
-                    editor.putString(Constants.AUTHORIZED_SERVICE, resp.getUser().getAuthorizedService());
-                    editor.putString(Constants.COUNTRY, resp.getUser().getCountry());*/
+
 
                     editor.apply();
 
@@ -259,6 +241,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
+                    // TODO define message in strings.xml
                     Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
                 }
                 prgDialog.dismiss();
@@ -270,8 +253,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void getAllUsers(){
         Retrofit retrofit = new Retrofit.Builder()
@@ -295,7 +276,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void getAllSpareparts(){
         Retrofit retrofit = new Retrofit.Builder()

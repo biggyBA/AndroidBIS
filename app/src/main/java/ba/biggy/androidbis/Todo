@@ -1,8 +1,0 @@
-
-
-Need to create products table, also need to echo json response on login and insert these products into table
-Spinner in FragmentAddFault needs to be populated from this table
-Spinner in FragmentServicesheet needs to be populated from this table
-
-
-Login is now on biggy.ba. Need to switch server and send new login.php

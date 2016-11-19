@@ -20,7 +20,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linearClientInfo">
 
             <TextView
                 android:id="@+id/tvClient"
@@ -39,6 +40,14 @@
                 android:textSize="12sp"
                 android:layout_marginTop="5dp"/>
 
+            <TextView
+                android:id="@+id/tvPhone2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tvPhone2"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"/>
+
         </LinearLayout>
 
         <TextView
@@ -52,6 +61,20 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvPlace"
+            android:text="tvPlace"
+            android:layout_below="@+id/tvAddress"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="2dp"/>
+
 
     </RelativeLayout>
 
@@ -139,13 +162,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/linearClient"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ivClient"
-                app:srcCompat="@drawable/ic_person_black_24px"
+                app:srcCompat="@drawable/ic_today_black_24px"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -154,8 +178,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvClient2"
-                android:text="tvClient2"
+                android:id="@+id/tvDate"
+                android:text="tvDate"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="5dp"/>
         </LinearLayout>
@@ -172,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ivAddress"
-                app:srcCompat="@drawable/ic_room_black_24px"
+                app:srcCompat="@drawable/ic_access_time_black_24px"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -181,51 +205,96 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvAddress2"
-                android:text="tvAddress2"
+                android:id="@+id/tvTime"
+                android:text="tvTime"
                 android:textColor="@android:color/black"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
     </RelativeLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearFaultDescription"
+            android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivFaultDescription"
+            app:srcCompat="@drawable/ic_build_black"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="APACHE LICENSE"
-            android:layout_gravity="center_vertical"
-            android:textSize="18sp"
-            android:textColor="@android:color/darker_gray"/>
-    </FrameLayout>
+            android:id="@+id/tvFaultDescription"
+            android:text="tvFaultDescription"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/linearFaultDescription">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivNote"
+                app:srcCompat="@drawable/ic_announcement_black_24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvNote"
+                android:text="tvNote"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-
-        android:text="dummy_text"
         android:textSize="12sp"
         android:textColor="@android:color/black"/>
-<!--
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="620dp"
-        android:background="@color/colorAccent"
+        android:background="@android:color/white"
         android:layout_marginTop="40dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Your remaining content here"
             android:textColor="@android:color/white" />
 
+
+
     </FrameLayout>
--->
+
 </LinearLayout>

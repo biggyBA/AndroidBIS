@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import ba.biggy.androidbis.Constants;
@@ -19,10 +20,13 @@ import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.bottomSheets.ItemPagerAdapter;
 import ba.biggy.androidbis.bottomSheets.lib.BottomSheetBehaviorGoogleMapsLike;
 import ba.biggy.androidbis.bottomSheets.lib.MergedAppBarLayoutBehavior;
+import ba.biggy.androidbis.fragments.FragmentMap;
+import ba.biggy.androidbis.global.DateMethods;
 
 public class FaultDetailAdmin extends AppCompatActivity {
 
-    private TextView bottomSheetTextView, tvClient, tvPhone, tvAddress;
+    private TextView bottomSheetTextView, tvClient, tvPhone, tvPhone2, tvAddress, tvPlace, tvServiceman, tvProductType, tvDate, tvTime, tvFaultDescription, tvNote;
+    DateMethods dateMethods = new DateMethods();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,8 @@ public class FaultDetailAdmin extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(" ");
         }
+
+
 
         /**
          * If we want to listen for states callback
@@ -97,7 +103,15 @@ public class FaultDetailAdmin extends AppCompatActivity {
 
             tvClient = (TextView) bottomSheet.findViewById(R.id.tvClient);
             tvPhone = (TextView) bottomSheet.findViewById(R.id.tvPhone1);
+            tvPhone2 = (TextView) bottomSheet.findViewById(R.id.tvPhone2);
             tvAddress = (TextView) bottomSheet.findViewById(R.id.tvAddress);
+            tvPlace = (TextView) bottomSheet.findViewById(R.id.tvPlace);
+            //tvServiceman = (TextView) bottomSheet.findViewById(R.id.tvServiceman);
+            //tvProductType = (TextView) bottomSheet.findViewById(R.id.tvProductType);
+            tvDate = (TextView) bottomSheet.findViewById(R.id.tvDate);
+            tvTime = (TextView) bottomSheet.findViewById(R.id.tvTime);
+            tvFaultDescription = (TextView) bottomSheet.findViewById(R.id.tvFaultDescription);
+            tvNote = (TextView) bottomSheet.findViewById(R.id.tvNote);
 
             String datefault = (String) bundle.get(Constants.DATEFAULT);
             String timefault = (String) bundle.get(Constants.TIMEFAULT);
@@ -113,7 +127,15 @@ public class FaultDetailAdmin extends AppCompatActivity {
 
             tvClient.setText(client);
             tvPhone.setText(phone1);
+            tvPhone2.setText(phone2);
             tvAddress.setText(address);
+            tvPlace.setText(place);
+            //tvServiceman.setText(serviceman);
+            //tvProductType.setText(productType);
+            tvDate.setText(dateMethods.formatDateFromMysqlToView(datefault));
+            tvTime.setText(timefault);
+            tvFaultDescription.setText(descFault);
+            tvNote.setText(note);
 
         }
     }
