@@ -89,6 +89,7 @@ public class FragmentAddFault extends Fragment implements View.OnClickListener{
 
         btnAddFault = (Button) getActivity().findViewById(R.id.btnAddFault);
 
+        // TODO This spinner should be populated with data from sql
         //populate product type spinner with data
         List<String> spinnerProductTypeArray =  new ArrayList<String>();
         spinnerProductTypeArray.add("7,5 kW");

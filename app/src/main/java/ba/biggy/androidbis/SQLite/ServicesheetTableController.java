@@ -200,5 +200,13 @@ public class ServicesheetTableController {
         return cursor;
     }
 
+    public void updateStatus(String randomString){
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        String status = Constants.UPDATE_STATUS_YES;
+        String updateQuery = "Update " + tableName +" set " + updateStatusColumn + " = '"+ status +"' where " + randomStringPartsColum + " ="+"'"+ randomString +"'";
+        database.execSQL(updateQuery);
+        database.close();
+    }
+
 
 }
