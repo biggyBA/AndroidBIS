@@ -267,7 +267,7 @@ public class FragmentMyServicesheets extends Fragment {
                     String rnd = resp.getKey();
                     servicesheetTableController.updateStatus(rnd);
 
-                    String test = sparepartTableController.partsJSONfromSQLite("h");
+                    String test = resp.getPart();
                     Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
 
                     prgDialog.dismiss();

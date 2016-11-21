@@ -579,10 +579,11 @@ public class FragmentServicesheet extends Fragment{
 
     //validate service sheet
     private boolean validateServiceSheet() {
+        // TODO remove comments
         if(!validateClient()){
             return false;
         }
-        if(!validateAddress()){
+        /*if(!validateAddress()){
             return false;
         }
         if(!validatePlace()){
@@ -632,7 +633,7 @@ public class FragmentServicesheet extends Fragment{
         }
         if (!validateTimeTravel()){
             return false;
-        }
+        }*/
 
 
 
