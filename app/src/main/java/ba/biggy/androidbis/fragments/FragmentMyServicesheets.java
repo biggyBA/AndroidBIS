@@ -28,6 +28,7 @@ import ba.biggy.androidbis.POJO.retrofitServerObjects.UploadServicesheetServerRe
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UploadServicesheetServerResponse;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
+import ba.biggy.androidbis.SQLite.SparepartTableController;
 import ba.biggy.androidbis.adapter.listviewAdapter.ServicesheetListviewAdapter;
 import ba.biggy.androidbis.retrofitInterface.UploadServicesheetRequestInterface;
 import retrofit2.Call;
@@ -48,6 +49,7 @@ public class FragmentMyServicesheets extends Fragment {
     private CoordinatorLayout coordinatorLayout;
     ServicesheetListviewAdapter servicesheetListviewAdapter;
     ServicesheetTableController servicesheetTableController = new ServicesheetTableController();
+    SparepartTableController sparepartTableController = new SparepartTableController();
 
 
     @Override
@@ -178,7 +180,6 @@ public class FragmentMyServicesheets extends Fragment {
 
                                 //get cursor from selected item
                                 Cursor c = (Cursor) swipeMenuListView.getItemAtPosition(position);
-
                                 servicesheet.setDatefault(c.getString(2));
                                 servicesheet.setTimefault(c.getString(3));
                                 servicesheet.setIdent(c.getString(4));
@@ -209,10 +210,12 @@ public class FragmentMyServicesheets extends Fragment {
                                 servicesheet.setRandomStringParts(c.getString(37));
                                 servicesheet.setBuydate(c.getString(38));
                                 servicesheet.setEndwarranty(c.getString(39));
-
                                 c.close();
 
-                                uploadServicesheet(servicesheet);
+                                //sparepartTableController.partsJSONfromSQLite();
+
+                                // TODO replace with spareparts from sql
+                                uploadServicesheet(servicesheet, "da");
 
 
 
@@ -234,7 +237,7 @@ public class FragmentMyServicesheets extends Fragment {
     }
 
 
-    private void uploadServicesheet(Servicesheet servicesheet){
+    private void uploadServicesheet(Servicesheet servicesheet, String usedSpareparts){
         prgDialog = new ProgressDialog(getActivity());
         prgDialog.setMessage(getResources().getString(R.string.prgDialog_uploadingServicesheet));
         prgDialog.setCancelable(false);
@@ -249,6 +252,7 @@ public class FragmentMyServicesheets extends Fragment {
 
         UploadServicesheetServerRequest uploadServicesheetServerRequest = new UploadServicesheetServerRequest();
         uploadServicesheetServerRequest.setServicesheet(servicesheet);
+        uploadServicesheetServerRequest.setUsedSpareparts(usedSpareparts);
 
         Call<UploadServicesheetServerResponse> response = uploadServicesheetRequestInterface.operation(uploadServicesheetServerRequest);
         response.enqueue(new Callback<UploadServicesheetServerResponse>() {
@@ -259,8 +263,11 @@ public class FragmentMyServicesheets extends Fragment {
 
 
                     // TODO updateStatus to yes in sql table
-                    String rnd = "MKBLQQMFCEDCRVLULXYFIXMFFECWLEJS";
+                    String rnd = resp.getKey();
                     servicesheetTableController.updateStatus(rnd);
+
+                    String test = sparepartTableController.partsJSONfromSQLite();
+                    Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
 
                     prgDialog.dismiss();
                     Snackbar.make(coordinatorLayout, R.string.snackbar_uploadServicesheet_success, Snackbar.LENGTH_LONG).show();

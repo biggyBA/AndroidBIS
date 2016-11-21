@@ -356,7 +356,7 @@ public class FragmentServicesheet extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-
+        // TODO
         //populate product type spinner with data
         List<String> spinnerProductTypeArray =  new ArrayList<String>();
         spinnerProductTypeArray.add("7,5 kW");
@@ -389,7 +389,7 @@ public class FragmentServicesheet extends Fragment{
      * method to submit servicesheet
      */
     private void submitServicesheet(){
-
+        // TODO notify user if success or failure
         Servicesheet servicesheet = new Servicesheet();
 
         servicesheet.setDatefault(dateMethods.getTodayDateForMysql());
@@ -1016,6 +1016,7 @@ public class FragmentServicesheet extends Fragment{
      * method to insert sparepart into sql table
      */
     private void submitSparepart(){
+        // TODO need to insert date, client
         Sparepart sparepart = new Sparepart();
         sparepart.setiDfromAddNewFault(randomString);
         sparepart.setDescription(dialogSpinnerSparepartName.getSelectedItem().toString().trim());

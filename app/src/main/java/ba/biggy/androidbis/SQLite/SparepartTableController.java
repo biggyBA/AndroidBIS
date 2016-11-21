@@ -2,9 +2,22 @@ package ba.biggy.androidbis.SQLite;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import ba.biggy.androidbis.POJO.Servicesheet;
 import ba.biggy.androidbis.POJO.Sparepart;
+
+import static android.app.SearchManager.QUERY;
 
 public class SparepartTableController {
 
@@ -91,6 +104,34 @@ public class SparepartTableController {
 
     }
 
+
+    // TODO reformat method
+    public String partsJSONfromSQLite(){
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+        String selectQuery = "SELECT  * FROM " + tableName;
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("col1", cursor.getString(1));
+                map.put("col2", cursor.getString(2));
+                map.put("col3", cursor.getString(3));
+                map.put("col4", cursor.getString(4));
+                map.put("col5", cursor.getString(5));
+                map.put("col6", cursor.getString(6));
+                map.put("col7", cursor.getString(7));
+                map.put("col8", cursor.getString(8));
+                map.put("col9", cursor.getString(9));
+                map.put("col10", cursor.getString(10));
+                wordList.add(map);
+            } while (cursor.moveToNext());
+        }
+        database.close();
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(wordList);
+    }
 
 
 }

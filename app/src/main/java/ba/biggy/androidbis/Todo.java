@@ -13,4 +13,8 @@ public class Todo {
     // TODO Need to set swipe refreshing to false if no internet in getFaults - FragmentFaultsListview
 
 
+
+    // TODO in MainActivity check if users count is 0 or current user is 0, if yes set login status to false and start loginActivity
+
+
 }
