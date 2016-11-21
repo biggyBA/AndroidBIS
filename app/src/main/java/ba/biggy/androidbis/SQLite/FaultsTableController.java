@@ -16,7 +16,7 @@ public class FaultsTableController {
      */
 
     //Table name
-    public static final String tableName = "faults";
+    public static final String tableName = Constants.FAULTS_TABLE_NAME;
 
 
     /*
@@ -25,37 +25,37 @@ public class FaultsTableController {
      */
 
     //Table columns
-    private static final String idColumn = "ID";  //1
-    private static final String datefaultColumn = "datefault";  //2
-    private static final String timefaultColumn = "timefault";  //3
-    private static final String identColumn = "ident";  //4
-    private static final String serialnumberColumn = "serialnumber";  //5
-    private static final String productTypeColumn = "ProductType";  //6
-    private static final String buyerColumn = "Buyer";  //7
-    private static final String addressColumn = "address";  //8
-    private static final String placefaultColumn = "Placefault";  //9
-    private static final String phoneNumberColumn = "PhoneNumber";  //10
-    private static final String phoneNumber2Column = "PhoneNumber2";  //11
-    private static final String descFaultsColumn = "DescFaults";  //12
-    private static final String notesInfoColumn = "NotesInfo";  //13
-    private static final String responsibleforfailureColumn = "Responsibleforfailure";  //14
-    private static final String statusColumn = "Status";  //15
-    private static final String serviceSheetColumn = "ServiceSheet";  //16
-    private static final String prioritiesColumn = "priorities";  //17
-    private static final String datearchiveColumn = "datearchive";  //18
-    private static final String orderIssuedColumn = "OrderIssued";  //19
-    private static final String authorizedserviceColumn = "Authorizedservice";  //20
-    private static final String descinterventionColumn = "Descintervention";  //21
-    private static final String idfaultColumn = "idfault";  //22
-    private static final String idfault2Column = "idfault2";  //23
-    private static final String notessheetColumn = "notessheet";  //24
-    private static final String warrantyYesNoColumn = "WarrantyYesNo";  //25
-    private static final String methodpaymentColumn = "methodpayment";  //26
-    private static final String partsBuyerPriceColumn = "PartsBuyerPrice";  //27
-    private static final String workBuyerPriceColumn = "WorkBuyerPrice";  //28
-    private static final String tripBuyerPriceColumn = "TripBuyerPrice";  //29
-    private static final String totalBuyerPriceColumn = "TotalBuyerPrice";  //30
-    private static final String statusOfPaymentColumn = "StatusOfPayment";  //31
+    private static final String idColumn = Constants.FAULTS_COLUMN_ID;  //1
+    private static final String datefaultColumn = Constants.FAULTS_COLUMN_DATE_FAULT;  //2
+    private static final String timefaultColumn = Constants.FAULTS_COLUMN_TIME_FAULT;  //3
+    private static final String identColumn = Constants.FAULTS_COLUMN_IDENT;  //4
+    private static final String serialnumberColumn = Constants.FAULTS_COLUMN_SERIAL_NUMBER;  //5
+    private static final String productTypeColumn = Constants.FAULTS_COLUMN_PRODUCT_TYPE;  //6
+    private static final String buyerColumn = Constants.FAULTS_COLUMN_CLIENT;  //7
+    private static final String addressColumn = Constants.FAULTS_COLUMN_ADDRESS;  //8
+    private static final String placefaultColumn = Constants.FAULTS_COLUMN_PLACE;  //9
+    private static final String phoneNumberColumn = Constants.FAULTS_COLUMN_PHONE_ONE;  //10
+    private static final String phoneNumber2Column = Constants.FAULTS_COLUMN_PHONE_TWO;  //11
+    private static final String descFaultsColumn = Constants.FAULTS_COLUMN_FAULT_DESCRIPTION;  //12
+    private static final String notesInfoColumn = Constants.FAULTS_COLUMN_NOTE_INFO;  //13
+    private static final String responsibleforfailureColumn = Constants.FAULTS_COLUMN_SERVICEMAN;  //14
+    private static final String statusColumn = Constants.FAULTS_COLUMN_STATUS;  //15
+    private static final String serviceSheetColumn = Constants.FAULTS_COLUMN_SERVICESHEET;  //16
+    private static final String prioritiesColumn = Constants.FAULTS_COLUMN_PRIORITY;  //17
+    private static final String datearchiveColumn = Constants.FAULTS_COLUMN_DATE_ARCHIVE;  //18
+    private static final String orderIssuedColumn = Constants.FAULTS_COLUMN_ORDER_ISSUED;  //19
+    private static final String authorizedserviceColumn = Constants.FAULTS_COLUMN_AUTHORIZED_SERVICE;  //20
+    private static final String descinterventionColumn = Constants.FAULTS_COLUMN_DESCRIPTION_INTERVENTION;  //21
+    private static final String idfaultColumn = Constants.FAULTS_COLUMN_FAULT_CODE_ONE;  //22
+    private static final String idfault2Column = Constants.FAULTS_COLUMN_FAULT_CODE_TWO;  //23
+    private static final String notessheetColumn = Constants.FAULTS_COLUMN_NOTESSHEET;  //24
+    private static final String warrantyYesNoColumn = Constants.FAULTS_COLUMN_WARRANTY_YES_NO;  //25
+    private static final String methodpaymentColumn = Constants.FAULTS_COLUMN_METHOD_PAYMENT;  //26
+    private static final String partsBuyerPriceColumn = Constants.FAULTS_COLUMN_BUYER_PRICE_PARTS;  //27
+    private static final String workBuyerPriceColumn = Constants.FAULTS_COLUMN_BUYER_PRICE_WORK;  //28
+    private static final String tripBuyerPriceColumn = Constants.FAULTS_COLUMN_BUYER_PRICE_TRIP;  //29
+    private static final String totalBuyerPriceColumn = Constants.FAULTS_COLUMN_BUYER_PRICE_TOTAL;  //30
+    private static final String statusOfPaymentColumn = Constants.FAULTS_COLUMN_STATUS_OF_PAYMENT;  //31
     private static final String ptServiceCostColumn = "PTServiceCost";  //32
     private static final String hPUTServiceCostColumn = "hPUTServiceCost";  //33
     private static final String hINTColumn = "hINT";  //34

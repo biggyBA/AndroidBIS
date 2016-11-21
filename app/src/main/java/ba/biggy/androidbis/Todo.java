@@ -17,4 +17,8 @@ public class Todo {
     // TODO in MainActivity check if users count is 0 or current user is 0, if yes set login status to false and start loginActivity
 
 
+
+    // TODO request user permissions in MainActivity
+
+
 }

@@ -87,6 +87,84 @@ public class Constants {
 
 
 
+    /*
+     *
+     *  sql table and column names
+     *
+     */
+
+
+    /*
+     *  CurrentUserTableController
+     */
+    public static String CURRENT_USER_TABLE_NAME = "currentUser";
+    public static String CURRENT_USER_COLUMN_NAME = "Username";
+
+    /*
+     *  FaultsTableController
+     */
+    public static String FAULTS_TABLE_NAME = "faults";
+    public static String FAULTS_COLUMN_ID = "ID";
+    public static String FAULTS_COLUMN_DATE_FAULT = "datefault";
+    public static String FAULTS_COLUMN_TIME_FAULT = "timefault";
+    public static String FAULTS_COLUMN_IDENT = "ident";
+    public static String FAULTS_COLUMN_SERIAL_NUMBER = "serialnumber";
+    public static String FAULTS_COLUMN_PRODUCT_TYPE = "ProductType";
+    public static String FAULTS_COLUMN_CLIENT = "Buyer";
+    public static String FAULTS_COLUMN_ADDRESS = "address";
+    public static String FAULTS_COLUMN_PLACE = "Placefault";
+    public static String FAULTS_COLUMN_PHONE_ONE = "PhoneNumber";
+    public static String FAULTS_COLUMN_PHONE_TWO = "PhoneNumber2";
+    public static String FAULTS_COLUMN_FAULT_DESCRIPTION = "DescFaults";
+    public static String FAULTS_COLUMN_NOTE_INFO = "NotesInfo";
+    public static String FAULTS_COLUMN_SERVICEMAN = "Responsibleforfailure";
+    public static String FAULTS_COLUMN_STATUS = "Status";
+    public static String FAULTS_COLUMN_SERVICESHEET = "ServiceSheet";
+    public static String FAULTS_COLUMN_PRIORITY = "priorities";
+    public static String FAULTS_COLUMN_DATE_ARCHIVE = "datearchive";
+    public static String FAULTS_COLUMN_ORDER_ISSUED = "OrderIssued";
+    public static String FAULTS_COLUMN_AUTHORIZED_SERVICE = "Authorizedservice";
+    public static String FAULTS_COLUMN_DESCRIPTION_INTERVENTION = "Descintervention";
+    public static String FAULTS_COLUMN_FAULT_CODE_ONE = "idfault";
+    public static String FAULTS_COLUMN_FAULT_CODE_TWO = "idfault2";
+    public static String FAULTS_COLUMN_NOTESSHEET = "notessheet";
+    public static String FAULTS_COLUMN_WARRANTY_YES_NO = "WarrantyYesNo";
+    public static String FAULTS_COLUMN_METHOD_PAYMENT = "methodpayment";
+    public static String FAULTS_COLUMN_BUYER_PRICE_PARTS = "PartsBuyerPrice";
+    public static String FAULTS_COLUMN_BUYER_PRICE_WORK = "WorkBuyerPrice";
+    public static String FAULTS_COLUMN_BUYER_PRICE_TRIP = "TripBuyerPrice";
+    public static String FAULTS_COLUMN_BUYER_PRICE_TOTAL = "TotalBuyerPrice";
+    public static String FAULTS_COLUMN_STATUS_OF_PAYMENT = "StatusOfPayment";
+
+
+
+
+    /*
+     *  PhonecallsTableController
+     */
+
+
+    /*
+     *  ServicesheetTableController
+     */
+
+
+    /*
+     *  SparepartListTableController
+     */
+
+
+    /*
+     *  SparepartTableController
+     */
+
+
+    /*
+     *  UsersTableController
+     */
+
+
+
 
 
 }

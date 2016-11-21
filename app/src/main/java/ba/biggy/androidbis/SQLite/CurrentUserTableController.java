@@ -5,15 +5,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.User;
 
 public class CurrentUserTableController {
 
     //Table current user
-    public static final String tableName = "currentUser";
+    public static final String tableName = Constants.CURRENT_USER_TABLE_NAME;
 
     //Table columns
-    private static final String nameColumn = "Username";
+    private static final String nameColumn = Constants.CURRENT_USER_COLUMN_NAME;
 
     public static String getSQLiteCreateTableStatement(){
         String createTable = "CREATE TABLE " + tableName + "("
