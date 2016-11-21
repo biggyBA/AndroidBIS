@@ -210,14 +210,15 @@ public class FragmentMyServicesheets extends Fragment {
                                 servicesheet.setRandomStringParts(c.getString(37));
                                 servicesheet.setBuydate(c.getString(38));
                                 servicesheet.setEndwarranty(c.getString(39));
-                                c.close();
+
 
                                 //sparepartTableController.partsJSONfromSQLite();
 
                                 // TODO replace with spareparts from sql
-                                uploadServicesheet(servicesheet, "da");
+                                String usedSpareparts = sparepartTableController.partsJSONfromSQLite(c.getString(37));
+                                uploadServicesheet(servicesheet, usedSpareparts);
 
-
+                                c.close();
 
 
                                 break;
@@ -266,7 +267,7 @@ public class FragmentMyServicesheets extends Fragment {
                     String rnd = resp.getKey();
                     servicesheetTableController.updateStatus(rnd);
 
-                    String test = sparepartTableController.partsJSONfromSQLite();
+                    String test = sparepartTableController.partsJSONfromSQLite("h");
                     Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
 
                     prgDialog.dismiss();
