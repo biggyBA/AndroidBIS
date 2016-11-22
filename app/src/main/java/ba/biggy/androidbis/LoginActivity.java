@@ -182,8 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginProcess(final String username, String password){
         prgDialog = new ProgressDialog(this);
-        // TODO define message in strings.xml
-        prgDialog.setMessage("Logujem se...");
+        prgDialog.setMessage(getResources().getString(R.string.dialog_login_message));
         prgDialog.setCancelable(false);
         prgDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
@@ -241,8 +240,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 }else if (resp.getResult().equals(Constants.FAILURE)){
-                    // TODO define message in strings.xml
-                    Snackbar.make(coordinatorLayout, "Neispravni pristupni podaci", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_login_wrong_credidentals, Snackbar.LENGTH_LONG).show();
                 }
                 prgDialog.dismiss();
             }
@@ -253,6 +251,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void getAllUsers(){
         Retrofit retrofit = new Retrofit.Builder()
@@ -272,7 +271,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<UserServerResponse> call, Throwable t) {
-                Log.d("Error",t.getMessage());
+
             }
         });
     }
@@ -296,7 +295,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<SparepartServerResponse> call, Throwable t) {
-                Log.d("Error",t.getMessage());
+
             }
         });
     }

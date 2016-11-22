@@ -247,7 +247,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
             }
             @Override
             public void onFailure(Call<FaultServerResponse> call, Throwable t) {
-                swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(getActivity(), R.string.error_nointernet, Toast.LENGTH_SHORT).show();
             }
 

@@ -48,6 +48,9 @@
     <string name="dialog_currentuser">Došlo je do greške. Provjerite internet vezu.</string>
     <string name="dialog_currentuser_positive_button">POKUŠAJ PONOVO</string>
     <string name="dialog_currentuser_negative_button">ODUSTANI</string>
+    <string name="dialog_login_message">Logujem se…</string>
+    <string name="snackbar_login_wrong_credidentals">Neispravni pristupni podaci</string>
+
 
 
     <!--    -->
@@ -271,7 +274,8 @@
     <string name="prgDialog_uploadingServicesheet">Šaljem servisni list</string>
     <string name="snackbar_uploadServicesheet_success">Servisni list uspješno poslan</string>
     <string name="snackbar_uploadServicesheet_failure">Došlo je do greške</string>
-    <string name="snackbar_uploadServicesheet_error">Došlo je do greške. Provjerite internet vezu.</string>
+    <string name="snackbar_uploadServicesheet_error">Došlo je do greške. Provjerite internet vezu</string>
+    <string name="snackbar_uploadServicesheet_error_parts">Došlo je do greške slanja dijelova</string>
 
 
     <!-- spinner Kind  -->

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Servicesheet;
 import ba.biggy.androidbis.POJO.Sparepart;
 
@@ -105,7 +106,7 @@ public class SparepartTableController {
     }
 
 
-    // TODO reformat method
+
     public String partsJSONfromSQLite(String randomString){
         ArrayList<HashMap<String, String>> sparepartList;
         sparepartList = new ArrayList<HashMap<String, String>>();
@@ -115,22 +116,31 @@ public class SparepartTableController {
         if (cursor.moveToFirst()) {
             do {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("iDfromAddNewFault", cursor.getString(1));
-                map.put("datefault", cursor.getString(2));
-                map.put("partnumber", cursor.getString(3));
-                map.put("description", cursor.getString(4));
-                map.put("qty", cursor.getString(5));
-                map.put("nameBuyer", cursor.getString(6));
-                map.put("serialnumber", cursor.getString(7));
-                map.put("priceperunit", cursor.getString(8));
-                map.put("measurementUnits", cursor.getString(9));
-                map.put("partnumber2", cursor.getString(10));
+                map.put("col1", cursor.getString(1));
+                map.put("col2", cursor.getString(2));
+                map.put("col3", cursor.getString(3));
+                map.put("col4", cursor.getString(4));
+                map.put("col5", cursor.getString(5));
+                map.put("col6", cursor.getString(6));
+                map.put("col7", cursor.getString(7));
+                map.put("col8", cursor.getString(8));
+                map.put("col9", cursor.getString(9));
+                map.put("col10", cursor.getString(10));
                 sparepartList.add(map);
             } while (cursor.moveToNext());
         }
         database.close();
         Gson gson = new GsonBuilder().create();
         return gson.toJson(sparepartList);
+    }
+
+
+    public void updateStatus(String randomString){
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        String status = Constants.UPDATE_STATUS_YES;
+        String updateQuery = "Update " + tableName +" set " + updateStatusColumn + " = '"+ status +"' where " + iDfromAddNewFaultColumn + " ="+"'"+ randomString +"'";
+        database.execSQL(updateQuery);
+        database.close();
     }
 
 

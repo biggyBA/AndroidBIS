@@ -26,11 +26,14 @@ import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.POJO.Servicesheet;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UploadServicesheetServerRequest;
 import ba.biggy.androidbis.POJO.retrofitServerObjects.UploadServicesheetServerResponse;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.UploadSparepartServerRequest;
+import ba.biggy.androidbis.POJO.retrofitServerObjects.UploadSparepartServerResponse;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
 import ba.biggy.androidbis.SQLite.SparepartTableController;
 import ba.biggy.androidbis.adapter.listviewAdapter.ServicesheetListviewAdapter;
 import ba.biggy.androidbis.retrofitInterface.UploadServicesheetRequestInterface;
+import ba.biggy.androidbis.retrofitInterface.UploadSparepartsRequestInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -176,6 +179,8 @@ public class FragmentMyServicesheets extends Fragment {
 
                             case 0:
                                 // upload servicesheet
+
+
                                 Servicesheet servicesheet = new Servicesheet();
 
                                 //get cursor from selected item
@@ -212,9 +217,6 @@ public class FragmentMyServicesheets extends Fragment {
                                 servicesheet.setEndwarranty(c.getString(39));
 
 
-                                //sparepartTableController.partsJSONfromSQLite();
-
-                                // TODO replace with spareparts from sql
                                 String usedSpareparts = sparepartTableController.partsJSONfromSQLite(c.getString(37));
                                 uploadServicesheet(servicesheet, usedSpareparts);
 
@@ -238,7 +240,7 @@ public class FragmentMyServicesheets extends Fragment {
     }
 
 
-    private void uploadServicesheet(Servicesheet servicesheet, String usedSpareparts){
+    private void uploadServicesheet(Servicesheet servicesheet, final String usedSpareparts){
         prgDialog = new ProgressDialog(getActivity());
         prgDialog.setMessage(getResources().getString(R.string.prgDialog_uploadingServicesheet));
         prgDialog.setCancelable(false);
@@ -262,13 +264,23 @@ public class FragmentMyServicesheets extends Fragment {
                 UploadServicesheetServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
+                    // set update status to yes for servicesheet with randomString from response
+                    String rndServicesheet = resp.getKey();
+                    servicesheetTableController.updateStatus(rndServicesheet);
 
-                    // TODO updateStatus to yes in sql table
-                    String rnd = resp.getKey();
-                    servicesheetTableController.updateStatus(rnd);
 
-                    String test = resp.getPart();
-                    Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
+                    String success = resp.getPart();
+                    /*
+                     *  if part response is yes (part is inserted into mysql table) set updateStatus to yes in local sql table for sent spareparts
+                     *
+                     *  if part response is no (part is not inserted into mysql table) retry send parts
+                     */
+                    if (success.equalsIgnoreCase(Constants.UPDATE_STATUS_YES)){
+                        sparepartTableController.updateStatus(rndServicesheet);
+                    }else {
+                        uploadSpareparts(usedSpareparts);
+                    }
+
 
                     prgDialog.dismiss();
                     Snackbar.make(coordinatorLayout, R.string.snackbar_uploadServicesheet_success, Snackbar.LENGTH_LONG).show();
@@ -287,6 +299,57 @@ public class FragmentMyServicesheets extends Fragment {
         });
 
 
+    }
+
+
+    /*
+     *  this method is used to upload spareparts in case that servicesheet was uploaded successfully, but spareparts were not
+     *  if the part response is still no we quit the method and the parts stay not uploaded with updateStatus no
+     */
+    private void uploadSpareparts(final String usedSpareparts){
+        prgDialog = new ProgressDialog(getActivity());
+        prgDialog.setMessage(getResources().getString(R.string.prgDialog_uploadingServicesheet));
+        prgDialog.setCancelable(false);
+        prgDialog.show();
+        Retrofit retrofit = new Retrofit.Builder()
+                // TODO replace with base url
+                .baseUrl("http://biggy.ba/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UploadSparepartsRequestInterface uploadSparepartRequestInterface = retrofit.create(UploadSparepartsRequestInterface.class);
+
+        UploadSparepartServerRequest uploadSparepartServerRequest = new UploadSparepartServerRequest();
+        uploadSparepartServerRequest.setUsedSpareparts(usedSpareparts);
+
+        Call<UploadSparepartServerResponse> response = uploadSparepartRequestInterface.operation(uploadSparepartServerRequest);
+        response.enqueue(new Callback<UploadSparepartServerResponse>() {
+            @Override
+            public void onResponse(Call<UploadSparepartServerResponse> call, retrofit2.Response<UploadSparepartServerResponse> response) {
+                UploadSparepartServerResponse resp = response.body();
+                if(resp.getResult().equals(Constants.SUCCESS)){
+                    // TODO handle not uploaded spareparts
+                    String success = resp.getPart();
+                    if (success.equalsIgnoreCase(Constants.UPDATE_STATUS_YES)){
+                        sparepartTableController.updateStatus(usedSpareparts);
+                    }
+
+
+                    prgDialog.dismiss();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_uploadServicesheet_error_parts, Snackbar.LENGTH_LONG).show();
+
+                }else if (resp.getResult().equals(Constants.FAILURE)){
+                    prgDialog.dismiss();
+                    Snackbar.make(coordinatorLayout, R.string.snackbar_uploadServicesheet_failure, Snackbar.LENGTH_LONG).show();
+                }
+
+            }
+            @Override
+            public void onFailure(Call<UploadSparepartServerResponse> call, Throwable t) {
+                prgDialog.dismiss();
+                Snackbar.make(coordinatorLayout, R.string.snackbar_uploadServicesheet_error, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
 
