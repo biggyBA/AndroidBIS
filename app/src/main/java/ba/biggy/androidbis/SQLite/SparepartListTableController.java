@@ -18,7 +18,7 @@ public class SparepartListTableController {
      */
 
     //Table name
-    public static final String tableName = "sparepartsList";
+    public static final String tableName = Constants.SPAREPART_LIST_TABLE_NAME;
 
 
     /*
@@ -27,8 +27,8 @@ public class SparepartListTableController {
      */
 
     //Table columns
-    public static final String idColumn = "id"; //1
-    private static final String descriptionColumn = "description";    //2
+    public static final String idColumn = Constants.SPAREPART_LIST_COLUMN_ID; //1
+    private static final String descriptionColumn = Constants.SPAREPART_LIST_DESCRIPTION;    //2
 
 
     public static String getSQLiteCreateTableStatement(){

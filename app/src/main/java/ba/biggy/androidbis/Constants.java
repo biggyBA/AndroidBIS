@@ -135,6 +135,16 @@ public class Constants {
     public static String FAULTS_COLUMN_BUYER_PRICE_TRIP = "TripBuyerPrice";
     public static String FAULTS_COLUMN_BUYER_PRICE_TOTAL = "TotalBuyerPrice";
     public static String FAULTS_COLUMN_STATUS_OF_PAYMENT = "StatusOfPayment";
+    public static String FAULTS_COLUMN_SERVICE_COST = "PTServiceCost";
+    public static String FAULTS_COLUMN_HOURS_TRAVEL = "hPUTServiceCost";
+    public static String FAULTS_COLUMN_HOURS_WORK = "hINT";
+    public static String FAULTS_COLUMN_TOTAL_COST = "totalcostsum";
+    public static String FAULTS_COLUMN_SERVICE_STATUS = "ServiceStatus";
+    public static String FAULTS_COLUMN_RANDOM_STRING = "randomStringParts";
+    public static String FAULTS_COLUMN_BUY_DATE = "BuyDate";
+    public static String FAULTS_COLUMN_END_WARRANTY = "EndWarrenty";
+    public static String FAULTS_COLUMN_TYPE_OF_SERVICE = "TypeOfService";
+
 
 
 
@@ -142,6 +152,11 @@ public class Constants {
     /*
      *  PhonecallsTableController
      */
+    public static String PHONECALLS_TABLE_NAME = "phonecalls";
+    public static String PHONECALLS_COLUMN_ID = "ID";
+    public static String PHONECALLS_COLUMN_PHONE_NUMBER = "phoneNumber";
+    public static String PHONECALLS_COLUMN_CALL_DURATION = "callDuration";
+    public static String PHONECALLS_COLUMN_DATE = "date";
 
 
     /*
@@ -152,16 +167,43 @@ public class Constants {
     /*
      *  SparepartListTableController
      */
+    public static String SPAREPART_LIST_TABLE_NAME = "sparepartsList";
+    public static String SPAREPART_LIST_COLUMN_ID = "id";
+    public static String SPAREPART_LIST_DESCRIPTION = "description";
 
 
     /*
      *  SparepartTableController
      */
+    public static String SPAREPART_TABLE_NAME = "spareparts";
+    public static String SPAREPART_COLUMN_ID = "ID";
+    public static String SPAREPART_COLUMN_ID_FROM = "IDfromAddNewFault";
+    public static String SPAREPART_COLUMN_DATE = "datefault";
+    public static String SPAREPART_COLUMN_PARTNUMBER = "partnumber";
+    public static String SPAREPART_COLUMN_DESCRIPTION = "description";
+    public static String SPAREPART_COLUMN_QTY = "Qty";
+    public static String SPAREPART_COLUMN_NAME_OF_BUYER = "NameBuyer";
+    public static String SPAREPART_COLUMN_SERIALNUMBER = "serialnumber";
+    public static String SPAREPART_COLUMN_PRICE_PER_UNIT = "priceperunit";
+    public static String SPAREPART_COLUMN_MEASUREMENT_UNIT = "MeasurementUnits";
+    public static String SPAREPART_COLUMN_PARTNUMBER_TWO = "partnumber2";
+    public static String SPAREPART_COLUMN_UPDATE_STATUS = "updateStatus";
 
 
     /*
      *  UsersTableController
      */
+    public static String USERS_TABLE_NAME = "users";
+    public static String USERS_COLUMN_ID = "ID";
+    public static String USERS_COLUMN_USERNAME = "UserName";
+    public static String USERS_COLUMN_PASSWORD = "Password";
+    public static String USERS_COLUMN_PROTECTION_LEVEL_ONE = "ProtectionLevel1";
+    public static String USERS_COLUMN_PROTECTION_LEVEL_TWO = "ProtectionLevel2";
+    public static String USERS_COLUMN_PRICE_HOUR_WORK = "PricePerWork";
+    public static String USERS_COLUMN_PRICE_HOUR_TRAVEL = "PricePerTravel";
+    public static String USERS_COLUMN_AUTHORIZED_SERVICE = "Authorizedservice";
+    public static String USERS_COLUMN_COUNTRY = "Country";
+
 
 
 

@@ -27,7 +27,7 @@ public class SparepartTableController {
      */
 
     //Table name
-    public static final String tableName = "spareparts";
+    public static final String tableName = Constants.SPAREPART_TABLE_NAME;
 
 
     /*
@@ -36,18 +36,18 @@ public class SparepartTableController {
      */
 
     //Table columns
-    private static final String idColumn = "ID";    //1
-    private static final String iDfromAddNewFaultColumn = "IDfromAddNewFault";  //2
-    private static final String datefaultColumn = "datefault";  //3
-    private static final String partnumberColumn = "partnumber";    //4
-    private static final String descriptionColumn = "description";  //5
-    private static final String qtyColumn = "Qty";  //6
-    private static final String nameBuyerColumn = "NameBuyer";  //7
-    private static final String serialnumberColumn = "serialnumber";    //8
-    private static final String priceperunitColumn = "priceperunit";    //9
-    private static final String measurementUnitsColumn = "MeasurementUnits";    //10
-    private static final String partnumber2Column = "partnumber2";  //11
-    private static final String updateStatusColumn = "updateStatus";
+    private static final String idColumn = Constants.SPAREPART_COLUMN_ID;    //1
+    private static final String iDfromAddNewFaultColumn = Constants.SPAREPART_COLUMN_ID_FROM;  //2
+    private static final String datefaultColumn = Constants.SPAREPART_COLUMN_DATE;  //3
+    private static final String partnumberColumn = Constants.SPAREPART_COLUMN_PARTNUMBER;    //4
+    private static final String descriptionColumn = Constants.SPAREPART_COLUMN_DESCRIPTION;  //5
+    private static final String qtyColumn = Constants.SPAREPART_COLUMN_QTY;  //6
+    private static final String nameBuyerColumn = Constants.SPAREPART_COLUMN_NAME_OF_BUYER;  //7
+    private static final String serialnumberColumn = Constants.SPAREPART_COLUMN_SERIALNUMBER;    //8
+    private static final String priceperunitColumn = Constants.SPAREPART_COLUMN_PRICE_PER_UNIT;    //9
+    private static final String measurementUnitsColumn = Constants.SPAREPART_COLUMN_MEASUREMENT_UNIT;    //10
+    private static final String partnumber2Column = Constants.SPAREPART_COLUMN_PARTNUMBER_TWO;  //11
+    private static final String updateStatusColumn = Constants.SPAREPART_COLUMN_UPDATE_STATUS;
     private static final String colum13 = "column13";
     private static final String colum14 = "column14";
     private static final String colum15 = "column15";

@@ -14,18 +14,18 @@ import ba.biggy.androidbis.POJO.User;
 public class UsersTableController {
 
     //Table Users
-    public static final String tableName = "users";
+    public static final String tableName = Constants.USERS_TABLE_NAME;
 
     //Table columns
-    private static final String idColumn = "ID";
-    private static final String nameColumn = "UserName";
-    private static final String pwColumn = "Password";
-    private static final String protectionlevel1Column = "ProtectionLevel1";
-    private static final String protectionlevel2Column = "ProtectionLevel2";
-    private static final String priceperworkColumn = "PricePerWork";
-    private static final String pricepertravelColumn = "PricePerTravel";
-    private static final String authorizedserviceColumn = "Authorizedservice";
-    private static final String countryColumn = "Country";
+    private static final String idColumn = Constants.USERS_COLUMN_ID;
+    private static final String nameColumn = Constants.USERS_COLUMN_USERNAME;
+    private static final String pwColumn = Constants.USERS_COLUMN_PASSWORD;
+    private static final String protectionlevel1Column = Constants.USERS_COLUMN_PROTECTION_LEVEL_ONE;
+    private static final String protectionlevel2Column = Constants.USERS_COLUMN_PROTECTION_LEVEL_TWO;
+    private static final String priceperworkColumn = Constants.USERS_COLUMN_PRICE_HOUR_WORK;
+    private static final String pricepertravelColumn = Constants.USERS_COLUMN_PRICE_HOUR_TRAVEL;
+    private static final String authorizedserviceColumn = Constants.USERS_COLUMN_AUTHORIZED_SERVICE;
+    private static final String countryColumn = Constants.USERS_COLUMN_COUNTRY;
 
     public static String getSQLiteCreateTableStatement(){
         String createTable = "CREATE TABLE " + tableName + "("
