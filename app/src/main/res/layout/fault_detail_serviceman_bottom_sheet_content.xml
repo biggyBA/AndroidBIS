@@ -255,19 +255,96 @@
         android:textSize="12sp"
         android:textColor="@android:color/black"/>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="620dp"
         android:background="@android:color/white"
         android:layout_marginTop="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white" />
+            android:orientation="horizontal"
+            android:id="@+id/linearAddress2"
+            android:layout_below="@+id/linearClient2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivAddress2"
+                app:srcCompat="@drawable/ic_near_me_black_24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvAddress2"
+                android:text="tvAddress2"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearPlace2"
+            android:layout_below="@+id/linearAddress2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivPlace2"
+                app:srcCompat="@drawable/ic_near_me_black_24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPlace2"
+                android:text="tvPlace2"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearPhone2"
+            android:layout_below="@+id/linearPlace2">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivPhone22"
+                app:srcCompat="@drawable/ic_call_black_24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPhone22"
+                android:text="tvPhone2"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
 
 
 
-    </FrameLayout>
+    </RelativeLayout>
 
 </LinearLayout>

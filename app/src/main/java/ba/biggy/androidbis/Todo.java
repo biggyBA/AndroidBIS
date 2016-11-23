@@ -16,4 +16,7 @@ public class Todo {
     // TODO request user permissions in MainActivity
 
 
+    // TODO rename coordinator layout in fragments
+
+
 }

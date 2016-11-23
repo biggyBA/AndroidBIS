@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fab, fab1, fab2;
     private Boolean isFabOpen = false;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    private Fragment mContent;
     CurrentUserTableController currentUserTableController = new CurrentUserTableController();
     UsersTableController usersTableController = new UsersTableController();
     SparepartListTableController sparepartListTableController = new SparepartListTableController();
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Fixing Later Map loading Delay
         new Thread(new Runnable() {
@@ -86,6 +88,11 @@ public class MainActivity extends AppCompatActivity
 
         permGPS();
 
+        /*if (savedInstanceState != null) {
+            //Restore the fragment's instance
+            mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+        }*/
+
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -105,14 +112,14 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean(Constants.SP_IS_LOGGED_IN, false);
             editor.apply();
             //start login activity
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            Intent intent254 = new Intent(this, LoginActivity.class);
+            startActivity(intent254);
         }
 
 
 
 
-        displayView(3);
+        displayView(1);
 
 
 
@@ -197,6 +204,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        //getSupportFragmentManager().putFragment(outState, "mContent", mContent);
     }
 
 

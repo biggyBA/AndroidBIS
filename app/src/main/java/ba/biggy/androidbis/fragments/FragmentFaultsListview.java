@@ -91,9 +91,32 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_faults_listview, container, false);
+
+
         return rootView;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
 
 
     @Override
@@ -128,7 +151,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
         listView = (ListView) getActivity().findViewById(R.id.listView);
         faultCount = (TextView) getActivity().findViewById(R.id.tvCount);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
-        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinatorLayout);
+        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.coordinatorLayoutFragmentListview);
         spinnerFilterServiceman = (Spinner) getActivity().findViewById(R.id.spinnerFilterServiceman);
         pref = getActivity().getApplicationContext().getSharedPreferences(Constants.PREF, 0);
 
@@ -279,7 +302,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                 faultListviewExpandedAdapter = new FaultListviewExpandedAdapter(getActivity(), faultsTableController.getAllFaults());
                 listView.setAdapter(faultListviewExpandedAdapter);
 
-                listView.setSelection(lvPosition);
+                //listView.setSelection(lvPosition);
 
                 //get details from cursor and show them in FragmentFaultsListviewDetail
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -414,7 +437,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                                 //set snackbar max lines
                                 View dSbView = delSnackbar.getView();
                                 TextView dSbTv = (TextView) dSbView.findViewById(android.support.design.R.id.snackbar_text);
-                                dSbTv.setMaxLines(5);
+                                dSbTv.setMaxLines(4);
                                 delSnackbar.show();
 
                                 break;
@@ -450,7 +473,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                                 //set snackbar max lines
                                 View aSbView = arcSnackbar.getView();
                                 TextView aSbTv = (TextView) aSbView.findViewById(android.support.design.R.id.snackbar_text);
-                                aSbTv.setMaxLines(5);
+                                aSbTv.setMaxLines(4);
                                 arcSnackbar.show();
 
                                 break;
@@ -612,7 +635,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                                 //set snackbar max lines
                                 View dSbView = delSnackbar.getView();
                                 TextView dSbTv = (TextView) dSbView.findViewById(android.support.design.R.id.snackbar_text);
-                                dSbTv.setMaxLines(5);
+                                dSbTv.setMaxLines(4);
                                 delSnackbar.show();
 
                                 break;
@@ -649,7 +672,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                                 //set snackbar max lines
                                 View aSbView = arcSnackbar.getView();
                                 TextView aSbTv = (TextView) aSbView.findViewById(android.support.design.R.id.snackbar_text);
-                                aSbTv.setMaxLines(5);
+                                aSbTv.setMaxLines(4);
                                 arcSnackbar.show();
 
                                 break;
