@@ -48,8 +48,9 @@
         <activity
             android:name=".bottomSheets.FaultDetail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.faultDetailAdmin.FaultDetailAdmin"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".faultDetail.faultDetailAdmin.FaultDetailAdmin"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
             android:name=".receiver.PhoneStateReceiver"
@@ -60,7 +61,8 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".faultDetail.faultDetailServiceman.FaultDetailServiceman"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

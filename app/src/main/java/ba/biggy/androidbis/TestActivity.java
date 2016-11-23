@@ -12,7 +12,6 @@ import android.provider.CallLog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -29,7 +28,7 @@ import ba.biggy.androidbis.SQLite.FaultsTableController;
 import ba.biggy.androidbis.SQLite.ServicesheetTableController;
 import ba.biggy.androidbis.TESTPACKAGE.TestsheetRequestInterface;
 import ba.biggy.androidbis.TESTPACKAGE.TestsheetServerResponse;
-import ba.biggy.androidbis.activities.faultDetailAdmin.FaultDetailAdmin;
+import ba.biggy.androidbis.faultDetail.faultDetailAdmin.FaultDetailAdmin;
 import ba.biggy.androidbis.bottomSheets.FaultDetail;
 import ba.biggy.androidbis.retrofitInterface.FaultRequestInterface;
 import retrofit2.Call;

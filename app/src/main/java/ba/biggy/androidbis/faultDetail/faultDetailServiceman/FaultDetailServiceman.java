@@ -1,37 +1,59 @@
-package ba.biggy.androidbis.activities.faultDetailAdmin;
+package ba.biggy.androidbis.faultDetail.faultDetailServiceman;
 
-import android.content.ComponentName;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.bottomSheets.ItemPagerAdapter;
 import ba.biggy.androidbis.bottomSheets.lib.BottomSheetBehaviorGoogleMapsLike;
 import ba.biggy.androidbis.bottomSheets.lib.MergedAppBarLayoutBehavior;
-import ba.biggy.androidbis.fragments.FragmentMap;
 import ba.biggy.androidbis.global.DateMethods;
 
-public class FaultDetailAdmin extends AppCompatActivity {
+
+
+public class FaultDetailServiceman extends AppCompatActivity {
 
     private TextView bottomSheetTextView, tvClient, tvPhone, tvPhone2, tvAddress, tvPlace, tvServiceman, tvProductType, tvDate, tvTime, tvFaultDescription, tvNote;
     DateMethods dateMethods = new DateMethods();
 
+    int[] mDrawables = {
+            R.drawable.ic_ekoline,
+            R.drawable.ic_ekoline
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fault_detail_admin);
+        setContentView(R.layout.activity_fault_detail_serviceman);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,6 +62,12 @@ public class FaultDetailAdmin extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(" ");
         }
+
+
+        GoogleMap mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        LatLng sydney = new LatLng(44.697295, 18.273974);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Kovan").snippet("Servis"));
+
 
 
 
@@ -54,22 +82,16 @@ public class FaultDetailAdmin extends AppCompatActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED:
-
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_DRAGGING:
-
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED:
-
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT:
-
                         break;
                     case BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN:
-
                         break;
                     default:
-
                         break;
                 }
             }
@@ -81,7 +103,7 @@ public class FaultDetailAdmin extends AppCompatActivity {
 
         AppBarLayout mergedAppBarLayout = (AppBarLayout) findViewById(R.id.merged_appbarlayout);
         MergedAppBarLayoutBehavior mergedAppBarLayoutBehavior = MergedAppBarLayoutBehavior.from(mergedAppBarLayout);
-        mergedAppBarLayoutBehavior.setToolbarTitle("Fault details");
+        mergedAppBarLayoutBehavior.setToolbarTitle("");
         mergedAppBarLayoutBehavior.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +112,9 @@ public class FaultDetailAdmin extends AppCompatActivity {
         });
 
         bottomSheetTextView = (TextView) bottomSheet.findViewById(R.id.bottom_sheet_title);
-        /*ItemPagerAdapter adapter = new ItemPagerAdapter(this,mDrawables);
+        ItemPagerAdapter adapter = new ItemPagerAdapter(this,mDrawables);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(adapter);*/
+        viewPager.setAdapter(adapter);
 
 
         //get extras from bundle
@@ -137,6 +159,12 @@ public class FaultDetailAdmin extends AppCompatActivity {
             tvFaultDescription.setText(descFault);
             tvNote.setText(note);
 
+            mergedAppBarLayoutBehavior.setToolbarTitle(client);
+
         }
     }
+
+
+
+
 }

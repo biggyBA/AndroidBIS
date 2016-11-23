@@ -34,6 +34,8 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.MapView;
+
 import ba.biggy.androidbis.SQLite.AndroidDatabaseManager;
 import ba.biggy.androidbis.SQLite.CurrentUserTableController;
 import ba.biggy.androidbis.SQLite.DataBaseAdapter;
@@ -64,6 +66,21 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Fixing Later Map loading Delay
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MapView mv = new MapView(getApplicationContext());
+                    mv.onCreate(null);
+                    mv.onPause();
+                    mv.onDestroy();
+                }catch (Exception ignored){
+
+                }
+            }
+        }).start();
 
 
 

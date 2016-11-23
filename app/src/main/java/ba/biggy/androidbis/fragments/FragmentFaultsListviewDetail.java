@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import ba.biggy.androidbis.R;
 
+@Deprecated
+ /*
+  * @deprecated Use activities in package faultDetail instead.
+  */
+
 public class FragmentFaultsListviewDetail extends Fragment {
 
     private TextView tvDate, tvTime, tvClient, tvAddress, tvPlace, tvPhone1, tvPhone2, tvDescription, tvNote;
