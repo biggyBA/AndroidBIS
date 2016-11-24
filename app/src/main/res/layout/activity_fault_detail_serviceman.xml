@@ -52,11 +52,19 @@
         app:anchorPoint="@dimen/anchor_point"
         android:fitsSystemWindows="true">
 
-        <include
-            layout="@layout/fault_detail_serviceman_bottom_sheet_content"
+        <ViewStub
+            android:id="@+id/layout_stub"
+            android:inflatedId="@+id/message_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"/>
+            android:layout_weight="0.75" />
+
+        <!--
+        <include
+            layout="@layout/fault_detail_serviceman_bottom_sheet_content_below_5_3_inch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"/>-->
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton

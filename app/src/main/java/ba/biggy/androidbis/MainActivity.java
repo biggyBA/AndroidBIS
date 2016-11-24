@@ -68,6 +68,19 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
+        sPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (currentUserTableController.rowCount() == 0 || usersTableController.rowCount() == 0){
+            //set the logged in status to false
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean(Constants.SP_IS_LOGGED_IN, false);
+            editor.apply();
+            //start login activity
+            Intent intent254 = new Intent(this, LoginActivity.class);
+            startActivity(intent254);
+        }
+
 
         // Fixing Later Map loading Delay
         new Thread(new Runnable() {
@@ -88,12 +101,6 @@ public class MainActivity extends AppCompatActivity
 
         permGPS();
 
-        /*if (savedInstanceState != null) {
-            //Restore the fragment's instance
-            mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
-        }*/
-
-
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -103,24 +110,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
-        sPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (pref.getString(Constants.USERNAME,"").equalsIgnoreCase("0")){
-            //set the logged in status to false
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean(Constants.SP_IS_LOGGED_IN, false);
-            editor.apply();
-            //start login activity
-            Intent intent254 = new Intent(this, LoginActivity.class);
-            startActivity(intent254);
-        }
-
-
-
 
         displayView(1);
-
 
 
             //if protection level is admin show the fab

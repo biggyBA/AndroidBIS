@@ -35,7 +35,7 @@
         app:backgroundTint="@color/colorPrimaryDark"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_create_black" />
+        app:srcCompat="@drawable/ic_create_black" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         app:elevation="6dp"
         app:backgroundTint="@color/colorPrimary"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_create_black" />
+        app:srcCompat="@drawable/ic_create_black" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_black"
+        app:srcCompat="@drawable/ic_add_black"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:visibility="gone"/>

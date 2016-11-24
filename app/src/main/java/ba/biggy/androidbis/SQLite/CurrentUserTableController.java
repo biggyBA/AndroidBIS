@@ -44,7 +44,7 @@ public class CurrentUserTableController {
         db.close();
     }
 
-    public int tableRowCount(){
+    public int rowCount(){
         int count = 0;
         String selectQuery = "SELECT * FROM " + tableName;
         SQLiteDatabase database = DataBaseAdapter.getDatabase();

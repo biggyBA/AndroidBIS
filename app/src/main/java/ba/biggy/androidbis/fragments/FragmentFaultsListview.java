@@ -9,12 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +36,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,6 +69,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static ba.biggy.androidbis.R.drawable.ic_done_black;
+
 public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayout.OnRefreshListener  {
 
 
@@ -80,6 +85,7 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
     private AlertDialog updateDialog;
     private SharedPreferences pref;
     private Spinner spinnerFilterServiceman;
+    private int swipeItemWidth = 150;
     private int lvPosition;
     FaultListviewExpandedAdapter faultListviewExpandedAdapter;
     FaultListviewSimpleAdapter faultListviewSimpleAdapter;
@@ -284,6 +290,33 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
             //if the protection level is admin show this view and options
             case Constants.PROTECTION_LEVEL_ADMIN:
 
+                // get density and set the width of the swipe menu item
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                int densityDpi = (int)(metrics.density * 160f);
+                switch (densityDpi){
+                    case DisplayMetrics.DENSITY_LOW:
+                        swipeItemWidth = 130;  //not tested
+                        break;
+                    case DisplayMetrics.DENSITY_MEDIUM:
+                        swipeItemWidth = 150;  //tested - OK
+                        break;
+                    case DisplayMetrics.DENSITY_HIGH:
+                        swipeItemWidth = 180;  //not tested
+                        break;
+                    case DisplayMetrics.DENSITY_XHIGH:
+                        swipeItemWidth = 200;  //not tested
+                        break;
+                    case DisplayMetrics.DENSITY_XXHIGH:
+                        swipeItemWidth = 250;  //tested - OK
+                        break;
+                    case DisplayMetrics.DENSITY_XXXHIGH:
+                        swipeItemWidth = 280;  //not tested
+                        break;
+                    default:
+                        break;
+
+                }
+
                 //user with admin level has additional toolbar items
                 setHasOptionsMenu(true);
 
@@ -368,22 +401,22 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                         // create "delete" item
                         SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
                         deleteItem.setBackground(R.color.colorDelete);
-                        deleteItem.setWidth(250);
-                        deleteItem.setIcon(R.drawable.ic_delete_forever_black);
+                        deleteItem.setWidth(swipeItemWidth);
+                        deleteItem.setIcon(R.drawable.ic_delete_forever_black_image);
                         menu.addMenuItem(deleteItem);
 
                        //create "update" item
                         SwipeMenuItem updateItem = new SwipeMenuItem(getActivity());
                         updateItem.setBackground(R.color.colorUpdate);
-                        updateItem.setWidth(250);
-                        updateItem.setIcon(R.drawable.ic_create_black);
+                        updateItem.setWidth(swipeItemWidth);
+                        updateItem.setIcon(R.drawable.ic_create_black_image);
                         menu.addMenuItem(updateItem);
 
                         //create "archive" item
                         SwipeMenuItem archiveItem = new SwipeMenuItem(getActivity());
                         archiveItem.setBackground(R.color.colorArchive);
-                        archiveItem.setWidth(250);
-                        archiveItem.setIcon(R.drawable.ic_folder_black);
+                        archiveItem.setWidth(swipeItemWidth);
+                        archiveItem.setIcon(R.drawable.ic_folder_black_image);
                         menu.addMenuItem(archiveItem);
                     }
                 };
@@ -570,15 +603,15 @@ public class FragmentFaultsListview extends Fragment implements SwipeRefreshLayo
                         // create "delete" item
                         SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
                         deleteItem.setBackground(R.color.colorDelete);
-                        deleteItem.setWidth(250);
-                        deleteItem.setIcon(R.drawable.ic_clear_black);
+                        deleteItem.setWidth(swipeItemWidth);
+                        deleteItem.setIcon(R.drawable.ic_clear_black_image);
                         menu.addMenuItem(deleteItem);
 
                         //create "archive" item
                         SwipeMenuItem archiveItem = new SwipeMenuItem(getActivity());
                         archiveItem.setBackground(R.color.colorArchive);
-                        archiveItem.setWidth(250);
-                        archiveItem.setIcon(R.drawable.ic_done_black);
+                        archiveItem.setWidth(swipeItemWidth);
+                        archiveItem.setIcon(R.drawable.ic_done_black_image);
                         menu.addMenuItem(archiveItem);
                     }
                 };

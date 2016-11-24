@@ -19,4 +19,7 @@ public class Todo {
     // TODO rename coordinator layout in fragments
 
 
+    // TODO find better way to handle phone/tablet properties
+
+
 }

@@ -70,6 +70,16 @@ public class UsersTableController {
     }
 
 
+    public int rowCount(){
+        int count = 0;
+        String selectQuery = "SELECT * FROM " + tableName;
+        SQLiteDatabase database = DataBaseAdapter.getDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        count = cursor.getCount();
+        database.close();
+        return count;
+    }
+
 
     public boolean currentUserExists(){
         CurrentUserTableController currentUserTableController = new CurrentUserTableController();
