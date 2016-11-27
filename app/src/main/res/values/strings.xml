@@ -35,6 +35,27 @@
 
 
     <!--    -->
+    <!-- Permissions  -->
+    <!--    -->
+    <string name="permission_initial_explanation_title">Odobrenja</string>
+    <string name="permission_initial_explanation_message">Da bi koristili sve funkcije aplikacije, potrebno je da dopustite <b>SVA</b> odobrenja!</string>
+    <string name="permission_initial_explanation_positiveButton">DALJE</string>
+    <string name="permission_initial_explanation_negativeButton">ODUSTANI</string>
+    <string name="permission_camera_title">Odobrenje</string>
+    <string name="permission_camera_message">Da bi koristili sve funkcije aplikacije potrebno je da dopustite pristup kameri</string>
+    <string name="permission_read_contacts_title">Odobrenje</string>
+    <string name="permission_read_contacts_message">Da bi koristili sve funkcije aplikacije potrebno je da dopustite pristup kontaktima</string>
+    <string name="permission_access_coarse_location_title">Odobrenje</string>
+    <string name="permission_access_coarse_location_message">Da bi koristili sve funkcije aplikacije potrebno je da dopustite pristup lokaciji</string>
+    <string name="permission_read_phone_state_title">Odobrenje</string>
+    <string name="permission_read_phone_state_message">Da bi koristili sve funkcije aplikacije potrebno je da dopustite pristup pozivima</string>
+    <string name="permission_send_sms_title">Odobrenje</string>
+    <string name="permission_send_sms_message">Da bi koristili sve funkcije aplikacije potrebno je da dopustite pristup porukama</string>
+    <string name="permission_read_external_storage_title">Odobrenje</string>
+    <string name="permission_read_external_storage_message">Da bi koristili sve funkcije aplikacije potrebno je da dopustite pristup pohrani</string>
+
+
+    <!--    -->
     <!-- Login activity  -->
     <!--    -->
     <string name="login_et_username">Korisničko ime</string>
@@ -316,6 +337,10 @@
     <string name="MergedAppBarLayoutBehavior">ba.biggy.androidbis.bottomSheets.lib.MergedAppBarLayoutBehavior</string>
     <string name="ScrollingAppBarLayoutBehavior">ba.biggy.androidbis.bottomSheets.lib.ScrollingAppBarLayoutBehavior</string>
     <string name="key_binding_default_toolbar_name">Modal-Toolbar-Title</string>
+
+
+
+    <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
 
 
 </resources>

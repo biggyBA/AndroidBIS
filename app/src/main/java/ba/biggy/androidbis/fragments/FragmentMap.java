@@ -1,12 +1,21 @@
 package ba.biggy.androidbis.fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,7 +26,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.R;
+
 
 
 public class FragmentMap extends Fragment{
@@ -53,7 +64,8 @@ public class FragmentMap extends Fragment{
                 googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
                 // For showing a move to my location button
-                googleMap.setMyLocationEnabled(true);
+                //googleMap.setMyLocationEnabled(true);
+
 
                 // For dropping a marker at a point on the Map
                 LatLng sydney = new LatLng(44.697295, 18.273974);
@@ -92,6 +104,8 @@ public class FragmentMap extends Fragment{
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+
 
 
 }

@@ -75,15 +75,15 @@ public class Constants {
 
 
     //permissions
-    public static int PERMISSIONS_REQUEST_READ_CALL_LOG = 1;
-    public static int PERMISSIONS_REQUEST_READ_CONTACTS = 2;
-    public static int PERMISSIONS_REQUEST_VIBRATE = 3;
-    public static int PERMISSIONS_REQUEST_INTERNET = 4;
-    public static int PERMISSIONS_REQUEST_READ_PHONE_STATE = 5;
-    public static int PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 6;
-    public static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 7;
-    public static int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 8;
-    public static int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 9;
+    public static final int PERMISSIONS_REQUEST_READ_CALENDAR = 1;
+    public static final int PERMISSIONS_REQUEST_CAMERA = 2;
+    public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 3;
+    public static final int PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 4;
+    public static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 5;
+    public static final int PERMISSIONS_REQUEST_BODY_SENSORS = 6;
+    public static final int PERMISSIONS_REQUEST_SEND_SMS = 7;
+    public static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 8;
+    public static final int PERMISSIONS_ALL_PERMISSIONS = 9;
 
 
 

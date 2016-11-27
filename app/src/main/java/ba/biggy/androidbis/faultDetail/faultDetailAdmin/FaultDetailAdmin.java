@@ -11,6 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import ba.biggy.androidbis.Constants;
 import ba.biggy.androidbis.R;
 import ba.biggy.androidbis.bottomSheets.lib.BottomSheetBehaviorGoogleMapsLike;
@@ -35,6 +42,13 @@ public class FaultDetailAdmin extends AppCompatActivity {
             actionBar.setTitle(" ");
         }
 
+
+        GoogleMap mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        LatLng kovan = new LatLng(44.697295, 18.273974);
+        mMap.addMarker(new MarkerOptions().position(kovan).title("Kovan").snippet("Servis"));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(kovan).zoom(12).build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
         /**

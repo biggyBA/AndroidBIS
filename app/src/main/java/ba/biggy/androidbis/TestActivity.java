@@ -53,30 +53,12 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        permGPS();
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         DataBaseAdapter.init(this);
 
 
         pref = getApplicationContext().getSharedPreferences(Constants.PREF, 0);
-
-        /*DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width=dm.widthPixels;
-        int height=dm.heightPixels;
-        double wi=(double)width/dm.xdpi;
-        double hi=(double)height/dm.ydpi;
-        double x = Math.pow(wi,2);
-        double y = Math.pow(hi,2);
-        double screenInches = Math.sqrt(x+y);*/
-
-        DisplayMethods displayMethods = new DisplayMethods(TestActivity.this);
-        double test = displayMethods.getDiagonalScreenSize();
-        String test2 = String.valueOf(test);
-        Toast.makeText(TestActivity.this, test2, Toast.LENGTH_SHORT).show();
-
 
        /* String phone = pref.getString("phone","");
         Toast.makeText(TestActivity.this, phone, Toast.LENGTH_LONG).show();
@@ -122,34 +104,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
 
-    private void permGPS(){
-        // Check the SDK version and whether the permission is already granted or not.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-            requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG}, Constants.PERMISSIONS_REQUEST_READ_CALL_LOG);
 
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-        } else {
-            // Android version is less than 6.0 or the permission is already granted.
-
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        if (requestCode == Constants.PERMISSIONS_REQUEST_READ_CALL_LOG) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
-                Toast.makeText(this, "Granted CALL", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    /*public String LastCall() {
+    public String LastCall() {
         StringBuffer sb = new StringBuffer();
         Cursor cur = getContentResolver().query( CallLog.Calls.CONTENT_URI,null, null,null, android.provider.CallLog.Calls.DATE + " DESC");
 
@@ -181,7 +137,7 @@ public class TestActivity extends AppCompatActivity {
         cur.close();
         String str=sb.toString();
         return str;
-    }*/
+    }
 
     private void getFaults(){
         Retrofit retrofit = new Retrofit.Builder()

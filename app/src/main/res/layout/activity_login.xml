@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@color/colorLight"
+    android:background="@color/colorPrimaryDark"
     android:id="@+id/coordinatorLayout">
 
     <LinearLayout

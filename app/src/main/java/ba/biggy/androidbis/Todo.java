@@ -22,4 +22,6 @@ public class Todo {
     // TODO find better way to handle phone/tablet properties
 
 
+    // TODO remove comment from phone state receiver in manifest
+
 }
