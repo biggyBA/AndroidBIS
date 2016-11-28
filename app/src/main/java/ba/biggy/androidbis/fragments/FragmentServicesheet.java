@@ -989,7 +989,6 @@ public class FragmentServicesheet extends Fragment{
         return true;
     }
 
-
     /*
      * method to add the sparepart name and qty to linear layout usedSpareparts
      */
@@ -1017,20 +1016,18 @@ public class FragmentServicesheet extends Fragment{
      * method to insert sparepart into sql table
      */
     private void submitSparepart(){
-        // TODO need to insert date, client
         Sparepart sparepart = new Sparepart();
         sparepart.setiDfromAddNewFault(randomString);
+        sparepart.setDatefault(dateMethods.getTodayDateForMysql());
         sparepart.setDescription(dialogSpinnerSparepartName.getSelectedItem().toString().trim());
         sparepart.setPartnumber(dialogEtSNin.getText().toString().trim());
         sparepart.setPartnumber2(dialogEtSNout.getText().toString().trim());
         sparepart.setQty(dialogEtSparepartQty.getText().toString().trim());
+        sparepart.setNameBuyer(etClient.getText().toString().trim());
         sparepart.setUpdateStatus(Constants.UPDATE_STATUS_NO);
 
         sparepartTableController.insertSparepart(sparepart);
-
     }
-
-
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {

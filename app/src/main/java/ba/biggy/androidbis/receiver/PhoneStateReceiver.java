@@ -61,7 +61,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                         String phNumber = "";
                         String callDuration = "";
                         String reportDate = "";
-                        Cursor cur = context.getContentResolver().query( CallLog.Calls.CONTENT_URI,null, null,null, android.provider.CallLog.Calls.DATE + " DESC limit 1;");
+                        /*Cursor cur = context.getContentResolver().query( CallLog.Calls.CONTENT_URI,null, null,null, android.provider.CallLog.Calls.DATE + " DESC limit 1;");
 
                         int number = cur.getColumnIndex( CallLog.Calls.NUMBER );
                         int duration = cur.getColumnIndex( CallLog.Calls.DURATION);
@@ -88,14 +88,14 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                             break;
                         }
 
-                        /*phonecall.setPhoneNumber(phNumber);
+                        *//*phonecall.setPhoneNumber(phNumber);
                         phonecall.setDuration(callDuration);
                         phonecall.setDate(reportDate);
-                        phonecallsTableController.insertPhonecall(phonecall);*/
+                        phonecallsTableController.insertPhonecall(phonecall);*//*
                         String c = DatabaseUtils.dumpCursorToString(cur);
                         cur.close();
                         Log.d("LOOOOOOOOOOOOOOOOOOOOG", c);
-                        //Toast.makeText(context, c, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, c, Toast.LENGTH_LONG).show();*/
 
                     default:
                         break;
