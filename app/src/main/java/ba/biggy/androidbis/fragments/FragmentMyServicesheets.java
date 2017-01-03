@@ -220,6 +220,8 @@ public class FragmentMyServicesheets extends Fragment {
                                 String usedSpareparts = sparepartTableController.partsJSONfromSQLite(c.getString(37));
                                 uploadServicesheet(servicesheet, usedSpareparts);
 
+
+
                                 c.close();
 
 
@@ -264,7 +266,9 @@ public class FragmentMyServicesheets extends Fragment {
                 UploadServicesheetServerResponse resp = response.body();
                 if(resp.getResult().equals(Constants.SUCCESS)){
 
-                    // set update status to yes for servicesheet with randomString from response
+
+
+                    //set update status to yes for servicesheet with randomString from response
                     String rndServicesheet = resp.getKey();
                     servicesheetTableController.updateStatus(rndServicesheet);
 
@@ -275,10 +279,17 @@ public class FragmentMyServicesheets extends Fragment {
                      *
                      *  if part response is no (part is not inserted into mysql table) retry send parts
                      */
-                    if (success.equalsIgnoreCase(Constants.UPDATE_STATUS_YES)){
-                        sparepartTableController.updateStatus(rndServicesheet);
-                    }else {
-                        uploadSpareparts(usedSpareparts);
+                    if (success.equalsIgnoreCase(Constants.UPDATE_STATUS_EMPTY)){
+                    // do nothing
+                    }else{
+
+                        if (success.equalsIgnoreCase(Constants.UPDATE_STATUS_YES)){
+                            sparepartTableController.updateStatus(rndServicesheet);
+                        }else {
+                            uploadSpareparts(usedSpareparts);
+                        }
+
+
                     }
 
 

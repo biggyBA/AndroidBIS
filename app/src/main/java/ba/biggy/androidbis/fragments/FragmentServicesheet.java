@@ -426,8 +426,8 @@ public class FragmentServicesheet extends Fragment{
 
         servicesheetTableController.insertServicesheet(servicesheet);
 
-        /*Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.fragment_servicesheet_insert_success, Snackbar.LENGTH_LONG);
-        snackbar.show();*/
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.fragment_servicesheet_insert_success, Snackbar.LENGTH_LONG);
+        snackbar.show();
 
 
     }
@@ -583,7 +583,7 @@ public class FragmentServicesheet extends Fragment{
         if(!validateClient()){
             return false;
         }
-        /*if(!validateAddress()){
+        if(!validateAddress()){
             return false;
         }
         if(!validatePlace()){
@@ -633,7 +633,7 @@ public class FragmentServicesheet extends Fragment{
         }
         if (!validateTimeTravel()){
             return false;
-        }*/
+        }
 
 
 
@@ -1036,12 +1036,11 @@ public class FragmentServicesheet extends Fragment{
     }
 
     private void refreshFragment(){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        Fragment fragment = new FragmentServicesheet();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.detach(fragment);
-        fragmentTransaction.attach(fragment);
-        fragmentTransaction.commit();
+        Fragment newFragment = new FragmentServicesheet();
+        FragmentTransaction tr = getFragmentManager().beginTransaction();
+        tr.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        tr.replace(R.id.content_main, newFragment);
+        tr.commit();
     }
 
 

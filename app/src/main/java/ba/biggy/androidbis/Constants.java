@@ -65,6 +65,7 @@ public class Constants {
     public static final String SERVICESHEET_STATUS = "SERVISNI LIST ANDROID";
     public static final String UPDATE_STATUS_NO = "no";
     public static final String UPDATE_STATUS_YES = "yes";
+    public static final String UPDATE_STATUS_EMPTY = "empty";
     public static final String PAYED_STATUS_NO = "NE PLACENO";
     public static final String PAYED_STATUS_YES = "PLACENO";
 
