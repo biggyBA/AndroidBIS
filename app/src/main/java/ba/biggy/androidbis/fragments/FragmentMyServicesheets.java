@@ -158,7 +158,7 @@ public class FragmentMyServicesheets extends Fragment {
                         SwipeMenuItem uploadItem = new SwipeMenuItem(getActivity());
                         uploadItem.setBackground(R.color.colorArchive);
                         uploadItem.setWidth(250);
-                        uploadItem.setIcon(R.drawable.ic_file_upload_black_24px);
+                        uploadItem.setIcon(R.drawable.ic_upload_black);
                         menu.addMenuItem(uploadItem);
                     }
                 };

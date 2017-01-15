@@ -70,10 +70,10 @@ public class FaultDetailServiceman extends AppCompatActivity {
 
         GoogleMap mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         LatLng kovan = new LatLng(44.697295, 18.273974);
-        mMap.addMarker(new MarkerOptions().position(kovan).title("Kovan").snippet("Servis"));
+        //mMap.addMarker(new MarkerOptions().position(kovan).title("Kovan").snippet("Servis"));
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(kovan).zoom(12).build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
 
@@ -164,16 +164,16 @@ public class FaultDetailServiceman extends AppCompatActivity {
             tvAddress.setText(address);
             tvPlace.setText(place);
             //tvServiceman.setText(serviceman);
-            tvProductType.setText(productType);
+            //tvProductType.setText(productType);
             tvDate.setText(dateMethods.formatDateFromMysqlToView(datefault));
             tvTime.setText(timefault);
             tvFaultDescription.setText(descFault);
             tvNote.setText(note);
 
-            tvAddress2.setText(address);
-            tvPlace2.setText(place);
-            tvPhone22.setText(phone1);
-            tvPhone222.setText(phone2);
+            //tvAddress2.setText(address);
+            //tvPlace2.setText(place);
+            //tvPhone22.setText(phone1);
+            //tvPhone222.setText(phone2);
 
             mergedAppBarLayoutBehavior.setToolbarTitle(client);
 
