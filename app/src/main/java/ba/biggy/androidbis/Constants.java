@@ -5,8 +5,7 @@ package ba.biggy.androidbis;
 public class Constants {
 
     //base url
-    //public static final String BASE_URL = "http://biggy.ba/";
-    public static final String BASE_URL = "http://109.205.33.172/";
+    public static final String BASE_URL = "http://biggy.ba/";
 
 
 
