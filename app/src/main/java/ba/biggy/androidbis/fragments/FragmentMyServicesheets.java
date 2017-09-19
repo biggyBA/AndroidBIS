@@ -249,7 +249,7 @@ public class FragmentMyServicesheets extends Fragment {
         prgDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 // TODO replace with base url
-                .baseUrl("http://biggy.ba/")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -324,7 +324,7 @@ public class FragmentMyServicesheets extends Fragment {
         prgDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 // TODO replace with base url
-                .baseUrl("http://biggy.ba/")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
